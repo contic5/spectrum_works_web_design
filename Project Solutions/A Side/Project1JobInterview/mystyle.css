@@ -1,0 +1,35 @@
+body
+{
+    background-color: skyblue;
+    color: darkslategrey;
+    font-family: 'Playfair Display', serif;
+}
+a
+{
+    font-size: 18px;
+}
+img
+{
+    border: black solid 2px;
+    border-radius:10%;
+    max-height: 500px;
+    max-width: 500px;
+}
+.large-image
+{
+    max-height: 1000px;
+    max-width: 1000px;
+}
+#top-image
+{
+    border-radius:0;
+    width:80%;
+    max-width: 1300px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+#content
+{
+  background-color: lightblue;
+  padding-left: 20px;
+}
