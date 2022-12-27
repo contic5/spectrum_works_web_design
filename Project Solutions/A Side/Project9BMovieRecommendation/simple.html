@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Default Template</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Movie Recommender</h1>
+    <h3>Scale goes from 1 to 10, with 10 being the best and 1 being the worst.</h3>
+    <form onsubmit="handlesubmit(event)">
+    <p>Movie Quality (1-10)<input type='number' id='rating' min=1 max=10></p>
+    <p><button type='submit'>Submit</button></p>
+    </form>
+        <h2 id='results'>Results</h2>
+    <script>
+    function handlesubmit(event)
+    {
+        event.preventDefault();
+        let rating=document.getElementById('rating').value;
+        let resultselem=document.getElementById('results');
+        resultselem.innerHTML="";
+        if(rating==10)
+        {
+            resultselem.innerHTML="The Dark Knight"
+        }
+        else if(rating>=8)
+        {
+            resultselem.innerHTML="Spiderman: Into the Spiderverse";
+        }
+        else if(rating>=6)
+        {
+            resultselem.innerHTML="Antman";
+        }
+        else if(rating>=4)
+        {
+            resultselem.innerHTML="The Lion King (2019)";
+
+        }
+        else if(rating>=2)
+        {
+            resultselem.innerHTML="Percy Jackson and the Olympians";
+        }
+        else
+        {
+            for(let i=0;i<100;i++)
+            {
+                resultselem.innerHTML+="Last Airbender Live Action ";
+            }
+        }
+    }
+    </script>
+    </body>
+</html>

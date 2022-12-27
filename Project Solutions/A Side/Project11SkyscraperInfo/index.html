@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<title>Skyscraper Info</title>
+<link href="mystyle.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<table id="skyscrapertable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Rank</th>
+<th>Year Built</th>
+<th>Height (Feet)</th>
+<th>City</th>
+<th>Country</th>
+<th>Image</th>
+</tr>    
+</thead>
+<tbody>
+</tbody></table>
+<script>
+let skyscrapers=[
+    {name:"Burj Khalifa",rank:1,year:2010,height:2717,city:"Dubai",country:"United Arab Emirates",src:"https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Burj_Khalifa.jpg/684px-Burj_Khalifa.jpg"},
+    {name:"Shanghai Tower",rank:3,year:2015,height:2073,city:"Shanghai",country:"China",src:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Shanghai_tower_dec_26%2C_2014.jpg/900px-Shanghai_tower_dec_26%2C_2014.jpg"},
+    {name:"Abraj Al-Bait Clock Tower",rank:4,year:2012,height:1972,city:"Mecca",country:"Saudi Arabia",src:"https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Abraj-al-Bait-Towers.JPG/798px-Abraj-al-Bait-Towers.JPG"},
+    {name:"Lotte World Tower",rank:6,year:2017,height:1819,city:"Seoul",country:"South Korea",src:"https://upload.wikimedia.org/wikipedia/en/thumb/7/71/Lotte_World_Tower_2019.jpg/582px-Lotte_World_Tower_2019.jpg"},
+    {name:"One World Trade Center",rank:7,year:2014,height:1776,city:"New York City",country:"United States",src:"https://upload.wikimedia.org/wikipedia/commons/0/00/One_World_Trade_Center_cropped2.jpg"}];
+let mytable=document.getElementById("skyscrapertable");
+let mytablebody=document.getElementsByTagName("tbody")[0];
+for(let i=0;i<skyscrapers.length;i++)
+{
+    let currow=document.createElement("tr"); 
+    mytablebody.appendChild(currow);
+    
+    let nametd=document.createElement("td");
+    nametd.innerHTML=skyscrapers[i].name;
+    currow.appendChild(nametd);
+    
+    let ranktd=document.createElement("td");
+    ranktd.innerHTML=skyscrapers[i].rank;
+    currow.appendChild(ranktd);
+    
+    let yeartd=document.createElement("td");
+    yeartd.innerHTML=skyscrapers[i].year;
+    currow.appendChild(yeartd);
+    
+    let heighttd=document.createElement("td");
+    heighttd.innerHTML=skyscrapers[i].height;
+    currow.appendChild(heighttd);
+    
+    let citytd=document.createElement("td");
+    citytd.innerHTML=skyscrapers[i].city;
+    currow.appendChild(citytd);
+    
+    let countrytd=document.createElement("td");
+    countrytd.innerHTML=skyscrapers[i].country;
+    currow.appendChild(countrytd);
+    
+    let srctd=document.createElement("td");
+    let curimg=document.createElement("img");
+    curimg.src=skyscrapers[i].src;
+    srctd.append(curimg);
+    
+    currow.appendChild(srctd);
+}
+</script>
+</body>
+</html>

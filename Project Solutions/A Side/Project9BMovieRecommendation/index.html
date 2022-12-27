@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Default Template</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Movie Recommender</h1>
+    <h3>Scale goes from 1 to 10, with 10 being the best and 1 being the worst.</h3>
+    <form onsubmit="handlesubmit(event)">
+    <p>Movie Quality (1-10)<input type='number' id='rating' min=1 max=10></p>
+    <p><button type='submit'>Submit</button></p>
+    </form>
+    <img id='results' src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Question_Mark.svg/1200px-Question_Mark.svg.png">
+    <script>
+    function handlesubmit(event)
+    {
+        event.preventDefault();
+        let rating=document.getElementById('rating').value;
+        let imageelem=document.getElementById('results');
+        if(rating==10)
+        {
+            imageelem.src="https://cdn.shopify.com/s/files/1/1057/4964/products/the-dark-knight-vintage-movie-poster-original-1-sheet-27x41_648dd2de-f551-4d89-a95a-cf5bfa81a361.jpg?v=1610139722";
+        }
+        else if(rating>=8)
+        {
+            imageelem.src="https://i5.walmartimages.com/asr/19b0899a-25b9-424b-a6a5-ecbc0167a97a_1.d55542c719f6c2279c0576da86aab408.jpeg";
+        }
+        else if(rating>=6)
+        {
+            imageelem.src="https://m.media-amazon.com/images/I/71E9abm2ayL._AC_SL1111_.jpg";
+        }
+        else if(rating>=4)
+        {
+            imageelem.src="https://images.saymedia-content.com/.image/t_share/MTc0NDk1NzM2Njg2MTkxOTc2/the-lion-king-2019-non-spoiler-review.jpg";
+        }
+        else if(rating>=2)
+        {
+             imageelem.src="https://whatsondisneyplus.com/wp-content/uploads/2020/06/Percy-Jackson-1536x864.png";
+        }
+        else
+        {
+            imageelem.src="https://wallpapercave.com/wp/1PqYR4X.jpg";
+        }
+    }
+    </script>
+    </body>
+</html>

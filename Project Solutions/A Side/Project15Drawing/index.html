@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Snowman Drawing</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Snowman Drawing</h1>
+    <canvas id="mycanvas" width="500" height="500">
+    
+    </canvas>
+    <script>
+    function clear()
+    {
+        ctx.fillStyle="#CCCCFF";
+        ctx.fillRect(0,0,500,500); 
+    }
+    function drawsnowman()
+    {
+    ctx.fillStyle="#fffafa";
+    //Body and Face
+    ctx.beginPath();
+    ctx.arc(250,400,100,0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+        
+    ctx.beginPath();
+    ctx.arc(250,300,75,0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+        
+    ctx.beginPath();
+    ctx.arc(250,200,50,0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+    
+    //Eyes and Mouth
+    ctx.fillStyle="#000000";
+    ctx.beginPath();
+    ctx.arc(230,190,10,0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+        
+    ctx.beginPath();
+    ctx.arc(270,190,10,0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+        
+    ctx.beginPath();
+    ctx.arc(250,210,20,0,1*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+        
+    ctx.fillRect(190,150,120,20);
+    ctx.fillRect(210,100,80,70);
+
+
+    //Branches
+    ctx.fillStyle="#966F33";
+    /*
+    //TO DO DETERMINE HOW ROTATE WORKS 
+    ctx.translate(250, 300);
+    ctx.rotate(30*Math.PI/180);
+    ctx.fillRect(-200,0,150,20);
+    ctx.rotate(-30*Math.PI/180);
+    ctx.translate(-250, -300);
+    
+    ctx.translate(250, 300);
+    ctx.rotate(-30*Math.PI/180);
+    ctx.fillRect(40,0,150,20);
+    ctx.rotate(30*Math.PI/180);
+    ctx.translate(250, 300);
+    */
+        
+    ctx.fillRect(75,275,150,20);
+    ctx.fillRect(275,275,150,20);
+    }
+    
+    let c=document.getElementById("mycanvas");
+    let ctx=c.getContext("2d");
+    clear();
+    drawsnowman();
+    </script>
+    </body>
+</html>

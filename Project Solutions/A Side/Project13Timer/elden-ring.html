@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Default Template</title>
+        <link href="mystyle2.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <div id="main">
+    <div class='padding'></div>
+    
+    <div id='content'>
+    <div id='results'></div>
+    </div>
+        
+    <div class='padding'></div>
+    </div>
+    <script type="application/javascript">
+    function floor(num)
+    {
+        return Math.floor(num);
+    }
+    function calculatetimebetween()
+    {
+        let now=new Date();
+
+        let timebetween=endday-now;
+        if(timebetween>0)
+        {
+            //Time zone difference accounting
+            timebetween=timebetween-(1000*60*60*1);
+
+            let totalseconds=floor(timebetween/1000);
+            let seconds=totalseconds%60;
+
+            if(seconds<10)
+            {
+                seconds="0"+seconds;
+            }
+
+            let totalminutes=floor(totalseconds/60);
+            let minutes=totalminutes%60;
+
+            if(minutes<10)
+            {
+                minutes="0"+minutes;
+            }
+
+            let totalhours=floor(totalminutes/60);
+            let hours=totalhours%24;
+
+            let totaldays=floor(totalhours/24);
+            //let days=totaldays%30;
+            let days=totaldays%7;
+
+            //let totalmonths=floor(totaldays/30);
+            let totalweeks=floor(totaldays/7);
+
+            let daysinfo="";
+            if(totaldays<1)
+            {
+                daysinfo="TODAY";
+            }
+            else
+            {
+                daysinfo=totalweeks+" Weeks "+days+" Days"+"<br>";
+            }
+            let timeinfo=hours+":"+minutes+":"+seconds;
+            let datetimeinfo=daysinfo+timeinfo;
+            document.getElementById("results").innerHTML=datetimeinfo;
+        }
+        else
+        {
+            document.getElementById("results").innerHTML="ELDEN RING HAS BEEN RELEASED";
+            clearInterval(timeinterval);
+        }
+    }
+    let endday=new Date("25 Feb 2022 00:00:00 EST");
+    
+    console.log("GO");
+    let timeinterval=setInterval(calculatetimebetween,1000);
+    </script>
+    </body>
+</html>

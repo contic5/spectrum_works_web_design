@@ -1,0 +1,39 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: #F4A950;
+    background-color: #161B21;
+}
+button
+{
+    margin: 0px 0px 0px 0px;
+}
+th,td
+{
+    font-size: 24px;
+    border: #E6850F solid 2px;
+    background-color: #313C49;
+    padding: 5px 5px 5px 5px;
+}
+table
+{
+    border: black solid 2px;
+    margin-bottom: 50px;
+}
+.center
+{
+    text-align: center;
+}
+.fun th,.fun td
+{
+    background-color: darkblue;
+}
+img
+{
+    max-height: 300px;
+    margin: auto;
+    display: block;
+}

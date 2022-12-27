@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Highest Grossing Movies</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Highest Grossing Movies</h1>
+    <div id="results"></div>
+    <script>
+    class Movie
+    {
+        constructor(name,year,genre,rating,distributor,totalyear,total2019,totaltickets)
+        {
+            this.name=name;
+            this.year=year;
+            this.genre=genre;
+            this.rating=rating;
+            this.distributor=distributor;
+            this.totalyear=totalyear;
+            this.total2019=total2019;
+            this.totaltickets=totaltickets;
+        }
+    }
+        
+    window.onload = function()
+    {
+        let results="";
+        for(let i=0;i<movies.length;i++)
+        {
+            let movie=movies[i];
+            results+="<div>";
+            results+=`<h2>The #1 movie of ${movie.year} is ${movie.name}</h2>`;
+            results+=`<h3>${movie.name} is a ${movie.genre} film by ${movie.distributor} that is rated ${movie.rating}`;
+            results+=`<h3>It made $${movie.totalyear} in ${movie.year}. That's $${movie.total2019} 2019 dollars. It also sold ${movie.totaltickets} tickets!</h3>`;
+            results+="</div>";
+        }
+        document.getElementById("results").innerHTML=results;
+    }
+    </script>
+    <script src="movieinfo.js"></script>
+    </body>
+</html>

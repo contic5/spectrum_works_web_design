@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Greek Letters</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Greek Letters</h1>
+    <form onsubmit="handleform(event)">
+    English:<input id='english' name='english'>
+    <button type='submit'>Submit</button>
+    </form>
+    
+    <div id='results'>Waiting for results</div>
+    
+    <table>
+    <tbody>
+    <tr>
+    <th>Greek</th>   
+    <th>English</th>
+    </tr> 
+    </tbody>
+    </table>
+    <script src="greekletters.js"></script>
+    <script>
+    function determineletter(english)
+    {
+        let greekletter="N/A";
+        for(let i=0;i<greekletters.length;i++)
+        {
+            if(english==correspondingenglish[i])
+            {
+                greekletter=greekletters[i];
+                break;
+            }
+        }
+        resultdiv.innerHTML="The corresponding greek letter is "+greekletter;
+    }
+    function handleform(event)
+    {
+        event.preventDefault();
+        
+        let english_elem=document.getElementById("english");
+        let english=english_elem.value;
+        
+        if(english=="o")
+        {
+            resultdiv.innerHTML="The correspondings greek letters are omnicron and omega";
+        }
+        else
+        {
+            determineletter(english);
+        }
+    }
+        
+    console.log(greekletters);
+    console.log(correspondingenglish);
+    
+    let resultdiv=document.getElementById("results");
+    let tbody=document.getElementsByTagName("tbody")[0];
+    
+    for(let i=0;i<greekletters.length;i++)
+    {
+        let tr=document.createElement("tr");
+        let greektd=document.createElement("td");
+        greektd.innerHTML=greekletters[i];
+        
+        let englishtd=document.createElement("td"); englishtd.innerHTML=correspondingenglish[i];
+        
+        tr.appendChild(greektd);
+        tr.appendChild(englishtd);
+        tbody.appendChild(tr);
+    }
+    </script>
+    </body>
+</html>

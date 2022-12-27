@@ -1,0 +1,319 @@
+<html>
+<head>
+<title>Gregorc Personality Quiz</title>
+<link href="mystyle.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<form onsubmit="handlesubmit(event)">
+<h1>Gregorc Personality Quiz</h1>
+<h2>Rank each trait for you from 1 to 4</h2>
+<h2>Each value must be unique</h2>
+<h2 id="question0">Question 1</h2>
+<h3 id="warning0" class="warning">Two items have the same score.</h3>
+<p>
+<label for="objective">Objective</label>  
+<input id="objective" type=number min=0 max=4 value=0>
+
+<label for="evaluative">Evaluative</label>  
+<input id="evaluative" type=number min=0 max=4 value=0>
+
+<label for="sensitive">Sensitive</label>  
+<input id="sensitive" type=number min=0 max=4 value=0>
+
+<label for="intuitive">Intuitive</label>  
+<input id="intuitive" type=number min=0 max=4 value=0>
+</p>
+  
+<h2 id="question1">Question 2</h2>
+<h3 id="warning1" class="warning">Two items have the same score.</h3>
+<p>
+<label for="perfectionist">Perfectionist</label>  
+<input id="perfectionist" type=number min=0 max=4 value=0>
+
+<label for="researcher">Researcher</label>  
+<input id="researcher" type=number min=0 max=4 value=0>
+
+<label for="colorful">Colorful</label>  
+<input id="colorful" type=number min=0 max=4 value=0>
+
+<label for="risktaker">Risktaker</label>  
+<input id="risktaker" type=number min=0 max=4 value=0>
+</p>
+
+<h2 id="question2">Question 3</h2>
+<h3 id="warning2" class="warning">Two items have the same score.</h3>
+<p>
+<label for="solid">Solid</label>  
+<input id="solid" type=number min=0 max=4 value=0>
+
+<label for="quality">Quality</label>  
+<input id="quality" type=number min=0 max=4 value=0>
+
+<label for="nonjudgmental">Nonjudgmental</label>  
+<input id="nonjudgmental" type=number min=0 max=4 value=0>
+
+<label for="insightful">Insightful</label>  
+<input id="insightful" type=number min=0 max=4 value=0>
+</p>
+    
+<h2 id="question3">Question 4</h2>
+<h3 id="warning3" class="warning">Two items have the same score.</h3>
+<p>
+<label for="practical">Practical</label>  
+<input id="practical" type=number min=0 max=4 value=0>
+
+<label for="rational">Rational</label>  
+<input id="rational" type=number min=0 max=4 value=0>
+
+<label for="lively">Lively</label>  
+<input id="lively" type=number min=0 max=4 value=0>
+
+<label for="perceptive">Perceptive</label>  
+<input id="perceptive" type=number min=0 max=4 value=0>
+</p>
+
+<h2 id="question4">Question 5</h2>
+<h3 id="warning4" class="warning">Two items have the same score.</h3>
+<p>
+<label for="careful">Careful w/detail</label>
+<input id="careful" type=number min=0 max=4 value=0>
+
+<label for="ideas">Ideas</label>  
+<input id="ideas" type=number min=0 max=4 value=0>
+
+<label for="aware">Aware</label>  
+<input id="aware" type=number min=0 max=4 value=0>
+
+<label for="creative">Creative</label>  
+<input id="creative" type=number min=0 max=4 value=0>
+</p>
+    
+<h2 id="question5">Question 6</h2>
+<h3 id="warning5" class="warning">Two items have the same score.</h3>
+<p>
+<label for="thorough">Thorough</label>  
+<input id="thorough" type=number min=0 max=4 value=0>
+
+<label for="logical">Logical</label>  
+<input id="logical" type=number min=0 max=4 value=0>
+
+<label for="spontaneous">Spontaneous</label>  
+<input id="spontaneous" type=number min=0 max=4 value=0>
+
+<label for="troubleshooter">Troubleshooter</label>  
+<input id="troubleshooter" type=number min=0 max=4 value=0>
+</p>
+
+<h2 id="quesiton6">Question 7</h2>
+<h3 id="warning6" class="warning">Two items have the same score.</h3>
+<p>
+<label for="realistic">Realistic</label>  
+<input id="realistic" type=number min=0 max=4 value=0>
+
+<label for="referential">Referential</label>  
+<input id="referential" type=number min=0 max=4 value=0>
+
+<label for="empathetic">Empathetic</label>  
+<input id="empathetic" type=number min=0 max=4 value=0>
+
+<label for="innovative">Innovative</label>  
+<input id="innovative" type=number min=0 max=4 value=0>
+</p>
+    
+<h2 id="question7">Question 8</h2>
+<h3 id="warning7" class="warning">Two items have the same score.</h3>
+<p>
+<label for="ordered">Ordered</label>  
+<input id="ordered" type=number min=0 max=4 value=0>
+
+<label for="proveit">Prove it</label>  
+<input id="proveit" type=number min=0 max=4 value=0>
+
+<label for="attuned">Attuned</label>  
+<input id="attuned" type=number min=0 max=4 value=0>
+
+<label for="multisolutions">Multisolutions</label>  
+<input id="multisolutions" type=number min=0 max=4 value=0>
+</p>
+    
+<h2 id="question8">Question 9</h2>
+<h3 id="warning8" class="warning">Two items have the same score.</h3>
+
+<p>
+<label for="persistent">Persistent</label>  
+<input id="persistent" type=number min=0 max=4 value=0>
+
+<label for="analytical">Analytical</label>  
+<input id="analytical" type=number min=0 max=4 value=0>
+
+<label for="aesthetic">Aesthetic</label>  
+<input id="aesthetic" type=number min=0 max=4 value=0>
+
+<label for="experimenter">Experimenter</label>  
+<input id="experimenter" type=number min=0 max=4 value=0>
+</p>
+
+<h2 id="question9">Question 10</h2>
+<h3 id="warning9" class="warning">Two items have the same score.</h3>
+
+<p>
+<label for="producer">Producer</label>
+<input id="producer" type=number min=0 max=4 value=0>
+
+<label for="judge">Judge</label>  
+<input id="judge" type=number min=0 max=4 value=0>
+
+<label for="personoriented">Person-oriented</label>  
+<input id="personoriented" type=number min=0 max=4 value=0>
+
+<label for="practicaldreamer">Practical-dreamer</label> 
+<input id="practicaldreamer" type=number min=0 max=4 value=0>
+</p>
+<button>Submit</button>
+</form>
+
+<h1>Results</h1>
+<div id="results">
+<h2>Concrete Sequential: <b id="score0"></b></h2>
+<h2>Abstract Sequential: <b id="score1"></b></h2>
+<h2>Concrete Random: <b id="score2"></b></h2>
+<h2>Abstract Random: <b id="score3"></b></h2>
+</div>
+<h1>Sorted Results</h1>
+<div id="sortedresults"></div>
+<div id="toplinkdiv"></div>
+<script>
+function handlesubmit(event)
+{
+    console.log("Submit");
+    event.preventDefault();
+    qualitynames=["Concrete Sequential","Abstract Sequential","Concrete Random","Abstract Random"];
+    links=["https://web.cortland.edu/andersmd/learning/gregorc.htm","https://web.cortland.edu/andersmd/learning/gregorc.htm","https://web.cortland.edu/andersmd/learning/gregorc.htm","https://web.cortland.edu/andersmd/learning/gregorc.htm"];
+    scores=[0,0,0,0];
+    valid_arr=[true,true,true,true,true,true,true,true,true,true];
+    
+    let inputs=document.getElementsByTagName("input");
+    valid=true;
+    hrefloc=999999999999;
+    
+    //Determine if all inputs are valid
+    for(let i=0;i<inputs.length;i+=4)
+    {
+        for(let j=0;j<4;j++)
+        {
+            for(let k=0;k<4;k++)
+            {
+                if(inputs[i+j].value==inputs[i+k].value&&j!=k)
+                {
+                    valid=false;
+                    valid_arr[i/4]=false;
+                    if(i<hrefloc)
+                    {
+                        //Find first invalid input
+                        hrefloc=i;
+                    }
+                }
+            }
+        }
+    }
+    
+    if(valid)
+    {
+        //Calculate score
+        for(let i=0;i<inputs.length;i++)
+        {
+            idx=i%4;
+            inputval=parseInt(inputs[i].value);
+            scores[idx]+=inputval;
+        }
+        
+        //Hide warnings
+        for(let i=0;i<valid_arr.length;i++)
+        {
+            document.getElementById("warning"+i).style.visibility="hidden";
+        }
+
+        //Display scores
+        for(let i=0;i<scores.length;i++)
+        {
+            document.getElementById("score"+i).innerHTML=scores[i];
+        }
+        
+       
+       //Sort Scores 
+        qualitynamessorted=qualitynames.slice();
+        scoressorted=scores.slice();
+        
+    
+        for(let i=0;i<qualitynamessorted.length;i++)
+        {
+            for(let j=i+1;j<qualitynamessorted.length;j++)
+            {
+                if(scoressorted[i]<scoressorted[j])
+                {
+                    temp=scoressorted[i]
+                    scoressorted[i]=scoressorted[j];
+                    scoressorted[j]=temp;
+                    
+                    temp=qualitynamessorted[i]
+                    qualitynamessorted[i]=qualitynamessorted[j];
+                    qualitynamessorted[j]=temp;
+                }
+            }
+        }
+        console.log(scoressorted);
+        console.log(qualitynamessorted);
+        
+        //Display sorted scores
+        for(let i=0;i<qualitynamessorted.length;i++)
+        {
+            let qualityname_elem=document.createElement("h2");
+            qualityname_elem.innerHTML=qualitynamessorted[i]+" "+scoressorted[i];
+            document.getElementById("sortedresults").appendChild(qualityname_elem);
+        }
+        
+        //display top link
+        toplinkadvice=document.createElement("h2");
+        toplinkadvice.innerHTML="Your top score was "+qualitynamessorted[0]+". Make sure to look most at "+qualitynamessorted[0];
+        document.getElementById("toplinkdiv").appendChild(toplinkadvice);
+
+        let toplink=document.createElement("a");
+        
+        toplink.innerHTML="Gregorc Personality Quiz: "+qualitynamessorted[0];
+       for(let i=0;i<qualitynames.length;i++)
+        {
+            if(qualitynames[i]==qualitynamessorted[0])
+            {
+                        toplink.setAttribute('href',links[i]);
+
+            }
+        }
+        document.getElementById("toplinkdiv").appendChild(toplink);
+    }
+    else
+    {
+        window.location="#question"+hrefloc;
+        console.log(valid_arr);
+        for(let i=0;i<valid_arr.length;i++)
+        {
+            if(valid_arr[i]==false)
+            {
+                document.getElementById("warning"+i).style.visibility="visible";
+            }
+        }
+    }
+}
+function testvalues()
+{
+    let inputs=document.getElementsByTagName("input");
+    for(let i=0;i<inputs.length;i++)
+    {
+        val=i%4;
+        inputs[i].value=val;
+    }
+}
+console.log("Go");
+testvalues();
+</script>
+</body>
+</html>

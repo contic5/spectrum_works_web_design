@@ -1,0 +1,24 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: #b86342;
+    background-color: black;
+}
+table,td,th
+{
+    background-color: #333333;
+    border: black solid 2px;
+    font-size: 18px;
+}
+form
+{
+    margin-bottom: 30px;
+}
+#results
+{
+    font-size: 24px;
+    margin-bottom: 30px;
+}

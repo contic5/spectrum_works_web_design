@@ -1,0 +1,36 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    background-color: #33359F;
+    background-image: url("elden-ring-wallpaper.jpeg");
+    background-size: 100%;
+}
+#main
+{
+    display: flex;
+    min-height: 100vh;
+}
+.padding
+{
+    width: 20%;
+    float: left;
+}
+#content
+{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#results
+{
+    font-size: 72px;
+    background-color: #ffd70090;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
