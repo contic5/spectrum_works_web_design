@@ -1,0 +1,446 @@
+<html>
+<head>
+<title>Basic RPG Engine V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+<link href="mystyle.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<h1>Basic RPG Engine V2</h1>
+
+<div id="selectcharacterdiv">
+<h2>Select Your Character</h2>
+<button class="block marginbottom" onclick="selectcharacter(0)">Warrior</button>
+<button class="block marginbottom" onclick="selectcharacter(1)">Mage</button>
+<button class="block" onclick="selectcharacter(2)">Rogue</button>
+</div>
+<div id="battle">
+<h2 id="actionresults"></h2>
+<h2 id="playername">Player Name</h2>
+<table>
+<tbody>
+<tr id='playerstatsrow'></tr>
+<tr id='playermovesrow'></tr>
+</tbody>
+</table>
+
+<h2 id="enemyname">Enemy Name</h2>
+<table>
+<tbody>
+<tr id='enemystatsrow'></tr>
+<tr id='enemymovesrow'></tr>
+</tbody>
+</table>
+</div>
+<div id='mainmenu'>
+<button onclick='startover()'>Try Again</button>
+<button onclick='mainmenu()'>Main Menu</button>
+</div>
+
+<script>
+//Player Classes
+class Player
+{
+    level=0;
+    constructor(hp,atk,def)
+    {
+        this.maxhp=hp;
+        this.maxatk=atk;
+        this.maxdef=def;
+        this.hp=hp;
+        this.atk=atk;
+        this.def=def;
+    }
+}
+class Warrior extends Player
+{
+    name="Warrior";
+    moves=["Attack","Heavy Strike","Battle Cry"];
+    constructor(hp,atk,def)
+    {
+        super(hp,atk,def);
+    }
+}
+class Mage extends Player
+{
+    name="Mage";
+    moves=["Attack","Energy Drain","Fire Storm"];
+    constructor(hp,atk,def)
+    {
+        super(hp,atk,def);
+    }
+}
+class Rogue extends Player
+{
+    name="Rogue";
+    moves=["Attack","Counter","Weakening Stab"]
+    constructor(hp,atk,def)
+    {
+        super(hp,atk,def);
+    }
+}
+
+//Enemy Classes
+class Enemy
+{
+    constructor(hp,atk,def)
+    {
+        this.hp=hp;
+        this.atk=atk;
+        this.def=def;
+    }
+    determinemove()
+    {
+        let enemyroll=Math.floor(Math.random()*this.moves.length);
+        let enemymove=this.moves[enemyroll];
+        return enemymove;
+    }
+}
+class SkeletonSquire extends Enemy
+{
+    name="Skeleton Squire";
+    moves=["Attack","Reckless Stab","Catch Breath"];
+    constructor(hp,atk,def)
+    {
+        super(hp,atk,def);  
+    }
+}
+class CorruptedWolf extends Enemy
+{
+    name="Corrupted Wolf";
+    moves=["Attack","Weakening Fang","Howl"];
+    constructor(hp,atk,def)
+    {
+        super(hp,atk,def);  
+    }
+}
+class FallenKnight extends Enemy
+{
+    name="Fallen Knight";
+    moves=["Attack","Counter","Piercing Strike"];
+    constructor(hp,atk,def)
+    {
+        super(hp,atk,def);  
+    }
+}
+class Necromancer extends Enemy
+{
+    name="Morden, the Necromancer";
+    moves=["Attack","Energy Drain","Pain Split"];
+    constructor(hp,atk,def)
+    {
+        super(hp,atk,def);  
+    }
+}
+class Lich extends Enemy
+{
+    name="Morden, the Lich";
+    moves=["Attack","Countdown"];
+    constructor(hp,atk,def)
+    {
+        super(hp,atk,def);  
+    }
+}
+
+//Display Game Info
+function displaystats()
+{
+    document.getElementById("playername").innerHTML=player.name;
+    document.getElementById("enemyname").innerHTML=enemy.name;
+    
+    let p_hptd=document.createElement("td");
+    let p_atktd=document.createElement("td");
+    let p_deftd=document.createElement("td");
+    p_hptd.innerHTML="HP: "+player.hp;
+    p_atktd.innerHTML="ATK: "+player.atk;
+    p_deftd.innerHTML="DEF: "+player.def;
+    playerstatsrow.innerHTML="";
+    playerstatsrow.appendChild(p_hptd);
+    playerstatsrow.appendChild(p_atktd);
+    playerstatsrow.appendChild(p_deftd);
+
+    let en_hptd=document.createElement("td");
+    let en_atktd=document.createElement("td");
+    let en_deftd=document.createElement("td");
+    en_hptd.innerHTML="HP: "+enemy.hp;
+    en_atktd.innerHTML="ATK: "+enemy.atk;
+    en_deftd.innerHTML="DEF: "+enemy.def;
+    enemystatsrow.innerHTML="";
+    enemystatsrow.appendChild(en_hptd);
+    enemystatsrow.appendChild(en_atktd);
+    enemystatsrow.appendChild(en_deftd);
+}
+function displaymoves()
+{
+    playermovesrow.innerHTML="";
+    for(let i=0;i<player.moves.length;i++)
+    {
+        let movetd=document.createElement("td");
+        let movebutton=document.createElement("button");
+        movebutton.innerHTML=player.moves[i];
+        movebutton.classList.add("playermove");
+        movebutton.onclick=function()
+        {
+            playerattack(player.moves[i]);
+        }
+        movetd.appendChild(movebutton);
+        playermovesrow.appendChild(movetd);
+    }
+    
+    enemymovesrow.innerHTML="";
+    for(let i=0;i<enemy.moves.length;i++)
+    {
+        let movetd=document.createElement("td");
+        movetd.innerHTML=enemy.moves[i];
+        enemymovesrow.appendChild(movetd);
+    }
+}
+function checknegative(x)
+{
+    if(x<0)
+    {
+        return 0;
+    }
+    return x;
+}
+    
+//Player and Enemy attacks.
+function playerattack(move)
+{
+    let damage=0;
+    let extratext="";
+    if(move=="Attack")
+    {
+        damage=player.atk-enemy.def;
+        damage=checknegative(damage);
+        enemy.hp-=damage;
+    }
+    else if(move=="Heavy Strike")
+    {
+        damage=Math.floor(1.5*player.atk-enemy.def);
+        damage=checknegative(damage);
+        enemy.hp-=damage;
+    }
+    else if(move=="Battle Cry")
+    {
+        player.atk+=2;
+        player.def-=2;
+        extratext=`${player.name}'s ATK increased by 2.<br> ${player.name}'s DEF decreased by 2`;
+    }
+    else if(move=="Energy Drain")
+    {
+        damage=player.atk-enemy.def;
+        damage=checknegative(damage);
+        enemy.hp-=damage;
+        player.hp+=damage;
+        extratext=`${player.name} healed by ${damage} HP`;
+    }
+    else if(move=="Fire Storm")
+    {
+        damage=2*player.atk-enemy.def;
+        damage=checknegative(damage);
+        enemy.hp-=damage;
+        player.hp-=3;
+        extratext=`${player.name} lost 3 HP`;
+    }
+    else if(move=="Counter")
+    {
+        damage=enemy.atk-enemy.def;
+        damage=checknegative(damage);
+        enemy.hp-=damage;
+    }
+    else if(move=="Weakening Stab")
+    {
+        damage=Math.floor(0.5*player.atk-enemy.def);
+        damage=checknegative(damage);
+        enemy.hp-=damage;
+        enemy.def-=1;
+        extratext=`${enemy.name}'s DEF decreased by 2.`; 
+    }
+    
+    actionresults.innerHTML=`${player.name} used ${move}.<br> ${enemy.name} took ${damage} damage<br>${extratext}`;
+    betweenturns();
+}
+
+function enemyattack(move)
+{
+    let damage=0;
+    let extratext="";
+    if(move=="Attack")
+    {
+        damage=enemy.atk-player.def;
+        damage=checknegative(damage);
+        player.hp-=damage;
+    }
+    else if(move=="Reckless Stab")
+    {
+        damage=Math.floor(1.5*enemy.atk-player.def);
+        damage=checknegative(damage);
+        player.hp-=damage;
+        enemy.def-=1;
+        extratext=`${enemy.name}'s DEF fell by 1`;
+    }
+    else if(move=="Catch Breath")
+    {
+        enemy.hp+=5;
+        extratext=`${enemy.name}'s HP rose by 5`;
+    }
+    else if(move=="Weakening Fang")
+    {
+        damage=enemy.atk-player.def;
+        damage=checknegative(damage);
+        player.def-=1;
+        player.hp-=damage;
+        extratext=`${player.name}'s DEF fell by 1`;
+    }
+    else if(move=="Howl")
+    {
+        enemy.atk+=2;
+        extratext=`${enemy.name}'s ATK rose by 2`;
+    }
+    else if(move=="Counter")
+    {
+        damage=player.atk-player.def;
+        damage=checknegative(damage);
+        player.hp-=damage;
+    }
+    else if(move=="Piercing Strike")
+    {
+        damage=enemy.atk;
+        damage=checknegative(damage);
+        player.hp-=damage;
+    }
+    else if(move=="Energy Drain")
+    {
+        damage=enemy.atk-player.def;
+        player.hp-=damage;
+        enemy.hp+=damage;
+        extratext=`${enemy.name}'s healed by ${damage} HP`;
+    }
+    else if(move=="Pain Split")
+    {
+        averagehp=Math.floor((player.hp+enemy.hp)/2);
+        player.hp=averagehp;
+        enemy.hp=averagehp;
+    }
+    actionresults.innerHTML=`${enemy.name} used ${move}.<br> ${player.name} took ${damage} damage<br>${extratext}`;
+    betweenturns();
+}
+//Game Control
+function betweenturns()
+{
+    displaystats();
+    if(enemy.hp<=0)
+    {
+        if(battleon<enemies.length-1)
+        {
+            actionresults.innerHTML=`${enemy.name} defeated!`;
+            battleon+=1;
+            setTimeout(function(){startbattle()},1000);
+            return;
+        }
+        else
+        {
+            actionresults.innerHTML="You beat the game!";
+            return;
+        }
+    }
+    else if(player.hp<=0)
+    {
+        for(let i=0;i<playermovebuttons.length;i++)
+        {
+            playermovebuttons[i].disabled=true;
+        }
+        actionresults.innerHTML="You lose.";
+        return;
+    }
+    
+    if(isplayerturn)
+    {
+        
+        isplayerturn=false;
+        playermovebuttons = document.getElementsByClassName("playermove");
+        for(let i=0;i<playermovebuttons.length;i++)
+        {
+            playermovebuttons[i].disabled=true;
+        }
+        let enemymove=enemy.determinemove();
+        setTimeout(function(){enemyattack(enemymove)},1000);
+    }
+    else
+    {
+        isplayerturn=true;
+        playermovebuttons = document.getElementsByClassName("playermove");
+        for(let i=0;i<playermovebuttons.length;i++)
+        {
+            playermovebuttons[i].disabled=false;
+        }
+    }
+}
+function startbattle()
+{
+    player.hp=player.maxhp;
+    player.atk=player.maxatk;
+    player.def=player.maxdef;
+    
+    enemy=enemies[battleon];
+    actionresults.innerHTML=`${enemy.name} appeared!`;
+    
+    playermovebuttons = document.getElementsByClassName("playermove");
+    for(let i=0;i<playermovebuttons.length;i++)
+    {
+        playermovebuttons[i].disabled=false;
+    }
+    displaystats();
+    displaymoves();
+}
+    
+function selectcharacter(i)
+{
+    player=characters[i];
+       document.getElementById("selectcharacterdiv").style.display="none";
+ document.getElementById("battle").style.display="block";
+    mainmenudiv.style.display="block";
+    startbattle();
+}
+function startover()
+{
+    battleon=0; document.getElementById("selectcharacterdiv").style.display="none";
+    battlediv.style.display="block";
+    startbattle();
+}
+function mainmenu()
+{
+    selectcharacterdiv.style.display="block";
+    battlediv.style.display="none";
+    mainmenudiv.style.display="none";
+}
+
+//Variables
+let characters=[new Warrior(15,3,2),new Mage(20,4,0),new Rogue(14,4,1)];
+let player=characters[2];
+
+let enemies=[new SkeletonSquire(10,3,1),
+            new CorruptedWolf(15,4,0),
+            new FallenKnight(10,3,2),
+            new Necromancer(20,3,1),
+            new Lich(30,0,0)];
+let enemy=enemies[0];
+let battleon=0;
+let isplayerturn=true;
+
+let battlediv=document.getElementById("battle");
+let selectcharacterdiv=document.getElementById("selectcharacterdiv");
+let mainmenudiv=document.getElementById("mainmenu");
+
+let playerstatsrow=document.getElementById("playerstatsrow");
+let playermovesrow=document.getElementById("playermovesrow");
+let enemystatsrow=document.getElementById("enemystatsrow");
+let enemymovesrow=document.getElementById("enemymovesrow");
+let actionresults=document.getElementById("actionresults");
+
+startbattle();
+</script>
+</body>
+</html>

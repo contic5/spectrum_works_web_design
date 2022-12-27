@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Mario Party Roll Probability</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Mario Party Roll Probability</h1>
+    <table id="onedie">
+    <tr>
+    <th colspan="5">One Die</th>    
+    </tr>
+    <tr><th>Number</th><th>Rolls</th><th>Percent</th><th>At or Above</th><th>At or Below</th></tr>
+    <tr><td>1</td><td>1</td><td>10%</td><td>100%</td><td>10%</td></tr>
+    <tr><td>2</td><td>1</td><td>10%</td><td>90%</td><td>20%</td></tr>
+    <tr><td>3</td><td>1</td><td>10%</td><td>80%</td><td>30%</td></tr>
+    <tr><td>4</td><td>1</td><td>10%</td><td>70%</td><td>40%</td></tr>
+    <tr><td>5</td><td>1</td><td>10%</td><td>60%</td><td>50%</td></tr>
+    <tr><td>6</td><td>1</td><td>10%</td><td>50%</td><td>60%</td></tr>
+    <tr><td>7</td><td>1</td><td>10%</td><td>40%</td><td>70%</td></tr>
+    <tr><td>8</td><td>1</td><td>10%</td><td>30%</td><td>80%</td></tr>
+    <tr><td>9</td><td>1</td><td>10%</td><td>20%</td><td>90%</td></tr>
+    <tr><td>10</td><td>1</td><td>10%</td><td>10%</td><td>100%</td></tr>
+    </table>
+    
+    <table id="twodice">
+    <tr>
+    <th colspan="5">Two Dice</th>    
+    </tr>
+    <tr>
+    <th>Number</th> 
+    <th>Rolls</th>    
+    <th>Percent</th>
+    <th>At or Above</th>
+    <th>At or Below</th>
+    </tr>
+    </table>
+    
+    <table id="threedice">
+    <tr>
+    <th colspan="5">Three Dice</th>    
+    </tr>
+    <tr>
+    <th>Number</th> 
+    <th>Rolls</th>    
+    <th>Percent</th>
+    <th>At or Above</th>
+    <th>At or Below</th>
+    </tr>
+    </table>
+    <script>
+    function generatearray(length,element=0)
+    {
+        let arr=[];
+        for(let i=0;i<length;i++)
+        {
+            arr.push(element);
+        }
+        return arr;
+    }
+    function round(num,places)
+    {
+        num=num*Math.pow(10,places);
+        num=Math.round(num);
+        num/=Math.pow(10,places);
+        return num;
+    }
+    let rolls=generatearray(20);
+    let probabilities=generatearray(20);
+    let at_or_above=generatearray(20);
+    let at_or_below=generatearray(20);
+    let totalrolls=100;
+    for(let i=1;i<=10;i++)
+    {
+        for(let j=1;j<=10;j++)
+        {
+            rolls[i+j-1]+=1;
+            probabilities[i+j-1]+=1/totalrolls;
+        }
+    }
+    
+    for(let i=1;i<20;i++)
+    {
+        probabilities[i]=round(probabilities[i],3);
+        for(let j=1;j<=i;j++)
+        {
+            at_or_below[i]+=probabilities[j];
+        }
+        for(let j=probabilities.length-1;j>=i;j--)
+        {
+            at_or_above[i]+=probabilities[j];
+        }
+        
+        let nexttr=document.createElement("tr");
+        let numbertd=document.createElement("td");
+        let rolltd=document.createElement("td");
+        let percenttd=document.createElement("td");
+        let at_or_above_td=document.createElement("td");
+        let at_or_below_td=document.createElement("td");
+        numbertd.innerHTML=i+1;
+        rolltd.innerHTML=rolls[i];
+        percenttd.innerHTML=round(100*probabilities[i],3)+"%";
+        at_or_above_td.innerHTML=round(100*at_or_above[i],3)+"%";
+        at_or_below_td.innerHTML=round(100*at_or_below[i],3)+"%";
+        nexttr.appendChild(numbertd);
+        nexttr.appendChild(rolltd);
+        nexttr.appendChild(percenttd);
+        nexttr.appendChild(at_or_above_td);
+        nexttr.appendChild(at_or_below_td);
+        document.getElementById("twodice").appendChild(nexttr);
+    }
+    
+    rolls=generatearray(30);
+    probabilities=generatearray(30);
+    at_or_above=generatearray(30);
+    at_or_below=generatearray(30);
+    totalrolls=1000;
+    for(let i=1;i<=10;i++)
+    {
+        for(let j=1;j<=10;j++)
+        {
+            for(let k=1;k<=10;k++)
+            {
+                rolls[i+j+k-1]+=1;
+                probabilities[i+j+k-1]+=1/totalrolls;
+            }
+        }
+    }
+    
+    for(let i=2;i<30;i++)
+    {
+        probabilities[i]=round(probabilities[i],4);
+        for(let j=2;j<=i;j++)
+        {
+            at_or_below[i]+=probabilities[j];
+        }
+        for(let j=probabilities.length-1;j>=i;j--)
+        {
+            at_or_above[i]+=probabilities[j];
+        }
+        let nexttr=document.createElement("tr");
+        let numbertd=document.createElement("td");
+        let rolltd=document.createElement("td");
+        let percenttd=document.createElement("td");
+        let at_or_above_td=document.createElement("td");
+        let at_or_below_td=document.createElement("td");
+        numbertd.innerHTML=i+1;
+        rolltd.innerHTML=rolls[i];
+        percenttd.innerHTML=round(100*probabilities[i],4)+"%";
+        at_or_above_td.innerHTML=round(100*at_or_above[i],4)+"%";
+        at_or_below_td.innerHTML=round(100*at_or_below[i],4)+"%";
+        nexttr.appendChild(numbertd);
+        nexttr.appendChild(rolltd);
+        nexttr.appendChild(percenttd);
+        nexttr.appendChild(at_or_above_td);
+        nexttr.appendChild(at_or_below_td);
+        document.getElementById("threedice").appendChild(nexttr);
+    }
+    </script>
+    </body>
+</html>

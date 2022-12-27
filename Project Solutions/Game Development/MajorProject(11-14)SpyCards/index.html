@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Spy Cards</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Spy Cards</h1>
+    <h2 id="turninfo">Player 1's Turn</h2>
+    <div id="battlediv" class="flex-container">
+        <div class="flex-child">
+        <h2 id="p1hp">HP: 5</h2>
+        <h2 id="p1attack"></h2>
+        <table id="p1table">
+        <tr id="p1hand"></tr>
+        </table>
+        </div>
+        
+        <div class="flex-child">
+        <h2 id="p2hp">HP: 5</h2>
+        <h2 id="p2attack"></h2>
+        <table id="p2table">
+        <tr id="p2hand"></tr>
+        </table>
+        </div>
+    </div>
+    <h2 id="remainingenergy">Remaining Energy: 2</h2>
+    <table>
+    <tr id="curplayerhand">
+        
+    </tr></table>
+    <button onclick="endturn()">End Turn</button>
+    <div id="game"></div>
+    <script src="cards.js"></script>
+    <script src="game.js"></script>
+    </body>
+</html>

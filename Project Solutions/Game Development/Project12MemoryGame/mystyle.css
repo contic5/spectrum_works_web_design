@@ -1,0 +1,25 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: #000000;
+    background-color: #009900;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 10px 10px;
+}
+td
+{
+    background-color: ghostwhite;
+    font-size: 32px;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+}
+td:hover
+{
+    cursor: pointer;
+}

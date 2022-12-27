@@ -1,0 +1,27 @@
+h1
+{
+    font-size: 48px;
+    margin: 0px;
+}
+body
+{
+    color: #000000;
+    background-color: #00bb00;
+}
+button
+{
+    font-size: 24px;
+}
+img
+{
+    height: 200px;
+}
+#playerhand
+{
+    background-color: #00dd00;
+    margin-bottom: 20px;
+}
+#opponenthand
+{
+    background-color: #00dd00;
+}

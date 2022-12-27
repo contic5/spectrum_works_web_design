@@ -1,0 +1,51 @@
+body
+{
+    font-family: 'MedievalSharp', cursive;
+}
+h1
+{
+    font-size: 40px;
+}
+h2
+{
+    font-size: 32px;
+}
+button
+{
+    font-size: 20px;
+    font-family: 'MedievalSharp', cursive;
+}
+table,td
+{
+    font-size: 20px;
+    border: black solid 2px;
+    padding: 10px;
+}
+#actionresults
+{
+    min-height: 50px;
+    border: black solid 2px;
+    background-color: lightgray;
+    width: 500px;
+}
+.block
+{
+    display: block;
+}
+.marginbottom
+{
+    margin-bottom: 20px;
+}
+#battle
+{
+    display: none;
+    margin-bottom: 20px;
+}
+#selectcharacterdiv
+{
+    margin-bottom: 20px;
+}
+#mainmenu
+{
+    display: none;
+}

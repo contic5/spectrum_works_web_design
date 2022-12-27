@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Voltorb Flip</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Voltorb Flip</h1>
+    <h2 id="levelon">Level 1</h2>
+    <table id="gametable"></table>
+    <script src="levels.js"></script>
+    <script>
+    function rollvalue()
+    {
+        roll=Math.floor(Math.random()*100);
+        value=0;
+        for(let k=0;k<percents.length;k++)
+        {
+            if(roll>=percents[k])
+            {
+                value=k;
+            }
+        }
+        return value;
+    }
+    function rollvalues()
+    {
+        remaining_large=0;
+        values=[];
+        for(let i=0;i<5;i++)
+        {
+            values.push([]);
+            for(let j=0;j<5;j++)
+            {
+                values[i].push(1);
+            }
+        }
+        
+        roll=Math.floor(Math.random()*3);
+        value_distribution=levels[level][roll];
+        for(let i=0;i<value_distribution.length;i++)
+        {
+            console.log(value_distribution[i]);
+            if(i>0)
+            {
+                remaining_large+=value_distribution[i];
+            }
+            
+            for(let j=0;j<value_distribution[i];j++)
+            {
+                done=false;
+                while(!done)
+                {
+                    x_roll=Math.floor(Math.random()*5);
+                    y_roll=Math.floor(Math.random()*5);
+                    if(values[y_roll][x_roll]==1)
+                    {
+                        if(i==0)
+                        {
+                            values[y_roll][x_roll]=i;
+                            done=true;
+                        }
+                        else
+                        {
+                            values[y_roll][x_roll]=i+1;
+                            done=true;
+                        }
+                    }
+                }
+            }
+        }
+        return values;
+    }
+    function selecttile(x,y)
+    {
+        let tile=document.getElementById("td"+y+""+x);
+        tile.style.backgroundColor="hsl(120,0%,90%)";
+        tile.onclick=null;
+        tile.innerHTML=values[y][x];
+        tilevalue=parseInt(tile.innerHTML);
+        if(tilevalue==0)
+        {
+            alert("Game over!");
+            displayalltiles();
+            setTimeout(previouslevel,2000);
+        }
+        else if(tilevalue>1)
+        {
+            remaining_large-=1;
+            if(remaining_large==0)
+            {
+                alert("Level completed");
+                displayalltiles();
+                setTimeout(nextlevel,2000);
+            }
+        }
+        console.log(tilevalue+" "+remaining_large);
+    }
+    function nextlevel()
+    {
+        if(level<7)
+        {
+            level+=1;
+        }
+        setup();
+    }
+    function previouslevel()
+    {
+        if(level>1)
+        {
+            level-=1;
+        }
+        setup();
+    }
+    function displayalltiles()
+    {
+        for(let i=0;i<5;i++)
+        {
+            for(let j=0;j<5;j++)
+            {
+                let tile=document.getElementById("td"+i+""+j);
+                tile.style.backgroundColor="hsl(120,0%,90%)";
+                tile.onclick=null;
+                tile.innerHTML=values[i][j];
+            }
+        }
+    }
+    function setup()
+    {        
+        values=rollvalues();
+        gametable.innerHTML="";
+        //Game rows
+        for(let i=0;i<5;i++)
+        {
+            let tr=document.createElement("tr");
+            let sum=0;
+            let totalzeros=0;
+            for(let j=0;j<5;j++)
+            {
+                sum+=values[i][j];
+                let td=document.createElement("td");
+                td.id="td"+i+""+j;
+                td.style.color=colors[values[i][j]];
+                if(values[i][j]==0)
+                {
+                    totalzeros+=1;
+                }
+                td.onclick=function()
+                {
+                    selecttile(j,i);
+                }
+                tr.append(td);
+            }
+            //Right sum column
+            let th=document.createElement("th");
+            th.id="sumrow"+i;
+            th.innerHTML=sum+" "+totalzeros;
+            tr.append(th);
+            gametable.append(tr);
+        }
+        
+        //Bottom sum row
+        let tr=document.createElement("tr");
+        for(let i=0;i<5;i++)
+        {
+            let totalzeros=0;
+            sum=0;
+            for(let j=0;j<5;j++)
+            {
+                if(values[j][i]==0)
+                {
+                    totalzeros+=1;
+                }
+                sum+=values[j][i];
+            }
+            th=document.createElement("th");
+            th.id="sumcol"+i;
+            th.innerHTML=sum+" "+totalzeros;
+            tr.append(th);
+        }
+        tr.append(document.createElement("th"));
+        gametable.append(tr);
+        
+        document.getElementById("levelon").innerHTML="Level "+level;
+    }
+    
+    let gametable=document.getElementById("gametable");
+    let values=[];
+    let percents=[0,30,60,85];
+    let colors=["#cb0000","#006700","#0065cb","#6600cb"];
+    let remaining_large=0;
+    level=1;
+    setup();
+    </script>
+    </body>
+</html>

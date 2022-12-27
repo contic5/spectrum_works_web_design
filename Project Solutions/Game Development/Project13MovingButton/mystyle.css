@@ -1,0 +1,13 @@
+#gamediv
+{
+    width: 700px;
+    height: 500px;
+    background-color: lightgray;
+}
+#gamebutton
+{
+    position: relative;
+    height: 70px;
+    width: 70px;
+    font-size: 24px;
+}

@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Moving Button Game</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Moving Button Game</h1>
+    <h3>High Score 40</h3>
+    <button onclick="start()">Start</button>
+    <button onclick="reset()">Reset</button>
+    <h2 id="timer">Press Start to start</h2>
+    <h2 id="score">Score: 0</h2>
+    <div id="gamediv" onclick="decreasescore(event)">
+    <button id="gamebutton" onclick="increasescore(event)" disabled>Click Me</button>
+    </div>
+    <script>
+    function movebutton()
+    {
+        dis=0;
+        while(dis<100)
+        {
+            newx=Math.floor(Math.random()*(w-2*buttonsize))+buttonsize;
+            newy=Math.floor(Math.random()*(h-2*buttonsize))+buttonsize;
+            dis=Math.pow(newx-x,2)+Math.pow(newy-y,2);
+            dis=Math.sqrt(dis);
+        }
+        x=newx;
+        y=newy;
+        gamebutton.style.left=x+"px";
+        gamebutton.style.top=y+"px";
+    }
+    function increasescore(event)
+    {
+        score+=1;
+        scoreelem.innerHTML="Score: "+score;
+        movebutton();
+        event.stopPropagation();
+    }
+    function decreasescore(event)
+    {
+        score-=1;
+        scoreelem.innerHTML="Score: "+score;
+        
+        //gamediv.style.backgroundColor="lightcoral";
+        gamediv.style.backgroundColor="darkgray";
+        setTimeout(function(){
+        gamediv.style.backgroundColor="lightgray";   
+        },500);
+        movebutton();
+    }
+    function startgame()
+    {
+        score=0;
+        scoreelem.innerHTML="Score: "+score;
+        timeleft=30;
+        document.getElementById("timer").innerHTML=timeleft;
+        gamebutton.disabled=false;
+        setTimeout(countdown,1000);
+    }
+    function start()
+    {
+        setTimeout(startgame,1000);
+    }
+    function reset()
+    {
+        setTimeout(startgame,1000);
+    }
+    function countdown()
+    {
+        timeleft-=1;
+        document.getElementById("timer").innerHTML=timeleft;
+        if(timeleft>0)
+        {
+            setTimeout(countdown,1000);
+        }
+        else
+        {
+            gamebutton.disabled=true;
+        }
+    }
+    let score=0;
+    let timeleft=30;
+    
+    let gamediv=document.getElementById("gamediv");
+    let gamebutton=document.getElementById("gamebutton");
+    let scoreelem=document.getElementById("score");
+    
+    let buttonsize=gamebutton.offsetWidth;
+    let w=gamediv.offsetWidth;
+    let h=gamediv.offsetHeight;
+    
+    let x=w/2-buttonsize;
+    let y=h/2-buttonsize;
+    let newx=0;
+    let newy=0;
+    let dis=0;
+    console.info(x);
+    console.info(y);
+    
+    gamebutton.style.left=x+"px";
+    gamebutton.style.top=y+"px";
+    </script>
+    </body>
+</html>

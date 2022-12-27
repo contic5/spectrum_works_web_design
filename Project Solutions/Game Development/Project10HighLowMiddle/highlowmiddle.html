@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>High Low Middle</title>
+</head>
+<body>
+<h1>High Low Middle</h1>
+<h2 id="playerroll"></h2>
+<h2 id="computerroll"></h2>
+<h1 id="results"></h1>
+<p>High Low Middle is used to Magic the Gathering to determine who goes first</p>
+<button type="button" onclick="high()">High</button>
+<button type="button" onclick="low()">Low</button>
+<button type="button" onclick="middle()">Middle</button>
+<script>
+function roll()
+{
+    playerroll=Math.floor(Math.random()*20)+1;
+    computerroll=Math.floor(Math.random()*20)+1;
+    document.getElementById("playerroll").innerHTML="Player rolled "+playerroll;
+    document.getElementById("computerroll").innerHTML="Computer rolled "+computerroll;
+}
+function high()
+{
+    roll();
+    if(playerroll>computerroll)
+    {
+        document.getElementById("results").innerHTML="Player wins!";
+    }
+    else if(playerroll<computerroll)
+    {
+        document.getElementById("results").innerHTML="Computer wins!";
+    }
+    else
+    {
+        document.getElementById("results").innerHTML="Tie";
+    }
+}
+function low()
+{
+    roll();
+    if(playerroll<computerroll)
+    {
+        document.getElementById("results").innerHTML="Player wins!";
+    }
+    else if(playerroll>computerroll)
+    {
+        document.getElementById("results").innerHTML="Computer wins!";
+    }
+    else
+    {
+        document.getElementById("results").innerHTML="Tie";
+    }
+}
+function middle()
+{
+    roll();
+    document.getElementById("playerroll").innerHTML=`Player rolled ${playerroll} (${Math.abs(playerroll-10)})`;
+    document.getElementById("computerroll").innerHTML=`Computer rolled ${computerroll} (${Math.abs(computerroll-10)})`;
+    
+    if(Math.abs(playerroll-10)<Math.abs(computerroll-10))
+    {
+        document.getElementById("results").innerHTML="Player wins!";
+    }
+    else if(Math.abs(playerroll-10)>Math.abs(computerroll-10))
+    {
+        document.getElementById("results").innerHTML="Computer wins!";
+    }
+    else
+    {
+        document.getElementById("results").innerHTML="Tie";
+    }
+}
+let playerroll=0;
+let computerroll=0;
+</script>
+</body>
+</html>

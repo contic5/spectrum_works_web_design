@@ -1,0 +1,309 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Blackjack</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Blackjack</h1>
+    <h2 id="results"></h2>
+    <button type="button" id="drawbutton" onclick="draw()">Hit</button>
+    <button type="button" id="standbutton" onclick="stand()">Stand</button>
+    <button type="button" onclick="reset()">Reset</button>
+    <div id="playerhand">
+        
+    </div>
+    <div id="opponenthand">
+        
+    </div>
+        
+    <script>
+    let ranks=["2","3","4","5","6","7","8","9","10","jack","queen","king","ace"];
+    let values=[2,3,4,5,6,7,8,9,10,10,10,10,11];
+    let suites=["spades","clubs","hearts","diamonds"];
+    
+    class Deck
+    {
+        constructor(totaldecks)
+        {
+            this.cards=[];
+            let card=null;
+            for(let x=0;x<totaldecks;x++)
+            {
+                for(let i=0;i<suites.length;i++)
+                {
+                    for(let j=0;j<ranks.length;j++)
+                    {
+                        card=new Card(ranks[j],suites[i],values[j]);
+                        this.cards.push(card);
+                    }
+                }
+            }
+            this.shuffle();
+        }
+        shuffle()
+        {
+            /* Randomize array in-place using Durstenfeld shuffle algorithm */
+            for (let i = this.cards.length - 1; i > 0; i--) 
+            {
+                let j = Math.floor(Math.random() * (this.cards.length));
+                let temp = this.cards[i];
+                this.cards[i] = this.cards[j];
+                this.cards[j] = temp;
+            }
+        }
+        draw()
+        {
+            let curcard=this.cards.shift();
+            return curcard;
+        }
+       
+    }
+    class Card
+    {
+        constructor(rank,suite,value)
+        {
+            this.rank=rank;
+            this.suite=suite;
+            this.value=value;
+            if(this.rank=="jack"||this.rank=="queen"||this.rank=="king")
+            {
+                this.src=rank+"_of_"+suite+"2.png";
+            }
+            else
+            {
+                this.src=rank+"_of_"+suite+".png";
+            }
+        }
+    }
+    class Player
+    {
+        constructor()
+        {
+            this.hand=[];
+            this.handvalue=0;
+            this.stand=false;
+        }
+        draw()
+        {
+            let curcard=deck.draw();
+            this.handvalue+=curcard.value;
+            this.hand.push(curcard);
+            this.displayhand();
+        }
+        displayhand()
+        {
+            playerhanddiv.innerHTML="";
+            let handvalh1=document.createElement("h1");
+            handvalh1.innerHTML="HAND VALUE:"+this.handvalue;
+            playerhanddiv.append(handvalh1);
+            for(let i=0;i<this.hand.length;i++)
+            {
+                let cardimg=document.createElement("img");
+                cardimg.src="PNG-cards/"+this.hand[i].src;
+                playerhanddiv.appendChild(cardimg);
+            }
+        }
+    }
+    class Opponent
+    {
+        /*
+        Difficulties 
+        rookie: always hits until at or above 21
+        easy:Hits unless 15 or above
+        standard:Hits unless 17 or above. Standard casino rules.
+        cheater: Cheats by peeking at the top card of the deck. Will never bust.
+        */
+        difficultynames=["rookie","easy","standard","cheater"];
+        standvalues=[21,15,17,21];
+        constructor(difficultyindex)
+        {
+            this.hand=[];
+            this.handvalue=0;
+            this.difficulty=this.difficultynames[difficultyindex];
+            this.standvalue=this.standvalues[difficultyindex];
+            this.stand=false;
+            
+            
+        }
+        draw()
+        {
+            let curcard=deck.draw();
+            this.handvalue+=curcard.value;
+            this.hand.push(curcard);
+            this.displayhand();
+        }
+        handleturn()
+        {
+            if(this.difficulty=="cheater")
+            {
+                if(this.handvalue+deck.cards[0].value<=21)
+                {
+                   this.draw();
+                }
+                else
+                {
+                    this.stand=true;
+                }
+            }
+            else if(this.handvalue<this.standvalue||(player.stand&&this.handvalue<player.handvalue))
+            {
+                this.draw();
+            }
+            else
+            {
+                this.stand=true;
+            }
+        }
+        displayhand()
+        {
+            opponenthanddiv.innerHTML="";
+            let difficultyh1=document.createElement("h1");
+            difficultyh1.innerHTML="Difficulty: "+this.difficulty;
+            opponenthanddiv.append(difficultyh1);
+            let handvalh1=document.createElement("h1");
+            handvalh1.innerHTML="DEALER HAND VALUE:"+this.handvalue;
+            opponenthanddiv.append(handvalh1);
+            
+            let standh2=document.createElement("h2");
+            if(this.stand)
+            {
+                standh2.innerHTML="STAND";
+            }
+            opponenthanddiv.append(standh2);
+            for(let i=0;i<this.hand.length;i++)
+            {
+                let cardimg=document.createElement("img");
+                cardimg.src="PNG-cards/"+this.hand[i].src;
+                opponenthanddiv.appendChild(cardimg);
+            }
+        }
+    }
+    function draw()
+    {
+        player.draw();
+        if(player.handvalue==21)
+        {
+            disablebuttons();
+            results.innerHTML="Blackjack! Player wins!";
+        }
+        else if(player.handvalue>21)
+        {
+            disablebuttons();
+            results.innerHTML="Bust! Dealer wins!";
+        }
+        else
+        {
+            opponent.handleturn();
+            opponent.displayhand();
+            if(opponent.handvalue==21)
+            {
+                disablebuttons();
+                results.innerHTML="Blackjack! Dealer wins!";
+            }
+            if(opponent.handvalue>21)
+            {
+                disablebuttons();
+                results.innerHTML="Bust! Player wins!";
+            }
+        }
+    }
+    function stand()
+    {
+       player.stand=true; while(opponent.handvalue<21&&opponent.handvalue<=player.handvalue&&opponent.stand==false)
+        {
+            console.log("AI handles turn");
+            opponent.handleturn();
+        }
+        disablebuttons();
+        console.log("Done");
+        opponent.displayhand();
+        
+        if(opponent.handvalue==21)
+        {
+            results.innerHTML="Blackjack! Dealer wins!";
+        }
+        else if(opponent.handvalue>21)
+        {
+            results.innerHTML="Bust! Player wins!";
+        }
+        else if(opponent.handvalue>player.handvalue)
+        {
+            results.innerHTML="Opponent wins!";
+        }
+        else if(opponent.handvalue<player.handvalue)
+        {
+            results.innerHTML="Player wins!";
+        }
+        else
+        {
+            results.innerHTML="Tie";
+        }
+    }
+    
+    function start()
+    {
+        deck=new Deck(1);
+        player.hand=[];
+        player.handvalue=0;        
+        player.stand=false;
+        player.draw();
+        player.draw();
+        console.log(player.hand);
+        player.displayhand();
+        
+        
+        
+        opponent.hand=[];
+        opponent.handvalue=0;
+        opponent.stand=false;
+        opponent.draw();
+        opponent.draw();
+        if(opponent.handvalue>=opponent.standvalue)
+        {
+            opponent.stand=true;
+        }
+        console.log(opponent.hand);
+        opponent.displayhand();
+        
+        if(player.handvalue==21)
+        {
+            results.innerHTML="Blackjack! Player wins!";
+        }
+        else if(opponent.handvalue==21)
+        {
+            results.innerHTML="Blackjack! Dealer wins!";
+        }
+        
+        standbutton.disabled=false;
+        drawbutton.disabled=false;
+        results.innerHTML="";
+    }
+    function reset()
+    {
+        start();
+    }
+    function disablebuttons()
+    {
+        drawbutton.disabled=true;
+        standbutton.disabled=true;
+    }
+    let playerhanddiv=document.getElementById("playerhand");
+    let opponenthanddiv=document.getElementById("opponenthand");
+    let standbutton=document.getElementById("standbutton");
+    let drawbutton=document.getElementById("drawbutton");
+    let results=document.getElementById("results");
+
+    let deck=new Deck(1);
+    console.log(deck.cards);
+    console.log(deck.cards[0].rank);
+    console.log(deck.cards[0].suite);
+    console.log(deck.cards[0].src);
+        
+    let player=new Player();
+    let opponent=new Opponent(3);
+    start();
+    </script>
+    </body>
+</html>

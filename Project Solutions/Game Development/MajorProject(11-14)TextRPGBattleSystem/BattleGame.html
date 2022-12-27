@@ -1,0 +1,518 @@
+<html>
+<head>
+
+</head>
+<body>
+<h1>Battle Game</h1>
+<div id="setup"></div>
+<div id="playerinfo"></div>
+<div id="attackoptions"></div>
+<div id="attackresult"></div>
+<script>
+turnon=0;
+minplayercount=2;
+maxplayercount=8;
+playercount=0;
+ClassNames=["Warrior","Mage","Rogue","Restrained Demon","Dragon Rider","Beastmaster","Shieldbearer","Soul Eater"];
+ClassHps=[40,30,25,30,30,35,30,25];
+ClassAtks=[13,12,14,8,10,8,8,12];
+ClassProts=[35,15,10,50,25,25,50,30];
+ClassSpds=[2,4,8,4,6,5,0,10];
+ClassQuirks=["Strong","Durable","Agile","Healthy","Gifted","Quirkless","Weak","Frail","Slow","Sickly","Cursed"];
+classeschosen=[];
+//classeschosen=[0,1,2,7];
+Names=[];
+Hps=[];
+Atks=[];
+Prots=[];
+Spds=[];
+Quirks=[];
+turnorder=[];
+playerinfo="";
+attackoptions="";
+attackresult="";
+setuptext="";
+function StartGame()
+{
+  document.getElementById("setup").innerHTML="";
+  for(i=0;i<playercount;i++)
+  {
+    Names.push(ClassNames[classeschosen[i]]);
+    Hps.push(ClassHps[classeschosen[i]]);
+    Atks.push(ClassAtks[classeschosen[i]]);
+    Prots.push(ClassProts[classeschosen[i]]);
+    Spds.push(ClassSpds[classeschosen[i]]);
+  }
+  for(i=0;i<playercount;i++)
+  {
+    Quirk=ClassQuirks[Math.floor(Math.random()*ClassQuirks.length)];
+    Quirks.push(Quirk);
+    if(Quirk=="Strong")
+    {
+        Atks[i]+=2;
+    }
+    if(Quirk=="Durable")
+    {
+      Prots[i]+=10;
+    }
+    if(Quirk=="Agile")
+    {
+      Spds[i]+=2;
+    }
+    if(Quirk=="Healthy")
+    {
+      Hps[i]+=6;
+    }
+    if(Quirk=="Gifted")
+    {
+      Atks[i]+=2;
+      Prots[i]+=10;
+      Spds[i]+=2;
+      Hps[i]+=6;
+    }
+    if(Quirk=="Weak")
+    {
+      Atks[i]-=2;
+    }
+    if(Quirk=="Frail")
+    {
+      Prots[i]-=10;
+    }
+    if(Quirk=="Slow")
+    {
+      Spds[i]-=2;
+    }
+    if(Quirk=="Sickly")
+    {
+      Hps[i]-=6;
+    }
+    if(Quirk=="Cursed")
+    {
+      Atks[i]-=2;
+      Prots[i]-=10;
+      Spds[i]-=2;
+      Hps[i]-=6;
+    }
+  }
+  for(i=0;i<playercount;i++)
+  {
+    turnorder.push(i);
+  }
+  for(i=0;i<playercount;i++)
+  {
+    for(j=0;j<playercount;j++)
+    {
+      if(Spds[i]>Spds[j])
+      {
+        temp=turnorder[i];
+        turnorder[i]=turnorder[j];
+        turnorder[j]=temp;
+      }
+    }
+  }
+  UpdatePlayerInfo();
+  ShowAttackOptions();
+}
+function UpdatePlayerInfo()
+{
+  playerinfo="";
+  playerinfo+="<table><tbody>";
+  playerinfo+="<tr>";
+  playerinfo+="<td>Player</td>";
+  playerinfo+="<td>Class</td>";
+  playerinfo+="<td>HP</td>";
+  playerinfo+="<td>ATK</td>";
+  playerinfo+="<td>PROT</td>";
+  playerinfo+="<td>SPD</td>";
+  playerinfo+="<td>Quirks</td>";
+  playerinfo+="</tr>";
+  for(i=0;i<playercount;i++)
+  {
+    playerinfo+="<tr>";
+    playerinfo+="<td>"+(i+1)+"</td>";
+    playerinfo+="<td>"+Names[i]+"</td>";
+    playerinfo+="<td>"+Hps[i]+"</td>";
+    playerinfo+="<td>"+Atks[i]+"</td>";
+    playerinfo+="<td>"+Prots[i]+"%</td>";
+    playerinfo+="<td>"+Spds[i]+"</td>";
+    playerinfo+="<td>"+Quirks[i]+"</td>";
+    playerinfo+="</tr>";
+  }
+  playerinfo+="</tbody></table>";
+  document.getElementById('playerinfo').innerHTML=playerinfo;
+}
+function ShowAttackOptions()
+{
+  attackoptions="";
+  attackoptions+="<p>Player "+(turnorder[turnon]+1)+"</p>";
+  attackoptions+="<p>HP "+Hps[turnorder[turnon]]+"</p>";
+  attackoptions+="<p>ATK "+Atks[turnorder[turnon]]+"</p>";
+  attackoptions+="<p>PROT "+Prots[turnorder[turnon]]+"</p>";
+  attackoptions+="<p>SPD "+Spds[turnorder[turnon]]+"</p>";
+  attackoptions+="<input type='radio' name='attackchosen' value='Attack' checked>Attack<br>";
+  attackoptions+="<p>Does (1-PROT)*ATK Damage. 100% damage.</p>";
+  if(classeschosen[turnorder[turnon]]==0)
+  {
+    attackoptions+="<input type='radio' name='attackchosen' value='Intimidate'>Intimidate<br>";
+    attackoptions+="<p>Target loses 2 ATK and 10 PROT, but gains 2 SPD</p>";
+    attackoptions+="<input type='radio' name='attackchosen' value='Wide Slash'>Wide Slash<br>";
+    attackoptions+="<p>Hits every enemy. 50% damage.</p>";
+  }
+  else if(classeschosen[turnorder[turnon]]==1)
+  {
+    attackoptions+="<input type='radio' name='attackchosen' value='Firebomb'>Firebomb<br>";
+    attackoptions+="<p>Hits everyone, yourself included. 66% damage.</p>";
+    attackoptions+="<input type='radio' name='attackchosen' value='Meditate'>Meditate<br>";
+    attackoptions+="<p>Attacker gains 2 ATK and 10 PROT, but loses 2 SPD</p>";
+  }
+  else if(classeschosen[turnorder[turnon]]==2)
+  {
+    attackoptions+="<input type='radio' name='attackchosen' value='Finishing Blow'>Finishing Blow<br>";
+    attackoptions+="<p>66% damage. If target has 10 HP or less, 133% damage</p>";
+    attackoptions+="<input type='radio' name='attackchosen' value='Unload the Arsenal'>Unload the Arsenal<br>";
+    attackoptions+="<p>133% damage. Attacker loses 2 ATK.</p>";
+  }
+  else if(classeschosen[turnorder[turnon]]==3)
+  {
+      if(Names[turnorder[turnon]]=="Restrained Demon")
+      {
+        attackoptions+="<input type='radio' name='attackchosen' value='Throw off Chains'>Throw off Chains<br>";
+        attackoptions+="<p>66% damage. Gain 1 SPD.</p>";
+        attackoptions+="<input type='radio' name='attackchosen' value='Unleash the Demon'>Unleash the Demon<br>";
+        attackoptions+="<p>50% damage to all enemies. Switch into Unleashed Demon.</p>";
+      }
+      else if(Names[turnorder[turnon]]=="Unleashed Demon")
+      {
+        attackoptions+="<input type='radio' name='attackchosen' value='Crushing Claws'>Crushing Claws<br>";
+        attackoptions+="<p>80% damage. Target loses 2 ATK and 10 PROT.</p>";
+        attackoptions+="<input type='radio' name='attackchosen' value='Restrain Self'>Restrain Self<br>";
+        attackoptions+="<p>Heal 5 HP. Switch into Restrained Demon.</p>";
+      }
+  }
+  else if(classeschosen[turnorder[turnon]]==4)
+  {
+    attackoptions+="<input type='radio' name='attackchosen' value='Feed Dragon'>Feed Dragon<br>";
+    attackoptions+="<p>Heal 12 HP.</p>";
+    attackoptions+="<input type='radio' name='attackchosen' value='Wildfire'>Wildfire<br>";
+    attackoptions+="<p>Hits every enemy. 50% damage.</p>";
+  }
+  else if(classeschosen[turnorder[turnon]]==5)
+  {
+    attackoptions+="<input type='radio' name='attackchosen' value='Roar'>Roar<br>";
+    attackoptions+="All enemies lose 1 ATK.</p>";
+    attackoptions+="<br>";
+    attackoptions+="<input type='radio' name='attackchosen' value='Feed the Beasts'>Feed the Beasts<br>";
+    attackoptions+="<p>Gain 2 ATK and 1 SPD.</p>";
+  }
+  else if(classeschosen[turnorder[turnon]]==6)
+  {
+    attackoptions+="<input type='radio' name='attackchosen' value='Discard Shield'>Discard Shield<br>";
+    attackoptions+="<p>Gain +3 ATK and +4 SPD, but lose 25 PROT.</p>";
+    attackoptions+="<input type='radio' name='attackchosen' value='Raise Banner'>Raise Banner<br>";
+    attackoptions+="<p>Gain 1 ATK and 5 PROT.</p>";
+  }
+  else if(classeschosen[turnorder[turnon]]==7)
+  {
+    attackoptions+="<input type='radio' name='attackchosen' value='Steal Soul'>Steal Soul<br>";
+    attackoptions+="<p>75% damage. Attacker heals the damage dealt</p>";
+    attackoptions+="<input type='radio' name='attackchosen' value='Consume Soul'>Consume Soul<br>";
+    attackoptions+="<p>Heal 10 HP.</p>";
+  }
+  for(i=0;i<playercount;i++)
+  {
+    if(i!=turnorder[turnon])
+    {
+      text='Attack('+turnorder[turnon]+','+i+')';
+      attackoptions+="<button onclick="+text+">Player "+(i+1)+"</button><br>";
+    }
+  }
+  document.getElementById('attackoptions').innerHTML=attackoptions;
+}
+function Attack(attacker,target)
+{
+  //document.writeln("<p>"+attacker+" "+target+"</p>");
+  var attacks = document.getElementsByName('attackchosen');
+  attack="";
+  for (var i = 0, length = attacks.length; i < length; i++)
+  {
+    if (attacks[i].checked)
+    {
+  // do whatever you want with the checked radio
+    attack=attacks[i].value;
+  // only one radio can be logically checked, don't check the rest
+    break;
+    }
+  }
+  attackresult="";
+  damage=0;
+  attackresult+="<p>Player "+(attacker+1)+" used "+attack+"</p>";
+  if(attack=="Attack")
+  {
+    damage=Math.floor((100-Prots[target])/100*Atks[attacker]);
+    Hps[target]-=damage;
+    attackresult+="<p>Player "+(target+1)+" took "+damage+" damage</p>";
+  }
+  else if(attack=="Intimidate")
+  {
+      Atks[target]-=2;
+      Prots[target]-=10;
+      Spds[target]+=2;
+      attackresult+="<p>Player "+(target+1)+" lost 2 ATK and 10 PROT, but gained 2 SPD</p>";
+  }
+  else if(attack=="Wide Slash")
+  {
+      for(i=0;i<playercount;i++)
+      {
+        if(i!=attacker)
+        {
+          damage=Math.floor(0.5*((100-Prots[i])/100*Atks[attacker]));
+          Hps[i]-=damage;
+          attackresult+="<p>Player "+(i+1)+" took "+damage+" damage</p>";
+        }
+      }
+  }
+  else if(attack=="Firebomb")
+  {
+    for(i=0;i<playercount;i++)
+    {
+        damage=Math.floor(0.66*((100-Prots[i])/100*Atks[attacker]));
+        Hps[i]-=damage;
+        attackresult+="<p>Player "+(i+1)+" took "+damage+" damage</p>";
+    }
+  }
+  else if(attack=="Meditate")
+  {
+    Atks[attacker]+=2;
+    Prots[attacker]+=10;
+    Spds[attacker]-=2;
+    attackresult+="<p>Player "+(attacker+1)+" gained 2 ATK and 10 PROT, but lost 2 SPD</p>";
+  }
+  else if(attack=="Finishing Blow")
+  {
+      if(Hps[target]<=10)
+      {
+        damage=Math.floor(1.33*((100-Prots[target])/100*Atks[attacker]));
+        Hps[target]-=damage;
+        attackresult+="<p>Player "+(target+1)+" took "+damage+" damage</p>";
+      }
+      else
+      {
+        damage=Math.floor(0.66*((100-Prots[target])/100*Atks[attacker]));
+        Hps[target]-=damage;
+        attackresult+="<p>Player "+(target+1)+" took "+damage+" damage</p>";
+      }
+  }
+  else if(attack=="Unload the Arsenal")
+  {
+    damage=Math.floor(1.33*((100-Prots[target])/100*Atks[attacker]));
+    Hps[target]-=damage;
+    Atks[attacker]-=2;
+    attackresult+="<p>Player "+(target+1)+" took "+damage+" damage</p>";
+    attackresult+="<p>Player "+(attacker+1)+" lost 2 ATK</p>";
+  }
+  else if(attack=="Unleash the Demon")
+  {
+    Names[attacker]="Unleashed Demon";
+    Prots[attacker]-=40;
+    Atks[attacker]+=10;
+    Spds[attacker]+=4;
+    for(i=0;i<playercount;i++)
+    {
+      if(i!=attacker)
+      {
+        damage=Math.floor(0.5*((100-Prots[i])/100*Atks[attacker]));
+        Hps[i]-=damage;
+        attackresult+="<p>Player "+(i+1)+" took "+damage+" damage</p>";
+      }
+    }
+    attackresult+="<p>Player "+(attacker+1)+" unleashed the Demon</p>";
+  }
+  else if(attack=="Throw Off Shackles")
+  {
+    damage=Math.floor(0.66*((100-Prots[target])/100*Atks[attacker]));
+    Hps[target]-=damage;
+    attackresult+="<p>Player "+(target+1)+" took "+damage+" damage</p>";
+    attackresult+="<p>Player "+(attacker+1)+" gained 1 ATK</p>";
+  }
+  else if(attack=="Crushing Claws")
+  {
+    damage=Math.floor(0.80*((100-Prots[target])/100*Atks[attacker]));
+    Hps[target]-=damage;
+    Atks[target]-=2;
+    Prots[target]-=10;
+    attackresult+="<p>Player "+(target+1)+" took "+damage+" damage</p>";
+    attackresult+="<p>Player "+(target+1)+" lost 2 ATK and 10 PROT </p>";
+  }
+  else if(attack=="Restrain Self")
+  {
+    Prots[attacker]+=40;
+    Atks[attacker]-=10;
+    Spds[attacker]-=4;
+    Names[attacker]="Restrained Demon";
+    Hps[attacker]+=5;
+    attackresult+="<p>Player "+(attacker+1)+" healed 5 HP</p>";
+    attackresult+="<p>Player "+(attacker+1)+" restrained the Demon</p>";
+  }
+  else if(attack=="Feed Dragon")
+  {
+    Hps[attacker]+=12;
+    attackresult+="<p>Player "+(attacker+1)+" healed 12 HP</p>";
+  }
+  else if(attack=="Wildfire")
+  {
+      for(i=0;i<playercount;i++)
+      {
+        if(i!=attacker)
+        {
+          damage=Math.floor(0.5*((100-Prots[i])/100*Atks[attacker]));
+          Hps[i]-=damage;
+          attackresult+="<p>Player "+(i+1)+" took "+damage+" damage</p>";
+        }
+      }
+  }
+  else if(attack=="Roar")
+  {
+    for(i=0;i<playercount;i++)
+    {
+      if(i!=attacker)
+      {
+        Atks[i]-=1;
+        attackresult+="<p>Player "+(i+1)+" lost 1 ATK/p>";
+      }
+    }
+  }
+  else if(attack=="Feed the Beasts")
+  {
+    Atks[attacker]+=2;
+    Spds[attacker]+=1;
+    attackresult+="<p>Player "+(attacker+1)+" gained 2 ATK and 1 SPD</p>";
+  }
+  else if(attack=="Discard Shield")
+  {
+    Atks[attacker]+=3;
+    Spds[attacker]+=4;
+    Prots[attacker]-=25;
+    attackresult+="<p>Player "+(attacker+1)+" gained 3 ATK and 4 SPD, but lost 25 PROT</p>";
+  }
+  else if(attack=="Raise the Banner")
+  {
+    Atks[attacker]+=1;
+    Prots[attacker]+=5;
+    attackresult+="<p>Player "+(attacker+1)+" gained 1 ATK and 5 PROT</p>";
+  }
+  else if(attack=="Steal Soul")
+  {
+    damage=Hps[target]-Math.floor(0.66*((100-Prots[target])/100*Atks[attacker]));
+    Hps[attacker]+=damage;
+    Hps[target]-=damage;
+    attackresult+="<p>Player "+(target+1)+" took "+damage+" damage</p>";
+    attackresult+="<p>Player "+(attacker+1)+" healed"+damage+"HP</p>";
+  }
+  else if(attack=="Consume Soul")
+  {
+    Hps[attacker]+=10;
+    attackresult+="<p>Player "+(attacker+1)+" healed 10 HP</p>";
+  }
+  turnon=turnon+1;
+  while(Hps[turnorder[turnon]]<1)
+  {
+    turnon=turnon+1;
+    if(turnon==playercount)
+    {
+      turnon=0;
+    }
+  }
+  //document.writeln(turnon);
+  if(turnon==playercount)
+  {
+    turnon=0;
+    for(i=0;i<playercount;i++)
+    {
+      for(j=0;j<playercount;j++)
+      {
+        if(Spds[i]>Spds[j])
+        {
+          temp=turnorder[i];
+          turnorder[i]=turnorder[j];
+          turnorder[j]=temp;
+        }
+      }
+    }
+  }
+  document.getElementById('attackresult').innerHTML=attackresult;
+  UpdatePlayerInfo();
+  surviorcount=0;
+  for(i=0;i<playercount;i++)
+  {
+    if(Hps[i]>0)
+    {
+      surviorcount=surviorcount+1;
+    }
+  }
+  if(surviorcount>1)
+  {
+    ShowAttackOptions();
+  }
+  else if(surviorcount==1)
+  {
+    winner=0;
+    for(i=0;i<playercount;i++)
+    {
+      if(Hps[i]>0)
+      {
+        winner=i;
+      }
+    }
+    attackoptions="<h1>Player "+(i+1)+" wins!</h1>";
+    document.getElementById('attackoptions').innerHTML=attackoptions;
+  }
+  else if(survivorcount==0)
+  {
+    attackoptions="<h1>Draw</h1>";
+    document.getElementById('attackoptions').innerHTML=attackoptions;
+  }
+}
+function ShowSetUpText()
+{
+  setuptext="<h2>Set Up</h2>";
+  if(playercount!=1)
+  {
+    setuptext+="<p>"+playercount+" Players</p>";
+  }
+  else
+  {
+    setuptext+="<p>"+playercount+" Player</p>";
+  }
+  for(i=0;i<8;i++)
+  {
+    text="AddCharacter("+i+")";
+    if(playercount==maxplayercount)
+    {
+      setuptext+="<p><button onclick="+text+" disabled>"+ClassNames[i]+"</button></p>";
+    }
+    else
+    {
+      setuptext+="<p><button onclick="+text+">"+ClassNames[i]+"</button></p>";
+    }
+  }
+  if(playercount<minplayercount)
+  {
+    setuptext+="<p><button onclick='StartGame()' disabled>Start Game</button><p>";
+  }
+  else
+  {
+    setuptext+="<p><button onclick='StartGame()'>Start Game</button><p>";
+  }
+  document.getElementById("setup").innerHTML=setuptext;
+}
+function AddCharacter(x)
+{
+  classeschosen.push(x);
+  playercount++;
+  ShowSetUpText();
+}
+ShowSetUpText();
+//StartGame();
+</script>
+</body>
+</html>

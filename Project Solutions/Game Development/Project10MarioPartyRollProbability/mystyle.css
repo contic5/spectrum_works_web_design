@@ -1,0 +1,18 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: black;
+    background-color: hsl(100,30%,50%);
+}
+table,td,th
+{
+    border: black solid 2px;
+    background-color: hsl(100,40%,50%);
+}
+table
+{
+    margin-bottom: 20px;
+}

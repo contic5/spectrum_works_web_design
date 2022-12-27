@@ -1,0 +1,63 @@
+<!doctype HTML>
+<html>
+<head>
+<title>Knucklebones</title>
+<link href="mystyle.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+<h1>Knucklebones</h1>
+<h2>From Cult of the Lamb</h2>
+<table>
+<tr>
+<td><a href="indexv2.html">Play Knucklebones</a></td>
+<td><a href="knucklebones_singleplayer.html">Knucklebones (Singleplayer)</a></td>
+<td><a href="rules.html">Rules</a></td>
+</tr>
+<tr>
+<td class="blank"></td>
+<td><a href="https://www.cultofthelamb.com/">Official Cult of the Lamb Website (Outside Link)</a></td>
+<td class="blank"></td>
+</tr>
+</table>
+
+<div class="center">
+<h2>Music</h2>
+<audio src="Knucklebones.m4a" controls loop></audio>
+</div>
+
+<div class="center">
+<h2 id="results"></h2>
+<button onclick="playagain()" style="margin-bottom: 10px;">Play Again</button>
+</div>
+
+<div class="flex">
+<div id="p1div">
+<h2>Player 1</h2>
+<h2 id="p1score" class="gameinfo">Score: 
+0</h2>
+<h2 id="p1roll" class="gameinfo">Roll</h2>
+</div>
+
+<div id="gamediv">
+<table id="p1table">
+</table>
+
+<table id="p2table">
+</table> 
+</div>
+    
+<div id="p2div">
+<div class="bottom">
+<h2 id="p2roll" class="gameinfo">Roll</h2>
+<h2>Player 2</h2>
+<h2 id="p2score" class="gameinfo">Score: 0</h2>
+</div>
+</div>
+</div>
+
+</div>
+<script src="knucklebones.js">
+</script>
+</body>
+</html>

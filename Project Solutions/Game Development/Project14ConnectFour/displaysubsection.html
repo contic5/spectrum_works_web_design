@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Connect Four</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <div id='main'>
+    <div class='padding'></div>
+    <div id='content'>
+    <h1>Connect Four</h1>
+    <h2>Display Subsection</h2>
+    <h2 id="results"></h2>
+    <h2 id="curturn"></h2>
+    <table id="buttontable">
+        
+    </table>
+    <table id="board">
+        
+    </table>
+    <script>
+    function setup()
+    {
+        boardtable=document.getElementById("board");
+        boardtable.innerHTML=null;
+        for(let i=0;i<6;i++)
+        {
+            let newtr=document.createElement("tr");
+            for(let j=0;j<7;j++)
+            {
+                let newtd=document.createElement("td");
+
+                newtd.id="td"+i+""+j
+                newtr.appendChild(newtd);
+            }
+            boardtable.appendChild(newtr);
+        }
+        
+        let buttontable=document.getElementById("buttontable");
+        for(let i=0;i<7;i++)
+        {
+            let buttontd=document.createElement("td");
+            let button=document.createElement("button");
+            button.innerHTML=i;
+            buttontd.appendChild(button);
+            buttontable.appendChild(buttontd);
+        }
+    }
+    function displaysubsection(x,y)
+    {
+        for(let i=0;i<6;i++)
+        {
+            let newtr=document.createElement("tr");
+            for(let j=0;j<7;j++)
+            {
+                let curtd=document.getElementById("td"+i+""+j);
+                curtd.removeAttribute("class");
+            }
+        }
+        
+        for(let i=y;i<y+4;i++)
+        {
+            for(let j=x;j<x+4;j++)
+            {
+                let curtd=document.getElementById("td"+i+""+j);
+                curtd.classList.add("subsection");
+            }
+        }
+    }
+    function changesection()
+    {
+        displaysubsection(x,y);
+        
+        x+=1;
+        if(x==4)
+        {
+            x=0;
+            y+=1;
+        }
+        if(y==3)
+        {
+            y=0;
+        }
+    }
+    let x=0;
+    let y=0;
+    
+    setup();
+    
+    
+    setInterval(changesection,1000);
+    </script>
+    </div>
+    <div class='padding'></div>
+    </div>
+    </body>
+</html>

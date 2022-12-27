@@ -1,0 +1,75 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: hsl(36,100%,20%);
+    background-color: hsl(90,50%,70%);
+}
+table
+{
+    border-spacing: 10px;
+}
+#p1table
+{
+    margin-right: 40px;
+    background-color: aqua;
+    border: black solid 2px;
+}
+#p2table
+{
+    background-color: orangered;
+    border: black solid 2px;
+}
+.inline
+{
+    height: 150px;
+}
+
+#battlediv
+{
+    width: 1200px;
+}
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: black solid 2px;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+
+.card
+{
+    color: hsl(36,100%,25%);
+    background-color: hsl(120,70%,40%);
+    width: 100px;
+    height: 150px;
+    cursor: pointer;
+}
+.enemy
+{
+    color: hsl(36,100%,15%);
+}
+.miniboss
+{
+    color: hsl(180,100%,15%);
+}
+.boss
+{
+    color: hsl(180,100%,25%);
+}
+.activated
+{
+    background-color: hsl(120,70%,50%);
+    border: yellow solid 10px;
+}
+button
+{
+    font-size: 24px;
+}

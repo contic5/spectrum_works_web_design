@@ -1,0 +1,56 @@
+* 
+{
+  box-sizing: border-box;
+}
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: black;
+    background-color: hsl(120,20%,50%);
+}
+table
+{
+    margin-bottom: 20px;
+}
+table,td,th
+{
+    border: black solid 2px;
+    background-color: hsl(120,30%,50%);
+}
+td,th
+{
+    min-width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 5px;
+    font-size: 24px;
+}
+#boardholder
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.board
+{
+    flex: 33%;
+}
+
+@media (max-width: 900px) 
+{
+    .board
+    {
+        flex: 50%;
+    }
+}
+
+@media (max-width: 600px) 
+{
+    .board
+    {
+        flex: 100%;
+    }
+}

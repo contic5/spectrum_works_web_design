@@ -1,0 +1,960 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style type="text/css">
+body
+{
+       background-color:  black;
+       color:  rgb(0,255,65);
+}
+table
+{
+      border: yellow solid 1px; 
+}
+td
+{
+     border: yellow solid 1px;  
+}
+</style>
+</head>
+<body>
+<h1>BattleMech</h1>
+<div id="selectcharactersection"></div>
+<div id="showstats"></div>
+<div id="showattack"></div>
+<div id="showoptions"></div>
+<div id="showmatches"></div>
+<div id="showresult"></div>
+<script>
+var characteron=0;
+var names=["",""];
+var premadenames=["FLSH","MINMX","DRLLR","HTHEAD","FREBRD","BSIC","AVG","SWRDMSTR","JGRNT","TNK","SPRKY","FRTRESS","CHLDDE","DKU"];
+var descriptions=["Fast Hitting Fighter. Does not handle strong blows well.","Minimal Weaknesses.","Pierces the heavens with powerful attacks."," Burns through even the strongest defenses. Beware of overheating!","Solid all around stats, but will overheat easily","Well rounded","Average, but runs a little hot.","Slices through foes, but is quite heavy.","Hits hard and is durable, but it can overheat easily.","Solid defense and mighty attack","The greatest attack, but will always overheat after one shot.","A wall that cannot be scratched. It does not hit hard and its weight can be used against it.","Maintains its cool even while using overheated attacks","Can Smash enemies with its quirky power. Overheats after using 100%. Controlling the power will allow for multiple blows to be used without overheating."];
+var Armor=["",""];
+var LeftWeapon=["",""];
+var RightWeapon=["",""];
+var TwoHandedWeapon=["",""];
+var UsingTwoHanded=["",""];
+var Core=["",""];
+var MAXHP=[0,0];
+var HP=[0,0];
+var ATK=[0,0];
+var DEF=[0,0];
+var WGHT=[0,0];
+var SPD=[0,0];
+var HEAT=[0,0];
+var CURHEAT=[0,0];
+var MAXHEAT=[0,0];
+var delayInSeconds = 1;
+var delayInMilliseconds = delayInSeconds*1000;
+var result="";
+var percentrange=50;
+var matchon=0;
+var turn=0;
+var repeatedturns=1;
+var playercount=2;
+var autoplay=false;
+function DisplayPremadeOptions()
+{
+  result="<h1>Basic Rules</h1>";
+  result+="<p>Two machines of war fight each other, the one who is left standing wins.</p>";
+  result+="<p>HP: The stability of your system. Drop to 0 HP and you lose.</p>";
+  result+="<p>ATK: How much damage you do.</p>";
+  result+="<p>DEF: How much damage is negated.</p>";
+  result+="<h1>Special Rules</h1>";
+  result+="<p>SPD: If you are x times faster than your target, you can attack them x times.</p>";
+  result+="<p>HEAT: Every time you attack your CURHEAT increases. Overcharged attacks give more heat and more damage, undercharged attacks give less heat and less damage.</p>";
+  result+="<p>Heatup Strike: Increases the targets's heat and yours, but it does minimal damage.</p>";
+  result+="<p>Cooldown: Decreases your heat.</p>";
+  result+="<p>Overheating: If you overheat by going over your MAXHEAT, your next attack will backfire. You need to cooldown or you will take damage. Overheating results in you r heat dropping back down to 0.</p>";
+  result+="<p>WGHT Bonus: If you weigh less than your target, you do extra damage to them.</p>";
+  result+="<h1>Player "+(characteron+1)+" Select Character</h1>";
+  for(var i=0;i<premadenames.length;i++)
+  {
+    if(i==0)
+    result+="<p>"+premadenames[i]+"<input type='radio' name='characterselected' value="+premadenames[i]+" checked></p>";
+    else
+    result+="<p>"+premadenames[i]+"<input type='radio' name='characterselected' value="+premadenames[i]+"></p>";
+    
+      result+="<p>"+descriptions[i]+"</p>";
+  }
+  result+="<button onclick='selectcharacter()'>Select</button>";
+  document.getElementById("selectcharactersection").innerHTML=result;
+}
+
+function selectcharacter()
+{
+  var charselected = document.getElementsByName("characterselected");
+
+  for(var i = 0; i < charselected.length; i++)
+  {
+   if(charselected[i].checked)
+       names[characteron] = charselected[i].value;
+  }
+  characteron++;
+  if(characteron<playercount)
+  {
+    DisplayPremadeOptions();
+  }
+  else
+  {
+    SetStats();
+  }
+}
+function AutoPlayMatches()
+{
+    matchresult="";
+    matchresult+="<table><tbody><tr><td></td>";
+    for(i=0;i<premadenames.length;i++)
+    {
+        matchresult+="<td>"+premadenames[i]+"</td>";
+    }
+    matchresult+="</tr>";
+    for(var a=0;a<premadenames.length;a++)
+    {
+        matchresult+="<tr><td>"+premadenames[a]+"</td>";
+        for(var b=0;b<premadenames.length;b++)
+        {
+            p1wincount=0;
+            p2wincount=0;
+            names[0]=premadenames[a];
+            names[1]=premadenames[b];
+            for(c=0;c<50;c++)
+            {
+                SetStats();
+                if(HP[0]<=0)
+                {
+                      p2wincount++;  
+                }
+                else
+                {
+                      p1wincount++;
+                }
+                matchon++;
+            }
+            //matchresult+="<td>"+HP[0]+"/"+HP[1]+"</td>";
+            matchresult+="<td>"+p1wincount+"/"+p2wincount+"</td>";
+        }
+        matchresult+="</tr>";
+    }
+    matchresult+="</tbody></table>";
+    document.getElementById("showattack").innerHTML="";
+    document.getElementById("selectcharactersection").innerHTML="";
+    document.getElementById("showoptions").innerHTML="";
+    document.getElementById("showstats").innerHTML="";
+    document.getElementById("showresult").innerHTML="<h1>Match Results</h1>"+matchresult;
+}
+function SetStats()
+{
+    for(var i=0;i<2;i++)
+    {
+        //Names
+        MAXHP[i]=0;
+        HP[i]=0;
+        ATK[i]=0;
+        DEF[i]=0;
+        SPD[i]=0;
+        WGHT[i]=0;
+        CURHEAT[i]=0;
+        HEAT[i]=0;
+        MAXHEAT[i]=0;
+        WGHT[i]=0;
+        if(names[i]=="FLSH")
+        {
+            Armor[i]="Minimalist Armor";
+            LeftWeapon[i]="Flamethrower";
+            RightWeapon[i]="Ice Cannon";
+            TwoHandedWeapon[i]="";
+            UsingTwoHanded[i]=false;
+            Core[i]="Speedforce Core";
+        }
+        else if(names[i]=="MINMX")
+        {
+            Armor[i]="Minimalist Armor";
+            LeftWeapon[i]="";
+            RightWeapon[i]="";
+            TwoHandedWeapon[i]="Charged Staff";
+            UsingTwoHanded[i]=true;
+            Core[i]="Defended Core";
+        }
+        if(names[i]=="DRLLR")
+        {
+            Armor[i]="High Power Armor";
+            LeftWeapon[i]="Drill";
+            RightWeapon[i]="Drill";
+            TwoHandedWeapon[i]="";
+            UsingTwoHanded[i]=false;
+            Core[i]="Amplified Core"; 
+        }
+        else if(names[i]=="HTHEAD")
+        {
+            Armor[i]="Heated Armor";
+            LeftWeapon[i]="";
+            RightWeapon[i]="";
+            TwoHandedWeapon[i]="Powered Flameblade";
+            UsingTwoHanded[i]=true;
+            Core[i]="Overheated Core";      
+        }
+        else if(names[i]=="FREBRD")
+        {
+            Armor[i]="Jet Armor";
+            LeftWeapon[i]="Gattling Gun";
+            RightWeapon[i]="Gattling Gun";
+            TwoHandedWeapon[i]="";
+            UsingTwoHanded[i]=false;
+            Core[i]="Flight Core";  
+        }
+        else if(names[i]=="SWRDMSTR")
+        {
+            Armor[i]="High Power Armor";
+            LeftWeapon[i]="";
+            RightWeapon[i]="";
+            TwoHandedWeapon[i]="Greatsword";
+            UsingTwoHanded[i]=true;
+            Core[i]="Basic Core";   
+        }
+        else if(names[i]=="BSIC")
+        {
+            Armor[i]="Plated Steel";
+            LeftWeapon[i]="Gattling Gun";
+            RightWeapon[i]="Sword";
+            TwoHandedWeapon[i]="";
+            UsingTwoHanded[i]=false;
+            Core[i]="Basic Core";   
+        }
+        else if(names[i]=="AVG")
+        {
+            Armor[i]="Plated Steel";
+            LeftWeapon[i]="Drill";
+            RightWeapon[i]="Drill";
+            TwoHandedWeapon[i]="";
+            UsingTwoHanded[i]=false;
+            Core[i]="Chilled Core";   
+        }
+        else if(names[i]=="JGRNT")
+        {
+            Armor[i]="Muscular Armor";
+            LeftWeapon[i]="Fist";
+            RightWeapon[i]="Fist";
+            TwoHandedWeapon[i]="";
+            UsingTwoHanded[i]=false;
+            Core[i]="Powerhouse Core";    
+        }
+        else if(names[i]=="SPRKY")
+        {
+            Armor[i]="Kinetic Plating";
+            LeftWeapon[i]="";
+            RightWeapon[i]="";
+            TwoHandedWeapon[i]="Omega Cannon";
+            UsingTwoHanded[i]=true;
+            Core[i]="Powerhouse Core";       
+        }
+        else if(names[i]=="TNK")
+        {
+            Armor[i]="Kinetic Plating";
+            LeftWeapon[i]="";
+            RightWeapon[i]="";
+            TwoHandedWeapon[i]="Missile Launcher";
+            UsingTwoHanded[i]=true;
+            Core[i]="Defended Core";       
+        }
+        else if(names[i]=="FRTRESS")
+        {
+            Armor[i]="Turtle Shell";
+            LeftWeapon[i]="";
+            RightWeapon[i]="";
+            TwoHandedWeapon[i]="Mighty Shield";
+            UsingTwoHanded[i]=true;
+            Core[i]="Defended Core";    
+        }
+        else if(names[i]=="CHLDDE")
+        {
+            Armor[i]="Coolant Armor";
+            LeftWeapon[i]="Ice Cannon";
+            RightWeapon[i]="Ice Cannon";
+            TwoHandedWeapon[i]="";
+            UsingTwoHanded[i]=false;
+            Core[i]="Chilled Core";     
+        }
+         else if(names[i]=="DKU")
+        {
+            Armor[i]="Quirky Armor";
+            LeftWeapon[i]="Fist";
+            RightWeapon[i]="Fist";
+            TwoHandedWeapon[i]="";
+            UsingTwoHanded[i]=false;
+            Core[i]="Quirky Core";     
+        }
+        
+        //Armor
+        if(Armor[i]=="Plated Steel")
+        {   
+            HP[i]+=75;
+            ATK[i]+=10;
+            DEF[i]+=8;
+            WGHT[i]+=20;
+            SPD[i]+=10;
+            HEAT[i]+=10;
+        }
+        else if(Armor[i]=="Turtle Shell")
+        {
+            HP[i]+=50;
+            ATK[i]+=0;
+            DEF[i]+=30;
+            WGHT[i]+=40;
+            SPD[i]+=0;
+            HEAT[i]+=15;
+        }
+        else if(Armor[i]=="Minimalist Armor")
+        {
+            HP[i]+=45;
+            ATK[i]+=8;
+            DEF[i]+=3;
+            WGHT[i]+=5;
+            SPD[i]+=10;
+        }
+        else if(Armor[i]=="Muscular Armor")
+        {
+            HP[i]+=60;
+            ATK[i]+=10;
+            DEF[i]+=10;
+            WGHT[i]+=40;
+            SPD[i]+=6;
+            HEAT[i]+=12;
+        }
+        else if(Armor[i]=="High Power Armor")
+        {
+            HP[i]+=50;
+            ATK[i]+=15;
+            DEF[i]+=10;
+            WGHT[i]+=30;
+            SPD[i]+=10;
+            HEAT[i]+=15;
+        }
+        else if(Armor[i]=="Thruster Armor")
+        {
+            HP[i]+=60;
+            ATK[i]+=12;
+            DEF[i]+=6;
+            WGHT[i]+=20;
+            SPD[i]+=20;
+            HEAT[i]+=12;
+        }
+        else if(Armor[i]=="Heated Armor")
+        {
+            HP[i]+=65;
+            ATK[i]+=15;
+            DEF[i]+=5;
+            WGHT[i]+=20;
+            SPD[i]+=20;
+            HEAT[i]+=20;
+        }
+        else if(Armor[i]=="Coolant Armor")
+        {
+            HP[i]+=60;
+            ATK[i]+=10;
+            DEF[i]+=10;
+            WGHT[i]+=20;
+            SPD[i]+=0;
+            HEAT[i]+=0;
+        }
+        else if(Armor[i]=="Kinetic Plating")
+        {
+            HP[i]+=80;
+            ATK[i]+=12;
+            DEF[i]+=12;
+            WGHT[i]+=15;
+            SPD[i]+=0;
+            HEAT[i]+=12;
+        }
+        else if(Armor[i]=="Light Hawk")
+        {
+            HP[i]+=45;
+            ATK[i]+=11;
+            DEF[i]+=11;
+            WGHT[i]+=10;
+            SPD[i]+=20;
+            HEAT[i]+=6;
+        }
+        else if(Armor[i]=="Jet Armor")
+        {
+            HP[i]+=50;
+            ATK[i]+=9;
+            DEF[i]+=9;
+            WGHT[i]+=10;
+            SPD[i]+=15;
+            HEAT[i]+=12;
+        }
+        else if(Armor[i]=="Heavy Albatross")
+        {
+            HP[i]+=110;
+            ATK[i]+=10;
+            DEF[i]+=15;
+            WGHT[i]+=20;
+            SPD[i]+=12;
+            HEAT[i]+=16;
+        }
+        else if(Armor[i]=="Quirky Armor")
+        {
+            HP[i]+=30;
+            ATK[i]+=4;
+            DEF[i]+=4;
+            WGHT[i]+=5;
+            SPD[i]+=8;
+            HEAT[i]+=15;
+        }
+        for(j=0;j<2;j++)
+        {
+            var CurrentWeapon="";
+            if(j==0)
+            {
+                CurrentWeapon=LeftWeapon[i];
+            }
+            else
+            {
+                CurrentWeapon=RightWeapon[i];
+            }
+            if(CurrentWeapon=="Shield")
+            {
+                ATK[i]+=3;
+                DEF[i]+=5;
+                WGHT[i]+=7;
+                HEAT[i]+=0;
+            }
+            else if(CurrentWeapon=="Gattling Gun")
+            {
+                ATK[i]+=7;
+                DEF[i]+=0;
+                WGHT[i]+=6;
+                HEAT[i]+=2;
+            }
+            else if(CurrentWeapon=="Flamethrower")
+            {
+                ATK[i]+=9;
+                DEF[i]+=0;
+                WGHT[i]+=6;
+                HEAT[i]+=4;
+            }
+            else if(CurrentWeapon=="Ice Cannon")
+            {
+                ATK[i]+=5;
+                DEF[i]+=0;
+                WGHT[i]+=4;
+                HEAT[i]+=0;
+            }
+            else if(CurrentWeapon=="Sword")
+            {
+                ATK[i]+=6;
+                DEF[i]+=0;
+                WGHT[i]+=10;
+                HEAT[i]+=0;
+            }
+            else if(CurrentWeapon=="Drill")
+            {
+                ATK[i]+=10;
+                DEF[i]+=0;
+                WGHT[i]+=3;
+                HEAT[i]+=4;
+            }
+            else if(CurrentWeapon=="Fist")
+            {
+                if(Armor[i]=="Muscular Armor")
+                {
+                    ATK[i]+=9;
+                    DEF[i]+=0;
+                    WGHT[i]+=0;
+                    HEAT[i]+=3; 
+                }
+                if(Armor[i]=="Quirky Armor")
+                {
+                    ATK[i]+=10;
+                    DEF[i]+=0;
+                    WGHT[i]+=0;
+                    HEAT[i]+=5; 
+                }
+                else
+                {
+                    
+                    ATK[i]+=4;
+                    DEF[i]+=0;
+                    WGHT[i]+=0;
+                    HEAT[i]+=0;
+                }
+            }
+        }
+        
+        if(TwoHandedWeapon[i]=="Greatsword")
+        {
+            ATK[i]+=10;
+            DEF[i]+=0;
+            WGHT[i]+=35;
+            HEAT[i]=4;
+        }
+        else if(TwoHandedWeapon[i]=="Charged Staff")
+        {
+            ATK[i]+=16;
+            DEF[i]+=0;
+            WGHT[i]+=12;
+            HEAT[i]+=6;
+        }
+        else if(TwoHandedWeapon[i]=="Powered Flameblade")
+        {
+            ATK[i]+=20;
+            DEF[i]+=0;
+            WGHT[i]+=12;
+            HEAT[i]+=8;
+        }
+        else if(TwoHandedWeapon[i]=="Omega Cannon")
+        {
+            ATK[i]+=30;
+            DEF[i]+=0;
+            WGHT[i]+=15;
+            HEAT[i]+=100;
+        }
+        else if(TwoHandedWeapon[i]=="Missile Launcher")
+        {
+            ATK[i]+=20;
+            DEF[i]+=0;
+            WGHT[i]+=10;
+            HEAT[i]+=10;
+        }
+        else if(TwoHandedWeapon[i]=="Hammer")
+        {
+            ATK[i]+=15;
+            DEF[i]+=0;
+            WGHT[i]+=20;
+            HEAT[i]+=0;
+        }
+        else if(TwoHandedWeapon[i]=="Mighty Shield")
+        {
+            ATK[i]+=10;
+            DEF[i]+=20;
+            WGHT[i]+=30;
+            HEAT[i]+=0;
+        }
+        
+        //Core
+        if(Core[i]=="Basic Core")
+        {
+            HP[i]+=75;
+            ATK[i]+=7;
+            DEF[i]+=7;
+            WGHT[i]+=20;
+            SPD[i]+=10;
+            MAXHEAT[i]+=30;
+        }
+        else if(Core[i]=="Overheated Core")
+        {
+            HP[i]+=60;
+            ATK[i]+=30;
+            DEF[i]+=0;
+            WGHT[i]+=15;
+            SPD[i]+=15;
+            MAXHEAT[i]+=15;
+        }
+        else if(Core[i]=="Chilled Core")
+        {
+            HP[i]+=50;
+            ATK[i]+=10;
+            DEF[i]+=10;
+            WGHT[i]+=25;
+            SPD[i]+=5;
+            MAXHEAT[i]+=45;
+        }
+        else if(Core[i]=="Minimalist Core")
+        {
+            HP[i]+=45;
+            ATK[i]+=10;
+            DEF[i]+=5;
+            WGHT[i]+=5;
+            SPD[i]+=0;
+            MAXHEAT[i]+=20;
+        }
+        else if(Core[i]=="Speedforce Core")
+        {
+            HP[i]+=50;
+            ATK[i]+=0;
+            DEF[i]+=0;
+            WGHT[i]+=10;
+            SPD[i]+=50;
+            HEAT[i]+=4;
+            MAXHEAT[i]+=20;
+        }
+        else if(Core[i]=="Amplified Core")
+        {
+            HP[i]+=60;
+            ATK[i]+=15;
+            DEF[i]+=5;
+            WGHT[i]+=15;
+            SPD[i]+=10;
+            MAXHEAT[i]+=20;
+        }
+        else if(Core[i]=="Powerhouse Core")
+        {
+            HP[i]+=60;
+            ATK[i]+=12;
+            DEF[i]+=12;
+            WGHT[i]+=20;
+            SPD[i]+=10;
+            MAXHEAT[i]+=20;
+        }
+        else if(Core[i]=="Quirky Core")
+        {
+            HP[i]+=45;
+            ATK[i]+=4;
+            DEF[i]+=4;
+            WGHT[i]+=10;
+            SPD[i]+=20;
+            MAXHEAT[i]+=45;
+        }
+        else if(Core[i]=="Defended Core")
+        {
+            HP[i]+=50;
+            ATK[i]+=5;
+            DEF[i]+=10;
+            WGHT[i]+=30;
+            SPD[i]+=5;
+            MAXHEAT[i]+=30;
+        }
+        else if(Core[i]=="Flight Core")
+        {
+            HP[i]+=45;
+            ATK[i]+=10;
+            DEF[i]+=10;
+            WGHT[i]+=5;
+            MAXHEAT[i]+=15;
+            SPD[i]+=10;
+        }
+        HEAT[i]+=5;
+        MAXHP[i]=HP[i];
+    }
+    if(autoplay==true)
+    {
+        AutoPlay();
+    }
+    else
+    {
+        ShowCharacters();
+        StartGame();
+    }
+}
+function ShowCharacters()
+{
+    result="<table>";
+    result+="<tr><td>Stats</td><td> P1: "+names[0]+"</td><td> P2: "+names[1]+"</td></tr>";
+    /*result+="<h3> Left Weapon: "+LeftWeapon[0]+" "+LeftWeapon[1]+"</h3>";
+    result+="<h3> Right Weapon: "+RightWeapon[0]+" "+RightWeapon[1]+"</h3>";
+    result+="<h3> Using Two Handed: "+UsingTwoHanded[0]+" "+UsingTwoHanded[1]+"</h3>";
+    result+="<h3> Two Handed Weapon: "+TwoHandedWeapon[0]+" "+TwoHandedWeapon[1]+"</h3>";
+    result+="<h3> Core: "+Core[0]+" "+Core[1]+"</h3>";*/
+    result+="<tr><td>HP:</td>";
+    if(HP[0]>3*MAXHP[0]/4)
+        result+="<td style='color:rgb(96,204,255)'> "+HP[0]+"</td>";
+    else if (HP[0]>MAXHP[0]/2)
+        result+="<td style='color:rgb(0,143,17)'> "+HP[0]+"</td>";
+    else if (HP[0]>MAXHP[0]/4)
+        result+="<td style='color:rgb(255,211,0)'> "+HP[0]+"</td>";
+    else
+        result+="<td style='color:rgb(254,2,20)'> "+HP[0]+"</td>";
+    
+    if(HP[1]>3*MAXHP[1]/4)
+        result+="<td style='color:rgb(96,204,255)'>"+HP[1]+"</td>";
+    else if(HP[1]>MAXHP[1]/2)
+        result+="<td style='color:rgb(0,143,17)'>"+HP[1]+"</td>";
+    else if(HP[1]>MAXHP[1]/4)
+        result+="<td style='color:rgb(255,211,0)'>"+HP[1]+"</td>";
+    else
+        result+="<td style='color:rgb(254,2,20)'>"+HP[1]+"</td>";
+    result+="</tr>";
+    
+    result+="<tr><td> ATK: </td><td>"+ATK[0]+"</td><td>"+ATK[1]+"</td></tr>";
+    result+="<tr><td>DEF:</td><td>"+DEF[0]+"</td><td>"+DEF[1]+"</td></tr>";
+    result+="<tr><td>WGHT:</td><td>"+WGHT[0]+"</td><td>"+WGHT[1]+"</td></tr>";
+    result+="<tr><td>SPD:</td><td> "+SPD[0]+"</td><td> "+SPD[1]+"</td></tr>";
+    
+    result+="<tr><td>CURHEAT:</td>";
+    if(CURHEAT[0]<MAXHEAT[0]/4)
+        result+="<td style='color:rgb(96,204,255)'> "+CURHEAT[0]+"</td>";
+    else if (CURHEAT[0]<MAXHEAT[0]/2)
+        result+="<td style='color:rgb(0,143,17)'> "+CURHEAT[0]+"</td>";
+    else if (CURHEAT[0]<3*MAXHEAT[0]/4)
+        result+="<td style='color:rgb(255,211,0)'> "+CURHEAT[0]+"</td>";
+    else if (CURHEAT[0]<MAXHEAT[0])
+        result+="<td style='color:rgb(252,103,0)'> "+CURHEAT[0]+"</td>";
+    else
+        result+="<td style='color:rgb(254,2,20)'> "+CURHEAT[0]+"</td>";
+    
+    if(CURHEAT[1]<MAXHEAT[1]/4)
+        result+="<td style='color:rgb(96,204,255)'>"+CURHEAT[1]+"</td>";
+    else if(CURHEAT[1]<MAXHEAT[1]/2)
+        result+="<td style='color:rgb(0,143,17)'>"+CURHEAT[1]+"</td>";
+    else if(CURHEAT[1]<3*MAXHEAT[1]/4)
+        result+="<td style='color:rgb(255,211,0)'>"+CURHEAT[1]+"</td>";
+    else if(CURHEAT[1]<MAXHEAT)
+        result+="<td style='color:rgb(252,103,0)'>"+CURHEAT[1]+"</td>";
+    else
+        result+="<td style='color:rgb(254,2,20)'>"+CURHEAT[1]+"</td>";
+    result+="</tr>";
+    result+="<tr><td>HEAT:</td><td>  "+HEAT[0]+"</td><td> "+HEAT[1]+"</td></tr>";
+    result+="<tr><td>MAXHEAT:</td><td>  "+MAXHEAT[0]+"</td><td> "+MAXHEAT[1]+"</td></tr>";
+    document.getElementById("showstats").innerHTML=result;
+}
+function StartGame()
+{
+    ShowAttackOptions();
+}
+function ShowAttackOptions()
+{
+    document.getElementById("selectcharactersection").innerHTML="";
+    result="";
+    result="<h1>Player "+(turn+1)+" select your attack.</h1>";
+    for(i=0;i<playercount;i++)
+    {
+        if(turn!=i)
+        {
+        base=(WGHT[i]-WGHT[turn])/2;
+        if(base<0)
+        {
+            base=0;
+        }
+        if(CURHEAT[turn]>MAXHEAT[turn])
+        {
+            result+="<h1>WARNING OVERHEAT IMMINENT! ATTACKING WILL FAIL AND RESULT IN A BACKFIRE! COOL DOWN!</h1>";
+            low=base+Math.floor((1.00-percentrange/200)*(ATK[turn]-DEF[i]));
+            high=base+Math.floor((1.00+percentrange/200)*(ATK[turn]-DEF[i]));
+            result+="<p style='color:rgb(254,2,20)'>Attack: "+low+"-"+high+" Damage. "+HEAT[turn]+" Your Heat <input type='radio' name='attackselected' value='0' checked></p>";
+            low=base+Math.floor((1.25-percentrange/200)*(ATK[turn]-DEF[i]));
+            high=base+Math.floor((1.25+percentrange/200)*(ATK[turn]-DEF[i]));
+            result+="<p style='color:rgb(254,2,20)'>Overheated Attack: "+low+"-"+high+" Damage. "+Math.floor(3*HEAT[turn]/2)+" Your Heat <input type='radio' name='attackselected' value='1'></p>";
+            low=base+Math.floor((0.75-percentrange/200)*(ATK[turn]-DEF[i]));
+            high=base+Math.floor((0.75+percentrange/200)*(ATK[turn]-DEF[i]));
+            result+="<p style='color:rgb(254,2,20)'>Underheated Attack: "+low+"-"+high+" Damage. "+Math.floor(HEAT[turn]/2)+" Your Heat <input type='radio' name='attackselected' value='2'></p>";
+            low=base+Math.floor((0.5-percentrange/200)*(ATK[turn]-DEF[i]));
+            high=base+Math.floor((0.5+percentrange/200)*(ATK[turn]-DEF[i]));
+            result+="<p style='color:rgb(254,2,20)'>Heatup Strike: "+low+"-"+high+" Damage. "+Math.floor(HEAT[turn])+" Your Heat. "+HEAT[i]+" Enemy Heat <input type='radio' name='attackselected' value='3'</p>";
+        }
+        else
+        {
+            low=base+Math.floor((1.00-percentrange/200)*(ATK[turn]-DEF[i]));
+            high=base+Math.floor((1.00+percentrange/200)*(ATK[turn]-DEF[i]));
+            if(HEAT[turn]+CURHEAT[turn]>MAXHEAT[turn])
+                result+="<p style='color:rgb(252,103,0)'>Attack: "+low+"-"+high+" Damage. "+HEAT[turn]+" Your Heat <input type='radio' name='attackselected' value='0' checked></p>";
+            else
+                result+="<p>Attack: "+low+"-"+high+" Damage. "+HEAT[turn]+" Your Heat <input type='radio' name='attackselected' value='0' checked></p>";
+            
+            low=base+Math.floor((1.25-percentrange/200)*(ATK[turn]-DEF[i]));
+            high=base+Math.floor((1.25+percentrange/200)*(ATK[turn]-DEF[i]));
+            if(3*HEAT[turn]/2+CURHEAT[turn]>MAXHEAT[turn])
+                result+="<p style='color:rgb(252,103,0)'>Overheated Attack: "+low+"-"+high+" Damage. "+Math.floor(3*HEAT[turn]/2)+" Your Heat <input type='radio' name='attackselected' value='1'></p>";
+            else
+                result+="<p>Overheated Attack: "+low+"-"+high+" Damage. "+Math.floor(3*HEAT[turn]/2)+" Your Heat <input type='radio' name='attackselected' value='1'></p>";
+            
+            low=base+Math.floor((0.75-percentrange/200)*(ATK[turn]-DEF[i]));
+            high=base+Math.floor((0.75+percentrange/200)*(ATK[turn]-DEF[i]));
+            if(HEAT[turn]/2+CURHEAT[turn]>MAXHEAT[turn])
+                result+="<p style='color:rgb(252,103,0)'>Underheated Attack: "+low+"-"+high+" Damage. "+Math.floor(HEAT[turn]/2)+" Your Heat <input type='radio' name='attackselected' value='2'></p>";
+            else
+                result+="<p>Underheated Attack: "+low+"-"+high+" Damage. "+Math.floor(HEAT[turn]/2)+" Your Heat <input type='radio' name='attackselected' value='2'></p>";
+            
+            low=base+Math.floor((0.5-percentrange/200)*(ATK[turn]-DEF[i]));
+            high=base+Math.floor((0.5+percentrange/200)*(ATK[turn]-DEF[i]));
+            if(HEAT[turn]+CURHEAT[turn]>MAXHEAT[turn])
+                result+="<p style='color:rgb(252,103,0)'>Heatup Strike: "+low+"-"+high+" Damage. "+Math.floor(HEAT[turn])+" Your Heat. "+HEAT[i]+" Enemy Heat <input type='radio' name='attackselected' value='3'</p>";
+            else
+                result+="<p>Heatup Strike: "+low+"-"+high+" Damage. "+Math.floor(HEAT[turn])+" Your Heat. "+HEAT[i]+" Enemy Heat <input type='radio' name='attackselected' value='3'</p>";
+        }
+        cooldown=Math.floor(MAXHEAT[turn]/2);
+        result+="<p>Cooldown. -"+cooldown+" Your Heat <input type='radio' name='attackselected' value='4' </p>";
+        result+="<p><button onclick='PrepareAttack()'>Attack</button></p>";
+        }
+    }
+    document.getElementById("showoptions").innerHTML=result;
+}
+function AutoPlay()
+{
+    result="";
+    first=matchon%2;
+    second=0;
+    if(first==0)
+    {
+        second=1;
+    }
+    option=Math.floor(Math.random()*4);
+    while(HP[0]>0&&HP[1]>0)
+    {
+        for(var i=0;i<=Math.floor(SPD[first]/SPD[second]);i++)
+        {
+            PlayerAttack(first,second,option);
+        }
+        //result+="<h3> Player 1 HP: "+HP[0]+" Player 2 HP: "+HP[1]+"</h3>";
+        if(HP[0]<=0||HP[1]<=0)
+        {
+               break; 
+        }
+        for(var i=0;i<=Math.floor(SPD[second]/SPD[first]);i++)
+        {
+            PlayerAttack(second,first,option);
+        }    
+        //result+="<h3> Player 1 HP: "+HP[0]+" Player 2 HP: "+HP[1]+"</h3>";
+        if(HP[0]<=0||HP[1]<=0)
+        {
+            break; 
+        }
+    }
+    
+    if(HP[0]>0)
+    {
+        //result+="<h1>Player 1 wins!</h1>";
+    }
+    else
+    {
+        //result+="<h1>Player 2 wins!</h1>";
+    }
+    //document.getElementById("showattack").innerHTML=result;
+}
+function PrepareAttack()
+{
+    if(turn==0)
+    {
+        target=1;
+    }
+    else
+    {
+        target=0;
+    }
+    optionselected=0;
+    var attackselected = document.getElementsByName("attackselected");
+    for(var i = 0; i < attackselected.length; i++)
+    {
+        if(attackselected[i].checked)
+       optionselected = attackselected[i].value;
+    }
+    PlayerAttack(turn,target,optionselected);
+    repeatedturns++;
+    if(turn==0&&repeatedturns*SPD[target]>=SPD[turn])
+    {
+        turn=1;
+        repeatedturns=1;
+    }
+    else if(turn==0&&repeatedturns*SPD[target]<SPD[turn])
+    {
+        
+    }
+    else if(turn==1&&repeatedturns*SPD[target]>=SPD[turn])
+    {
+        turn=0;
+        repeatedturns=1;
+    }
+    else if(turn==0&&repeatedturns*SPD[target]<SPD[turn])
+    {
+        
+    }
+    if(HP[0]<0||HP[1]<0)
+    {
+       ShowCharacters();
+       DisplayWinner();
+    }
+    else
+    {
+        ShowCharacters();
+        ShowAttackOptions();
+    }
+}
+function PlayerAttack(attacker,target,option)
+{
+    result="";
+    if(CURHEAT[attacker]>MAXHEAT[attacker]&&option!=4)
+    {
+        HP[attacker]-=Math.floor(MAXHP[attacker]/4);
+        CURHEAT[attacker]=0;
+        result+="<h3> Player "+(attacker+1)+" overheated and lost "+MAXHP[attacker]/4+" HP</h3>";
+    }
+    else if(option==0)
+    {
+        roll=(100-(percentrange/2)+Math.floor(Math.random()*(percentrange+1)))/100;
+        damage=Math.floor(roll*(ATK[attacker]-DEF[target]));
+        if(WGHT[target]>WGHT[attacker])
+        {
+            damage+=(WGHT[target]-WGHT[attacker])/2;
+        }
+        if(damage<=0)
+            damage=1;
+        HP[target]=HP[target]-damage;
+        CURHEAT[attacker]+=HEAT[attacker];
+        result+="<h3> Player "+(attacker+1)+" attacked Player "+(target+1)+" for "+damage+" damage </h3>";
+    }
+    else if(option==1)
+    {
+        roll=(125-(percentrange/2)+Math.floor(Math.random()*(percentrange+1)))/100;
+        damage=Math.floor(roll*(ATK[attacker]-DEF[target]));
+        if(WGHT[target]>WGHT[attacker])
+        {
+            damage+=(WGHT[target]-WGHT[attacker])/2;
+        }
+        if(damage<=0)
+            damage=1;
+        HP[target]=HP[target]-damage;
+        CURHEAT[attacker]+=3*HEAT[attacker]/2;
+        result+="<h3> Player "+(attacker+1)+" attacked Player "+(target+1)+" for "+damage+" damage </h3>";
+    }
+    else if(option==2)
+    {
+        roll=(75-(percentrange/2)+Math.floor(Math.random()*(percentrange+1)))/100;
+        damage=Math.floor(roll*(ATK[attacker]-DEF[target]));
+        if(WGHT[target]>WGHT[attacker])
+        {
+            damage+=(WGHT[target]-WGHT[attacker])/2;
+        }
+        if(damage<=0)
+            damage=1;
+        HP[target]=HP[target]-damage;
+        CURHEAT[attacker]+=HEAT[attacker]/2;
+        result+="<h3> Player "+(attacker+1)+" attacked Player "+(target+1)+" for "+damage+" damage </h3>";
+    }
+    else if(option==3)
+    {
+        roll=(50-(percentrange/2)+Math.floor(Math.random()*(percentrange+1)))/100;
+        damage=Math.floor(roll*(ATK[attacker]-DEF[target]));
+        if(WGHT[target]>WGHT[attacker])
+        {
+            damage+=(WGHT[target]-WGHT[attacker])/2;
+        }
+        if(damage<=0)
+        damage=1;
+        HP[target]=HP[target]-damage;
+        CURHEAT[attacker]+=HEAT[attacker];
+        CURHEAT[target]+=HEAT[target];
+        result+="<h3> Player "+(attacker+1)+" attacked Player "+(target+1)+" for "+damage+" damage </h3>";
+        result+="<h3> Player "+(attacker+1)+" increased Player "+(target+1)+"'s HEAT by "+HEAT[target]+"</h3>";
+    }
+    else if(option==4)
+    {
+        cooldown=Math.floor(MAXHEAT[attacker]/2);
+        CURHEAT[attacker]=CURHEAT[attacker]-cooldown;
+        result+="<h3> Player "+(attacker+1)+" cooled down by "+cooldown+" heat";
+    }
+    document.getElementById("showattack").innerHTML=result;
+}
+function DisplayWinner()
+{
+    if(HP[0]<0)
+    {
+        document.getElementById("showresult").innerHTML="<h1>Player 2 Wins</h1><h1>Reload to Play Again</h1>";
+    }
+    else
+    {
+        document.getElementById("showresult").innerHTML="<h1>Player 1 Wins</h1><h1>Reload to Play Again</h1>";
+    }
+}
+    
+if(autoplay)
+{
+    AutoPlayMatches();
+}
+else
+{
+    DisplayPremadeOptions();
+}
+</script>
+</body>
+</html>

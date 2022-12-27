@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Bingo</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Bingo</h1>
+    <div id="boardholder">
+        
+    </div>
+    <script>
+    let boardholder=document.getElementById("boardholder");
+    let numbers=[];
+    for(let i=0;i<5;i++)
+    {
+        numbers.push([]);
+        for(let j=0;j<15;j++)
+        {
+            numbers[i].push((15*i)+j);
+        }
+    }
+    for(let a=0;a<21;a++)
+    {
+        numbers=[];
+        for(let i=0;i<5;i++)
+        {
+            numbers.push([]);
+            for(let j=0;j<15;j++)
+            {
+                numbers[i].push((15*i)+j);
+            }
+        }
+        
+        let curdiv=document.createElement("div");
+        curdiv.classList.add("board");
+        
+        let curtable=document.createElement("table");
+        for(let i=0;i<5;i++)
+        {
+            let curtr=document.createElement("tr");
+            for(let j=0;j<5;j++)
+            {
+                let curtd=document.createElement("td");
+                if(i==2&&j==2)
+                {
+                    curtd.innerHTML="*";
+                }
+                else
+                {
+                    let roll=Math.floor(Math.random()*numbers[j].length);
+                    let val=numbers[j].splice(roll,1)[0];
+                    curtd.innerHTML=val;
+                }
+                curtr.appendChild(curtd);
+            }
+            curtable.appendChild(curtr);
+        }
+        curdiv.appendChild(curtable);
+        boardholder.appendChild(curdiv);
+    }
+    </script>
+    </body>
+</html>
