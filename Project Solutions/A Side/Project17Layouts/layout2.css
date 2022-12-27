@@ -1,0 +1,44 @@
+:root
+{
+    /* CSS HSL */
+    --charcoal: hsla(197, 37%, 24%, 1);
+    --persian-green: hsla(173, 58%, 39%, 1);
+    --orange-yellow-crayola: hsla(43, 74%, 66%, 1);
+    --sandy-brown: hsla(27, 87%, 67%, 1);
+    --burnt-sienna: hsla(12, 76%, 61%, 1);
+}
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    background-color: var(--charcoal);
+}
+#main
+{
+    display: flex;
+    min-height: 100%;
+}
+#content
+{
+    width: 75%;
+    background-color: var(--orange-yellow-crayola);
+}
+.sidebar
+{
+    width: 25%;
+    background-color: var(--persian-green);
+}
+a
+{
+    display: block;
+    font-size: 24px;
+}
+#navbar
+{
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    background-color: var(--sandy-brown);
+}

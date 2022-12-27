@@ -1,0 +1,26 @@
+body
+{
+    color: #e3e300;
+    background-color: #00009b;
+    font-family: 'Poppins', sans-serif;
+}
+label,select
+{
+    display: block;
+}
+select
+{
+    margin-bottom: 20px;
+    width: 780px;
+    font-size: 24px;
+}
+div
+{
+    background-color: #5555aa;
+    width: 500px;
+}
+#content
+{
+    width: 800px;
+    margin: auto;
+}

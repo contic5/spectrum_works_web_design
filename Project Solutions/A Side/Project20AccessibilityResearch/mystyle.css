@@ -1,0 +1,64 @@
+:root
+{
+    --bodycolor: #1c4c42;
+    --secondarycolor: #379683;
+    --bodybackgroundcolor: #7395AE;
+    --paddingbackgroundcolor: #557A95;
+    --contentbackgroundcolor: #bfb3a9;
+}
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: var(--bodycolor);
+    background-color: var(--bodybackgroundcolor);
+    line-height: 1.15;
+    margin: 0;
+}
+p
+{
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: 0.05em;
+    width: 65ch;
+}
+#main
+{
+    display: flex;
+}
+#content
+{
+    font-size: 18px;
+    padding: 10px;
+    max-width: 65ch;
+    background-color: var(--contentbackgroundcolor);
+}
+.padding
+{
+    flex: 1 1 0px;
+    background-color: var(--paddingbackgroundcolor);
+}
+a
+{
+    background-color: hsl(0,0%,60%)
+}
+input
+{
+    border-color: black solid 2px;
+}
+input:focus,textarea:focus,select:focus
+{
+    border-color: green solid 4px;
+    background-color: cyan;
+}
+button
+{
+    cursor: pointer;
+}
+textarea,input,button,select
+{
+    display: block;
+    margin-bottom: 20px;
+}

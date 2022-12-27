@@ -1,0 +1,13 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: #222222;
+    background-color: #FCF5E5;
+}
+textarea, input, button
+{
+    display: block;
+}

@@ -1,0 +1,27 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: #CCCCFF;
+    background-color: #33359F;
+}
+#flexdiv
+{
+    display: flex;
+    flex-wrap:nowrap;
+}
+#flexdiv #main
+{
+    font-size: 20px;
+    flex-shrink: 0.5;
+    flex-grow: 10;
+    flex-basis: 300px;
+    background-color: darkslateblue;
+}
+#flexdiv .padding
+{
+    background-color: aqua;
+    flex: 1 2 20px;
+}

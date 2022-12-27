@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Accessibility Tips</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <div id="main">
+    <div class="padding"></div>
+    <div id="content">
+    <h1>Web Accessibility</h1>
+    <nav>
+    <a href="index.html">Accessibility Information</a>
+    <a href="accessibilitytips.html">Acessibility Tips</a>
+    <a href="accessibilitytools.html">Accessibility Tools</a>
+    </nav>
+    <h2>Accessibility Tips</h2>
+    <h3>Visual Readability- Scale [1]</h3>
+    <ul>
+    <li>You typically want the font-size to be around 18 to 20 px for smaller screens. </li>
+    <li>Line-height is by default 1.2. Web Content Accessibility Standards recommend a line height of at least 1.5.</li>
+    <li>Letter-spacing is another property that expands the space between letters, with the typical spacing being about 0.05em.</li>
+    </ul>
+    <h3>Visual Readability- Color [1]</h3>
+    <img src="images/color-wheel.png" alt="The color wheel, showing high contrast and low contrast colors.">
+    <p>The color wheel, showing high contrast and low contrast colors [2].</p>
+    <p>Make sure that colors contrast with each other so that way the text stands out from the background. This is especially important for people with vision impairments. Colors contrast from each other on the color wheel. They need to contrast by the correct amount.</p>
+        
+    <p>The WCAG ratios for AA are as follows.</p>
+    <ul>
+    <li>Font less than 24 px and not bold- 4.5:1</li>
+    <li>Font less than 19 px and bold- 4.5:1</li>
+    <li>Font larger than 24 px and not bold- 3:1</li>
+    <li>Font larger than 19 px and bold- 3:1</li>
+    </ul>
+        
+    <h3>Visual Readability Structure [1]</h3>
+    <ul>
+    <li>Text-align should be left, right or center since justify is harder to read</li>    
+    <li>Rather than setting width to be px, you should set it to be ch. The total number of ch should be between 45 to 85, with 65 as the ideal.</li>    
+    </ul>
+        
+    <h3>Contextual Readability: Interactivity [1]</h3>
+    <ul>
+    <li>In order to show people that elements can be clicked on, you should use the cursor property to display an element can be clicked on.</li>  
+    <li>input:focus can be used to show users what element they are focused on. CSS colors can also be used to display the status of elements, such as by using border-color.</li>    
+    <li>Img elements have an alt attribute that is used when an image cannot be displayed. This attribute is used by screen readers or if the image cannot be displayed.</li>
+    <li>Labels are used to connect text to inputs. Screen readers read a label out loud when a user is focused on an element. Users can also click on the text in a label element in order to toggle inputs such as radio buttons and checkboxes that may be hard to click.</li>
+    </ul>
+    
+    <p>Works Cited</p>
+    <ol>
+    <li><a href="https://www.codecademy.com/learn/learn-intermediate-css">https://www.codecademy.com/learn/learn-intermediate-css</a></li>
+    <li><a href="https://static-assets.codecademy.com/Courses/Learn-CSS/Accessibility/color-wheel.png">https://static-assets.codecademy.com/Courses/Learn-CSS/Accessibility/color-wheel.png</a></li>    
+    </ol>
+    </div>
+    <div class="padding"></div>
+    </div>
+    </body>
+</html>

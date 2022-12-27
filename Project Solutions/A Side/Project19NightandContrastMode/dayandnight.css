@@ -1,0 +1,153 @@
+:root
+{
+	--big-text: 48px;
+	--regular-text-day: 20px;
+	--main-color-day: #003399;
+	--background-color-day: #E2CF92;
+	--table-color-day: #C3B279;
+	--table-color-transparent-day: #C3B27960;
+    
+    --main-color-night: #C2B280;
+    --background-color-night: #021E5A; 
+	--table-color-night: #002D8F;
+	--table-color-transparent-night: #002D8F60;
+}
+.daymode
+{
+    --main-color:var(--main-color-day);
+    --background-color:var(--background-color-day);
+    --table-color:var(--table-color-day);
+    --table-color-transparent:var(--table-color-transparent-day);
+}
+.nightmode
+{
+    --main-color:var(--main-color-night);
+    --background-color:var(--background-color-night);
+    --table-color:var(--table-color-night);
+    --table-color-transparent:var(--table-color-transparent-night);
+}
+body
+{
+	color:var(--main-color);
+	background-color:var(--background-color);
+	font-size: var(--regular-text);
+    transition: background-color 1s 0.2s ease-in;
+    transition: color 1s 0.2s ease-in;
+}
+h1
+{
+	font-size:var(--big-text);
+}
+table,td,th
+{
+	background-color:var(--table-color);
+    transition: background-color 0.5s 0.1s ease-in;
+}
+td,th
+{
+    padding: 10px;
+    border: black solid 2px;
+}
+
+.transparent
+{
+   background-color: var(--table-color-transparent);
+}
+.huge
+{
+  text-align: center;
+  font-size: 72px;
+}
+.big
+{
+    font-size: 36px;
+}
+nav
+{
+  position: sticky;
+  top: 0;
+  background-color: var(--table-color);
+  width: 96%;
+  margin-left:auto;
+  margin-right:auto;
+  left: 0;
+  right: 0;
+  display: flex;
+}
+nav a
+{
+  background-color: var(--table-color);
+  float: left;
+  font-size: 24px;
+  border: black solid 2px;
+  box-sizing: border-box;
+  flex-grow: 1;
+  text-align: center;
+}
+.navbar1
+{
+    top:32px;
+    z-index: 1;
+}
+.navbar2
+{
+    top:0px;
+    z-index: 2;
+}
+nav button
+{
+    font-size: 36px;
+}
+table.center {
+  margin-left:auto;
+  margin-right:auto;
+}
+#image-div
+{
+  width:auto;
+  text-align: center;
+  align-content: center;
+  height:961px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.daymode #image-div
+{
+    background-image: url("images/home-page-slider-pier.jpeg");
+}
+.nightmode #image-div
+{
+    background-image:url("images/casino-pier-hyrdus.jpeg");
+}
+.nightmode a
+{
+    color: aqua;
+}
+.nightmode a:visited
+{
+    color: violet;
+}
+#image-div div
+{
+  padding: 50px;
+}
+.med-img
+{
+  width: 300px;
+  height: 300px;
+}
+#main
+{
+  position: sticky;
+  top: 100;
+  display: inline-flex;
+  width: 100%;
+}
+#content
+{
+  width:800px;
+}
+.padding
+{
+  flex: 1 1 0px;
+}

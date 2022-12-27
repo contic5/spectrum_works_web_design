@@ -1,0 +1,35 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+     color: #8BD8BD;
+    background-color: #243665;
+}
+#main
+{
+    display: flex;
+    min-height: 100%;
+    flex-wrap: wrap;
+}
+.col2
+{
+    box-sizing: border-box;
+    padding: 10px;
+    width: 50%;
+    background-color: #3B59A5;
+}
+.col1,.col3
+{
+    box-sizing: border-box;
+    padding: 10px;
+    width: 25%;
+    background-color: #314987;
+}
+a
+{
+    display: block;
+    background-color: #8BD8BD;
+    font-size: 24px;
+}

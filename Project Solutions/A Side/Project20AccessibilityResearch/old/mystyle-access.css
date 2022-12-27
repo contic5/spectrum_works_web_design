@@ -1,0 +1,36 @@
+body
+{
+    color: #003399;
+    background-color: #F2D16B;
+}
+img
+{
+    width: 500px;
+    display: block;
+}
+p
+{
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: 0.05em;
+    width: 65ch;
+}
+
+input
+{
+    border-color: black solid 2px;
+}
+input:focus,textarea:focus,select:focus
+{
+    border-color: green solid 4px;
+    background-color: cyan;
+}
+button
+{
+    cursor: pointer;
+}
+textarea,input,button,select
+{
+    display: block;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Default Template</title>
+        <link href="dayandnight.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body class='daymode'>
+    <h1>Styling</h1>
+    <button onclick="to_day()">Day Mode</button>
+    <button onclick="to_night()">Night Mode</button>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed fermentum mauris. In sollicitudin ipsum eget pharetra egestas. Suspendisse ac magna tortor. Curabitur nec feugiat est, nec scelerisque justo. Sed ac quam ac nunc rhoncus sollicitudin. Maecenas ultrices ornare viverra. Vivamus arcu est, scelerisque egestas sapien id, accumsan accumsan enim. Nullam ut fringilla est. Aenean dignissim gravida diam vel feugiat. Donec blandit arcu congue arcu ultrices facilisis. Mauris faucibus felis nec justo tincidunt congue. Fusce semper ex lorem, ac lobortis orci porttitor efficitur. Vivamus finibus, nulla vel vestibulum euismod, mi arcu molestie purus, id scelerisque massa elit at diam.</p>
+    <p>Donec tristique aliquet diam, eu porttitor urna ultrices sed. Nulla posuere efficitur lectus, ac vestibulum tortor tristique at. Curabitur dapibus lorem vel vehicula feugiat. Donec vitae tincidunt dolor. Donec sodales, magna et sagittis pulvinar, massa leo tristique turpis, vel scelerisque magna ipsum non arcu. Cras tortor leo, mollis vel hendrerit vel, hendrerit sit amet velit. Fusce condimentum diam sit amet molestie lobortis. Morbi convallis mauris sapien, ac suscipit mauris vestibulum nec. Nunc sem quam, posuere non velit at, aliquet luctus felis. Cras semper maximus dolor eu bibendum. Donec efficitur enim vitae lacus facilisis, sit amet cursus risus gravida. Vestibulum eleifend velit non hendrerit vulputate. Aenean non dictum ante. Fusce feugiat tincidunt magna. Proin sit amet odio dapibus, laoreet magna et, rhoncus eros. Nulla nulla odio, fringilla vitae ultricies quis, porta eu nibh.</p>
+    <p>Proin eget enim quis elit aliquet condimentum. Quisque risus elit, mattis sed vulputate quis, lobortis id ante. Suspendisse tristique ipsum ac metus varius consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse potenti. Vestibulum malesuada purus nibh, sed dictum erat faucibus et. Sed facilisis ac nunc tincidunt vehicula. Quisque rhoncus vitae metus sit amet vulputate. In ultrices ante ut mi sollicitudin feugiat. Nam vel felis ac nisi elementum sagittis in at tortor. Fusce ut sagittis nisl, quis condimentum lorem. Nullam ultrices laoreet sapien, vitae auctor nunc venenatis ut. Nunc vitae diam vel nisi aliquet posuere vel eu mi.</p>
+    
+    <table><tbody>
+    <tr>
+        <td>Item 1</td>
+        <td>Item 2</td>
+    </tr> 
+    <tr>
+        <td>Item 3</td>
+        <td>Item 4</td>
+    </tr> 
+    </tbody></table>
+    
+    <script>
+    function to_night()
+    {
+        document.body.classList.remove(...document.body.classList);
+        document.body.classList.add("nightmode");
+    }
+    function to_day()
+    {
+        document.body.classList.remove(...document.body.classList);
+        document.body.classList.add("daymode");
+    }
+    </script>
+    </body>
+</html>

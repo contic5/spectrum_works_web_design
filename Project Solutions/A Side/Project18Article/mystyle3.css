@@ -1,0 +1,116 @@
+h1
+{
+    font-size: 48px;
+    color:burlywood;
+}
+body
+{
+    color: #DDC6B6;
+    background-color: #262223;
+    margin: 0px;
+
+}
+#grid
+{
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr repeat(3,30%) 1fr;
+    grid-template-rows: 300px (1fr) (1fr) (1fr) 300px;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-template-areas: 'header header header header header'
+        'menuarea menuarea menuarea menuarea menuarea'
+        'padding1 toparticlepicture toparticle toparticlept2 padding2'
+        'padding1 sidebar1 main sidebar2 padding2'
+        'footer footer footer footer footer';
+    background-color: #363031;
+}
+
+#menu
+{
+    grid-area: menuarea;
+    background-color: #827375;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    font-size: 40px;
+}
+#toparticlepicture
+{
+    grid-area: toparticlepicture;
+    background-color: #363031;
+}
+#toparticlepicture img
+{
+    width: 100%;
+}
+#toparticle
+{
+    grid-area: toparticle;
+    background-color: #363031;
+    border: black solid 4px;
+    border-right: 0px;
+}
+#toparticlept2
+{
+    grid-area: toparticlept2;
+    border: black solid 4px;
+    border-left: 0px;
+
+    background-color: #363031;
+}
+#header
+{
+    grid-area: header;
+    font-size: 72px;
+    background-color: #4C4344;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+.sidebar1
+{
+    grid-area: sidebar1;
+    border: black solid 4px;
+    margin: 0px;
+}
+.sidebar2
+{
+    grid-area: sidebar2;
+    border: black solid 4px;
+    margin: 0px;
+}
+.main
+{
+    text-align: center;
+    grid-area: main;
+    border: black solid 4px;
+}
+.padding1
+{
+    grid-area: padding1;
+    background-color: #564D4E;
+}
+.padding2
+{
+    grid-area: padding2;
+    background-color: #564D4E;
+}
+#footer
+{
+    grid-area: footer;
+    font-size: 72px;
+    background-color: #564D4E;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+nav
+{
+    display: flex;
+    width: 100%;
+}
+nav a
+{
+    flex-grow: 1;
+    text-align: center;
+}

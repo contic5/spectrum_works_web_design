@@ -1,0 +1,56 @@
+:root
+{
+    --bgcolor: #8FB7CC;
+    --contentcolor: #c8dce5;
+    --innercolor: #E3EDF2;
+    --textcolor: #00305e;
+}
+
+h1
+{
+    font-size: 48px;
+}
+main
+{
+    display: grid;
+    grid-column: 
+}
+#content
+{
+    background-color: var(--contentcolor);
+    width: 70%;
+}
+.padding
+{
+    width: 15%;
+}
+body
+{
+    color: var(--textcolor);
+    background-color: var(--bgcolor);
+}
+table,th,td
+{
+    border: black solid 2px;
+    background-color: var(--innercolor);
+}
+
+nav
+{
+    width: fit-content;
+    margin-bottom: 10px;
+}
+nav, nav a
+{
+}
+nav a
+{
+    font-size: 32px;
+    padding: 10px;
+    border: black solid 2px;
+    background-color: var(--innercolor);
+}
+nav
+{
+        padding-bottom: 10px;
+}
