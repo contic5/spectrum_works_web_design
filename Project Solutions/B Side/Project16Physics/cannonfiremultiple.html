@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>Pendulum Simulation</title>    
+<body>
+<canvas id='mycanvas' width="1200" height="600"></canvas>    
+<script>
+class Ball
+{
+    constructor(x,y,v,theta,red,green,blue)
+    {
+        this.x=x;
+        this.y=0;
+        this.v0x=Math.cos(theta)*v;
+        this.v0y=Math.sin(theta)*v;
+        this.vx=this.v0x;
+        this.vy=this.v0y;
+        
+        this.drawx=x;
+        this.drawy=y;
+        
+        this.red=red;
+        this.green=green;
+        this.blue=blue;
+        this.color=`rgb(${this.red},${this.green},${this.blue})`;
+    }
+    move()
+    {
+        if(t>5*tstep&&this.y<=0)
+        {
+            this.y=0;
+        }
+        else
+        {
+            this.x+=this.vx;
+            this.y+=this.vy;
+            this.vy-=g/gscale;
+        }
+    }
+    calcposition()
+    {
+        if(t>5*tstep&&this.y<=0)
+        {
+            this.y=0;
+        }
+        else
+        {
+            console.log("Go");
+            this.x=this.vx*t;
+            this.y=0+this.vy*t-((g/gscale)*t*t/2);
+        }
+    }
+    draw()
+    {
+        this.drawx=circlesize+this.x;
+        this.drawy=c.height-this.y-recth-circlesize;
+        ctx.fillStyle=this.color;
+
+        drawcircle(this.drawx,this.drawy,circlesize);
+    }
+}
+function drawline(x1,y1,x2,y2)
+{
+    ctx.beginPath();       // Start a new path
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+}
+function drawrectangle(x1,y1,w,h)
+{
+    ctx.fillRect(x1,y1,w,h);
+}
+function drawcircle(x,y,radius)
+{
+    ctx.beginPath();
+    ctx.arc(x,y,radius,0,2*Math.PI);
+    ctx.fill();
+}
+function erase()
+{
+    ctx.fillStyle="#9999DD";
+    ctx.fillRect(0,0,c.width,c.height);
+}
+        
+function moveball()
+{
+    
+}
+function draw()
+{
+    erase();
+    //moveball();
+    for(let i=0;i<cannonballs.length;i++)
+    {
+        cannonballs[i].calcposition();
+    }
+    ctx.fillStyle="#000000";
+    
+    drawrectangle(0,c.height-50,c.width,50);
+    
+    for(let i=0;i<cannonballs.length;i++)
+    {
+        cannonballs[i].draw();
+    }
+    t+=0.2;
+}
+        
+let c=document.getElementById("mycanvas");
+let ctx=c.getContext("2d");
+
+    
+//Total cannonballs
+let totalcannonballs=10;
+    
+//Draw Settings
+let circlesize=10;
+let recth=50;
+
+//Physics
+let x=0;
+let y=0;
+let g=9.80665;
+let gscale=1;
+let v=80;
+let thetadegree=80;
+let theta=0.0174533*thetadegree;
+let tstep=0.2;
+
+let cannonballs=[];
+for(let i=0;i<totalcannonballs;i++)
+{
+    let red=Math.floor(Math.random()*256);
+    let green=Math.floor(Math.random()*256);
+    let blue=Math.floor(Math.random()*256);
+    thetadegree=i*(90/totalcannonballs);
+    theta=0.0174533*thetadegree;
+    let myball=new Ball(x,y,v,theta,red,green,blue);
+    cannonballs.push(myball);
+}
+
+let t=0;
+
+setInterval(draw,50);  
+</script>
+</body>
+</head>
+</html>

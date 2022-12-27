@@ -1,0 +1,38 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: hsl(210,5%,23%);
+    background-color: hsl(36,26%,88%);
+    line-height: 1.15;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+#main
+{
+    display: flex;
+}
+#content
+{
+    padding: 10px;
+    max-width: 70ch;
+}
+.padding
+{
+    flex: 1 1 0px;
+    background-color: hsl(36,20%,68%);
+
+}
+nav
+{
+    padding: 5px;
+    border: black solid 2px;
+    background-color: hsl(36,26%,78%);
+}
+nav a
+{
+    font-size:24px;
+    margin-right: 10px;
+}

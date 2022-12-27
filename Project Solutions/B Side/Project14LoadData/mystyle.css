@@ -1,0 +1,30 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: hsl(60,100%,50%);
+    background-color: hsl(0,50%,30%);
+}
+table
+{
+    margin-bottom: 50px;
+}
+table,th,td
+{
+    border: black solid 2px;
+}
+th,td
+{
+    text-align: center;
+    padding: 5px;
+    
+    
+    background-color: hsl(0,60%,40%);
+}
+.aboveaverage
+{
+    color: hsl(60,100%,70%);
+    background-color: hsl(0,60%,50%);
+}

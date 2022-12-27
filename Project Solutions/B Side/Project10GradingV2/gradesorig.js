@@ -1,0 +1,10 @@
+let gradesorig=[{"id":1,"name":"Merci","english":73,"science":83,"math":81},
+{"id":2,"name":"Ally","english":88,"science":78,"math":84},
+{"id":3,"name":"Melodie","english":82,"science":80,"math":75},
+{"id":4,"name":"Elwin","english":90,"science":83,"math":73},
+{"id":5,"name":"Fayette","english":70,"science":72,"math":74},
+{"id":6,"name":"Tildie","english":75,"science":74,"math":70},
+{"id":7,"name":"Beltran","english":88,"science":84,"math":75},
+{"id":8,"name":"Dionisio","english":90,"science":75,"math":87},
+{"id":9,"name":"Domenic","english":90,"science":79,"math":90},
+{"id":10,"name":"Manon","english":85,"science":76,"math":72}];

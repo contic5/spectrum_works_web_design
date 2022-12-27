@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Display Sorting Algorithm</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Insertion Sort</h1>
+    <table id="arraytable"></table>
+    <script>
+    function issortedarray(array)
+    {
+        arraycopy=[...array];
+        arraycopy=arraycopy.sort();
+        for(let i=0;i<array.length;i++)
+        {
+            if(array[i]!=arraycopy[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    function shufflearray(loc)
+    {
+        let keyelements=[];
+        
+        swaploc=Math.floor(Math.random()*(loc+1));
+        
+        keyelements.push(loc);
+        keyelements.push(swaploc);
+        
+        let temp=array[loc];
+        array[loc]=array[swaploc];
+        array[swaploc]=temp;
+        
+        
+        displayarray(array,keyelements,change=true);
+        
+        if(loc<array.length-1)
+        {
+            /*
+            setTimeout(function(){
+                shufflearray(array,loc+1)
+            },500);
+            */
+            shufflearray(loc+1);
+        }
+    }
+    function insertionsort(i,j,smallest_index)
+    {
+        keyelements=[j];
+        change=false;
+        
+        console.log(i,j);
+        if(array[j]<=array[smallest_index])
+        {
+            smallest_index=j;
+            change=true;
+        }
+        
+        displayarray(keyelements,change);
+        
+        j+=1;
+        if(j>=array.length)
+        {
+            sortedarray.push(array[smallest_index]);
+            array.splice(smallest_index,1);
+            smallest_index=0;
+            i+=1;
+            j=0;
+        }
+        
+        
+        if(i<array.length+sortedarray.length)
+        {
+            setTimeout(function(){
+                insertionsort(i,j,smallest_index)
+            },changespeed);
+        }
+        else
+        {
+            console.log("Done");
+            keyelements=[];
+            for (let a=0;a<array.length;a++)
+            {
+                keyelements.push(a);
+            }
+            swap=true;
+            displayarray(keyelements,swap);
+        }
+    }
+        
+    
+    function displayarray(keyelements=[],change=false)
+    {
+        //console.log(array);
+        arraytable.innerHTML="";
+        let curtr=document.createElement("tr");
+        
+        let sortedtr=document.createElement("tr");
+        for(let i=0;i<array.length;i++)
+        {
+            let nexttd=document.createElement("td");
+            if(keyelements.includes(i))
+            {
+                if(change)
+                {
+                    nexttd.classList.add("keyelement");
+                }
+                else
+                {
+                    nexttd.classList.add("nochange")
+                }
+            }
+            nexttd.innerHTML=array[i];
+            curtr.appendChild(nexttd);
+        }
+        
+        for(let i=0;i<sortedarray.length;i++)
+        {
+            let nexttd=document.createElement("td");
+            nexttd.classList.add("keyelement");
+            
+            nexttd.innerHTML=sortedarray[i];
+            sortedtr.appendChild(nexttd);
+        }
+        arraytable.appendChild(curtr);
+        arraytable.appendChild(sortedtr);
+    }
+    
+    let arraytable=document.getElementById("arraytable");
+    let array=[0,1,2,3,4,5,6,7,8,9];
+    let sortedarray=[];
+    let changespeed=100;
+    shufflearray(1);
+    console.log(array);    
+    insertionsort(0,0,0);
+    </script>
+    </body>
+</html>

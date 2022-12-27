@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Sorting Movies</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Sorting Top Movies</h1>
+    <h2>This list includes the top 20 movies of all time, and 5 high grossing movies I also enjoy</h2>
+    <table>
+    <tbody><tr>
+    <td>
+    <button onclick="sortgrossAsc()">Sort by Gross Ascending</button>
+    </td>
+    <td>
+    <button onclick="sortgrossDesc()">Sort by Gross Descending</button>
+    </td>
+    <td>
+    <button onclick="sortreleaseyearAsc()">Sort by Release Year Ascending</button>
+    </td>
+    <td>
+    <button onclick="sortreleaseyearDesc()">Sort by Release Year Descending</button>
+    </td>
+    <td>
+    <button onclick="sortnameAsc()">Sort by Name Ascending</button>
+    </td>
+    <td>
+    <button onclick="sortnameDesc()">Sort by Name Descending</button>
+    </td>
+    <td>
+    <button onclick="originalorder()">Original Sort</button>
+    </td>
+    </tr></tbody>   
+    </table>
+        
+    
+    <table>
+    <tbody id='results'></tbody>
+    </table>
+    <script src="moviesoriginal.js"></script>
+    <script>
+    
+    
+    function sortgrossAsc()
+    {
+        for(let i=0;i<movies.length;i++)
+        {
+            for(let j=i;j<movies.length;j++)
+            {
+                if(movies[i].gross>movies[j].gross)
+                {
+                    temphero=movies[i];
+                    movies[i]=movies[j];
+                    movies[j]=temphero;
+                }
+            }
+        }
+        rendermovies();
+    }
+    function sortgrossDesc()
+    {
+        for(let i=0;i<movies.length;i++)
+        {
+            for(let j=i;j<movies.length;j++)
+            {
+                if(movies[i].gross<movies[j].gross)
+                {
+                    temphero=movies[i];
+                    movies[i]=movies[j];
+                    movies[j]=temphero;
+                }
+            }
+        }
+        rendermovies();
+    }
+    function sortreleaseyearAsc()
+    {
+        for(let i=0;i<movies.length;i++)
+        {
+            for(let j=i;j<movies.length;j++)
+            {
+                if(movies[i].releaseyear>movies[j].releaseyear)
+                {
+                    temphero=movies[i];
+                    movies[i]=movies[j];
+                    movies[j]=temphero;
+                }
+            }
+        }
+        rendermovies();
+    }
+    function sortreleaseyearDesc()
+    {
+        for(let i=0;i<movies.length;i++)
+        {
+            for(let j=i;j<movies.length;j++)
+            {
+                if(movies[i].releaseyear<movies[j].releaseyear)
+                {
+                    temphero=movies[i];
+                    movies[i]=movies[j];
+                    movies[j]=temphero;
+                }
+            }
+        }
+        rendermovies();
+    }
+    function sortnameAsc()
+    {
+        for(let i=0;i<movies.length;i++)
+        {
+            for(let j=i;j<movies.length;j++)
+            {
+                if(movies[i].name>movies[j].name)
+                {
+                    temphero=movies[i];
+                    movies[i]=movies[j];
+                    movies[j]=temphero;
+                }
+            }
+        }
+        rendermovies();
+    }
+    function sortnameDesc()
+    {
+        for(let i=0;i<movies.length;i++)
+        {
+            for(let j=i;j<movies.length;j++)
+            {
+                if(movies[i].name<movies[j].name)
+                {
+                    temphero=movies[i];
+                    movies[i]=movies[j];
+                    movies[j]=temphero;
+                }
+            }
+        }
+        rendermovies();
+    }
+    function originalorder()
+    {
+        movies=JSON.parse(JSON.stringify(origmovies));
+        rendermovies();
+    }
+    
+    function rendermovies()
+    {
+        let tbody=document.getElementById("results");
+        tbody.innerHTML="";
+    
+        let inforow=document.createElement("tr");
+        let nameinfotd=document.createElement("th");
+        nameinfotd.classList.add("center");
+        nameinfotd.innerHTML="Name";
+        inforow.appendChild(nameinfotd);
+        
+        let grossinfotd=document.createElement("th");
+        grossinfotd.classList.add("center");
+        grossinfotd.innerHTML="Gross";
+        inforow.appendChild(grossinfotd);
+        
+        let releaseyearinfotd=document.createElement("th");
+        releaseyearinfotd.classList.add("center");
+        releaseyearinfotd.innerHTML="Release Year";
+        inforow.appendChild(releaseyearinfotd);
+        
+        tbody.appendChild(inforow);
+        
+        for(let i=0;i<movies.length;i++)
+        {
+            let newrow=document.createElement("tr");
+            tbody.appendChild(newrow);
+            
+            if(movies[i].gross<1214811252)
+            {
+                newrow.classList.add("fun");
+            }
+            
+            
+            let nametd=document.createElement("td");
+            nametd.innerHTML=(i+1)+". "+movies[i].name;
+            nametd.classList.add("center");
+            newrow.appendChild(nametd);
+            
+            let grosstd=document.createElement("td");
+            grosstd.innerHTML=formatter.format(movies[i].gross);
+            grosstd.classList.add("center");
+            newrow.appendChild(grosstd);
+            
+            let releaseyeartd=document.createElement("td");
+            releaseyeartd.classList.add("center");
+            releaseyeartd.innerHTML=movies[i].releaseyear;
+            newrow.appendChild(releaseyeartd);
+        }
+    }
+        
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+      // These options are needed to round to whole numbers if that's what you want.
+      //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+      //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+    });
+    
+    let origmovies=JSON.parse(JSON.stringify(movies));
+        
+    sortreleaseyearAsc();
+    console.log(movies);
+    rendermovies();
+    </script>
+    </body>
+</html>

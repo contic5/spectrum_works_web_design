@@ -1,0 +1,38 @@
+body
+{
+    background-color: hsl(200,70%,70%);
+}
+main
+{
+    display: flex;
+}
+#content
+{
+    max-width: 70ch;
+    padding: 20px;
+    background-color: hsl(200,100%,90%)
+}
+.padding
+{
+    flex: 1 1 0px;
+    background-color: hsl(210,70%,70%);
+}
+nav
+{
+    display: flex;
+    padding: 10px;
+    border: black solid 2px;
+    background-color: hsl(120,100%,90%)
+}
+nav a
+{
+    text-align: center;
+    width: 33%;
+}
+p
+{
+    margin-bottom: 2em;
+    line-height: 1.5em;
+    letter-spacing: 0.12em;
+    word-spacing: 0.16em;
+}

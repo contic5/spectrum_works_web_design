@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Cooking Tips Survey</title>
+        <link href="mystyle.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+    <main>
+    <div class="padding"></div>
+    <div id="content">
+    <h1>Lesson Review Form</h1>
+    <form id='myform'>
+    <div id='basicinfo'>
+    <p>*=REQUIRED</p>
+    <h3>Basic Info</h3>
+    <label for='name'>What is your name?</label>
+    <input name='name' required>
+    
+    <label for='agerange'>How old are you?</label>
+    <select name='agerange'>
+        <option value='18-21'>18-21</option>
+        <option value='21-25'>21-25</option>
+        <option value='25-35'>25-35</option>
+        <option value='35-45'>35-45</option>
+        <option value='45-55'>45-55</option>
+        <option value='55-65'>55-65</option>
+        <option value='65+'>65+</option>
+        <option value='N/A'>N/A (Private)</option>
+    </select>
+    </div>
+    <div id="address">
+    <h3>Address</h3>
+    <table>
+    <tbody>
+    <tr>
+    <td>
+    <label for='street'>*Street:</label><input name='street' size=32 required>
+    </td>
+    <td>
+    <label for='appartment'>*Appartment:</label><input name='appartment'>
+    </td>
+    <td>
+    <label for='city'>*City:</label>
+    <input name='city' required>
+    </td>
+    </tr>
+    <tr>
+    <td>
+        
+    <label for='State'>*State:</label>
+    <select name='state'>
+	<option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="DC">District Of Columbia</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY">Wyoming</option>
+    </select>				
+    
+    </td>
+    <td>
+    <label for='zipcode'>*Zip Code(5 numbers):</label><input name='zipcode' type='zip' maxlength='5' minlength='5' size='5' pattern="[0-9]{5}" required>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    
+    <div id="importantquestions">
+    <h3>Important Questions</h3>
+    <label for="enjoyment">How much did you enjoy today's lesson (1-7)</label>
+    <div class="range">Very Little<input name="enjoyment" type="range" min=1 max=7>A Lot</div>
+        
+    <label for="learning">How much do you feel that you learned from today’s lesson (1-7)?</label>
+    <div class="range">Very Little<input name="learning" type="range" min=1 max=7>A Lot</div>
+    
+    <label for="detail">How did you feel about the amount of detail for the lesson (1-7)? 1 is way too little and 7 is way too much.</label>
+    <div class="range">Too Little<input name="detail" type="range" min=1 max=7>Too Much</div>
+        
+    <label for="instructor">How did you feel that the instructor did while delivering the lesson (1-7)?</label>
+    <div class="range">Needs Improvement<input name="instructor" type="range" min=1 max=7>Great</div>
+        
+    <label for="interactive">How useful did you find the interactive components of the lesson (1-7)? </label>
+    <div class="range">Not Useful<input name="interactive" type="range" min=1 max=7>Extremely Useful</div>
+    
+    <label name="mostinteresting">
+    What is the most interesting thing you learned from this lesson?    
+    </label>
+    <textarea name="mostinteresting" rows=8 cols=50></textarea>
+    
+    <label name="mostunclear">
+    What part did of the lesson did you find the most unclear?   
+    </label>
+    <textarea name="mostunclear" rows=8 cols=50></textarea>
+        
+    <button type="submit">Submit</button>
+    </div>
+    </form>
+    <h1>Results</h1>
+    <!-- COPY AND PASTE THIS CODE TO VIEW FORM RESULTS -->
+    <div id='results'>
+    
+    </div>
+    <script src='handleformscript.js'></script>
+    <!-- END OF COPY AND PASTE SECTION-->
+    </div>
+    <div class="padding"></div>
+    </main>
+    </body>
+</html>

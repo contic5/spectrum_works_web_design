@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Sports Data</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Sports Data</h1>
+    <script src="sportsdata.js"></script>
+    <table id="sorttable">
+        
+    </table>
+    
+    <table id="datatable">
+    <thead>
+    <tr>
+    <th>SPORT</th>
+    <th>END</th>
+    <th>STR</th>
+    <th>PWR</th>
+    <th>SPD</th>
+    <th>AGI</th>
+    <th>FLX</th>
+    <th>NER</th>
+    <th>DUR</th>
+    <th>HAN</th>
+    <th>ANA</th>
+    <th>TOTAL</th>
+    <th>RANK</th>
+    </tr>    
+    </thead>
+    <tbody id="databody"></tbody>
+    </table>
+    <script>
+    function sortbylow(keyname)
+    {
+        console.log("Sort by low "+keyname);
+        for(let i=0;i<data.length;i++)
+        {
+            smallestindex=i;
+            for(let j=i+1;j<data.length;j++)
+            {
+                if(data[j][keyname]<data[smallestindex][keyname])
+                {
+                    smallestindex=j;
+                   
+                }
+            }
+            console.log(data[smallestindex][keyname]+" "+data[i][keyname]);
+            
+            temp=data[i]; 
+            data[i]=data[smallestindex];
+            data[smallestindex]=temp;
+        }
+        loaddata();
+    }
+    function sortbyhigh(keyname)
+    {
+        console.log("Sort by high "+keyname);
+        for(let i=0;i<data.length;i++)
+        {
+            largestindex=i;
+            for(let j=i+1;j<data.length;j++)
+            {
+                if(data[j][keyname]>data[largestindex][keyname])
+                {
+                    largestindex=j;
+                }
+            }
+            
+            temp=data[i]; 
+            data[i]=data[largestindex];
+            data[largestindex]=temp;
+        }
+        loaddata();
+    }
+    function calculateaverages()
+    {
+        for(let i=0;i<data.length;i++)
+        {
+            let j=0;
+            for (const [key, value] of Object.entries(data[i])) 
+            {
+                if(j>0&&j<columnnames.length-1)
+                {
+                    averages[j]+=parseInt(value);
+                }
+                j+=1;
+            }
+        }
+        console.log(averages);
+        for(let j=0;j<averages.length;j++)
+        {
+            averages[j]=averages[j]/data.length;
+        }
+        console.log(averages);
+    }
+    function calculatesorteddata()
+    {
+        for(let i=0;i<columnnames.length;i++)
+        {
+            sorteddata.push([]);
+            datacopy=data.slice();
+            keyname=columnnames[i];
+            if(i>0&&i<columnnames.length-1)
+            {
+                for(let j=0;j<datacopy.length;j++)
+                {
+                    datacopy[j][keyname]=parseFloat(datacopy[j][keyname]);
+                }
+                
+                for(let j=0;j<datacopy.length;j++)
+                {
+                    for(let k=0;k<datacopy.length;k++)
+                    {
+                        if(datacopy[j][keyname]<datacopy[k][keyname])
+                        {
+                            let temp=datacopy[j];
+                            datacopy[j]=datacopy[k];
+                            datacopy[k]=temp;
+                        }
+                    }
+                }
+            }
+            for(let j=0;j<datacopy.length;j++)
+            {
+                sorteddata[i].push(datacopy[j][keyname])
+            }
+            
+        }
+    }
+    function setup()
+    {
+        let curtr=document.createElement("tr");
+        for(let i=0;i<columnnames.length;i++)
+        {
+            let curtd=document.createElement("td");
+            let curbutton=document.createElement("button");
+            curbutton.onclick=function()
+            {
+              sortbylow(columnnames[i]);  
+            };
+            curbutton.innerHTML=columnnames[i]+" ASC";
+            curtd.appendChild(curbutton);
+            curtr.appendChild(curtd);
+        }
+        sorttable.appendChild(curtr);
+        
+        curtr=document.createElement("tr");
+        for(let i=0;i<columnnames.length;i++)
+        {
+            let curtd=document.createElement("td");
+            let curbutton=document.createElement("button");
+            curbutton.onclick=function()
+            {
+              sortbyhigh(columnnames[i]);  
+            };
+            curbutton.innerHTML=columnnames[i]+" DESC";
+            curtd.appendChild(curbutton);
+            curtr.appendChild(curtd);
+        }
+        sorttable.appendChild(curtr);
+    }
+    function loaddata()
+    {
+        databody.innerHTML="";
+        console.log(sorteddata[0].length);
+        console.log(sorteddata[1]);
+        for(let i=0;i<data.length;i++)
+        {
+            let curtr=document.createElement("tr");
+            let j=0;
+            for (const [key, value] of Object.entries(data[i])) 
+            {
+                let curtd=document.createElement("td");
+                curtd.innerHTML=value;
+                curtr.appendChild(curtd);
+                if(j>0&&j<columnnames.length-1)
+                {
+                    loc=sorteddata[j].indexOf(value);
+                    if(loc>sorteddata[j].length/2)
+                    {
+                        curtd.classList.add("aboveaverage");
+                    }
+                }
+                
+                j+=1;
+            }
+            databody.appendChild(curtr);
+        }
+    }
+     databody=document.getElementById("databody");
+    sorttable=document.getElementById("sorttable");
+    
+   columnnames=["SPORT","END","STR","PWR",	"SPD","AGI","FLX","NER","DUR","HAN","ANA","TOTAL","RANK"];
+    sorteddata=[];
+    averages=[0,0,0,0,0,0,0,0,0,0,0,0,0];
+   
+    calculatesorteddata();
+    calculateaverages();
+    setup();
+    loaddata();
+    </script>
+    </body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Student Grading</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <div id="main">
+    <div class="padding"></div>
+    <div id="content">
+    <h1>Student Grades</h1>
+    <div id="results"></div>
+    <script src="grades.js"></script>
+    <script>
+    console.log(grades); 
+        
+    //My goal, determine largest improvement in grdes from one year to the next.
+    
+    //Display all info
+    let results="";
+    //let gradetable=document.getElementById("gradetable");
+    let resultsdiv=document.getElementById("results");
+    
+    for(let i=0;i<grades.length;i++)
+    {
+        for(let j=0;j<grades[i].length;j++)
+        {
+            let average=grades[i][j].english+grades[i][j].math+grades[i][j].science;
+            average=Math.round(average/3);
+            grades[i][j].average=average;
+            
+            if(i>0)
+            {
+                let improvement=grades[i][j].average-grades[0][j].average;
+                let vslastyear=grades[i][j].average-grades[i-1][j].average;
+                grades[i][j].improvement=improvement;
+                grades[i][j].vslastyear=vslastyear;
+            }
+            else
+            {
+                grades[i][j].improvement=0;
+                grades[i][j].vslastyear=0;
+            }
+        }
+    }
+        
+    for(let i=0;i<grades.length;i++)
+    {
+        let newtable=document.createElement("table");
+        
+        let newtr=document.createElement("tr");
+        
+        let nameth=document.createElement("th");
+        nameth.innerHTML="Name"
+        newtr.appendChild(nameth);
+
+        let mathth=document.createElement("th");
+        mathth.innerHTML="Math"
+        newtr.appendChild(mathth);
+
+        let scienceth=document.createElement("th");
+        scienceth.innerHTML="Science"
+        newtr.appendChild(scienceth);
+
+        let englishth=document.createElement("th");
+        englishth.innerHTML="English"
+        newtr.appendChild(englishth);
+
+        let averageth=document.createElement("th");
+        averageth.innerHTML="Average"
+        newtr.appendChild(averageth);
+
+        let improvementth=document.createElement("th");
+        improvementth.innerHTML="vs Year 9";
+        newtr.appendChild(improvementth);
+        
+        let lastyearth=document.createElement("th");
+        lastyearth.innerHTML="vs Last Year";
+        newtr.appendChild(lastyearth);
+
+        yearth=document.createElement("th");
+        yearth.innerHTML="Year"
+        newtr.appendChild(yearth);
+        newtable.appendChild(newtr);
+        
+        for(let j=0;j<grades[i].length;j++)
+        {
+            newtr=document.createElement("tr");
+            let nametd=document.createElement("td");
+            nametd.innerHTML=grades[i][j].name;
+            newtr.appendChild(nametd);
+            
+            let mathtd=document.createElement("td");
+            mathtd.innerHTML=grades[i][j].math;
+            newtr.appendChild(mathtd);
+            
+            let sciencetd=document.createElement("td");
+            sciencetd.innerHTML=grades[i][j].science;
+            newtr.appendChild(sciencetd);
+            
+            let englishtd=document.createElement("td");
+            englishtd.innerHTML=grades[i][j].english;
+            newtr.appendChild(englishtd);
+            
+            let averagetd=document.createElement("td");
+            averagetd.innerHTML=grades[i][j].average;
+            newtr.appendChild(averagetd);
+            
+            let improvementtd=document.createElement("td");
+            improvementtd.innerHTML=grades[i][j].improvement;
+            newtr.appendChild(improvementtd);
+            
+            let lastyeartd=document.createElement("td");
+            lastyeartd.innerHTML=grades[i][j].vslastyear;
+            newtr.appendChild(lastyeartd);
+            
+            let yeartd=document.createElement("td");
+            yeartd.innerHTML=i+9;
+            newtr.appendChild(yeartd);
+            newtable.appendChild(newtr);
+        }
+        resultsdiv.appendChild(newtable);
+    }
+        
+    let maximprovement={name:"",year:-1,percent:-1};
+    for(let i=0;i<grades.length;i++)
+    {
+        for(let j=0;j<grades[i].length;j++)
+        {
+            
+        }
+    }
+    </script>
+    </div>
+    <div class="padding"></div>
+    </div>
+    </body>
+</html>

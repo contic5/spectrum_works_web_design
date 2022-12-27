@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Default Template</title>
+        <link type='text/css' rel="stylesheet" href="mystyle.css">
+    </head>
+    <body>
+    <h1>Food and Exercise Recommendation</h1>
+    <h2>Food Recommendation</h2>
+    <form onsubmit="handlefoodform(event)">
+    <h4>Meal</h4>
+    <select name='meal'>
+        <option value='breakfast'>Breakfast</option>
+        <option value='lunch'>Lunch</option>
+        <option value='dinner'>Dinner</option>
+    </select>
+    <h4>Healthy</h4>
+    <select name='healthy'>
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select>
+    
+    <p><input type='submit' value='Submit'></p>
+    </form>
+    <h3 id='foodresults'>Waiting for Results</h3>
+
+    
+    <h2>Exercise Recommendation</h2>
+    <h4>Exercise Difficulty</h4>
+    <form onsubmit="handleexerciseform(event)">
+    Easy<input name='exercisedifficulty' type='range' min=1 max=5 val=3>Hard
+    <p><input type='submit' value='Submit'></p>
+    </form>
+    <h3 id='exerciseresults'>Waiting For Results</h3>
+        
+    <script>
+    function handlefoodform(event)
+    {
+        event.preventDefault();
+        
+        let mealvalue=document.getElementsByName("meal")[0].value;
+        let healthyvalue=document.getElementsByName("healthy")[0].value;
+        
+        let healthy=true;
+        if(healthyvalue=="true")
+        {
+            healthy=true;
+        }
+        else
+        {
+            healthy=false;
+        }
+        let foodrec="";
+        
+        if(mealvalue=="breakfast"&&healthy)
+        {
+            foodrec="Eggs";
+        }
+        else if(mealvalue=="breakfast"&&!healthy)
+        {
+            foodrec="Pancakes";
+        }
+        else if(mealvalue=="lunch"&&healthy)
+        {
+            foodrec="Greek Salad"
+        }
+        else if(mealvalue=="lunch"&&!healthy)
+        {
+            foodrec="Burger and Fries";
+        }
+        else if(mealvalue=="dinner"&&healthy)
+        {
+            foodrec="Salmon";
+        }
+        else if(mealvalue=="dinner"&&!healthy)
+        {
+            foodrec="Pasta";
+        }
+        document.getElementById("foodresults").innerHTML="I would recommend having "+foodrec+" for "+mealvalue
+    }
+    function handleexerciseform(event)
+    {
+        event.preventDefault();
+        
+        let exercisevalue=document.getElementsByName("exercisedifficulty")[0].value;
+        let exerciserec="";
+        if(exercisevalue==5)
+        {
+            exerciserec="Crossfit";
+        }
+        else if(exercisevalue==4)
+        {
+            exerciserec="Martial Arts";
+        }
+        else if(exercisevalue==3)
+        {
+            exerciserec="Tennis (Doubles)";
+        }
+        else if(exercisevalue==2)
+        {
+            exerciserec="an Exercise Bike routine";
+        }
+        else
+        {
+            exerciserec="Walking";
+        }
+        document.getElementById("exerciseresults").innerHTML="I would recommend exercising by doing "+exerciserec;
+    }
+    </script>
+    </body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Slideshow</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Web Development Tools</h1>
+    <nav>
+    <a href="index.html">Home</a>
+    <a href="slideshow.html" class='currentpage'>Slideshow</a>
+    </nav>
+    <h1>Presentation</h1>
+    <h2 id="displaymode">Automatic Display</h2>
+    <div id='presentation' class='imghold' onclick="toggletimer()">
+    <img id="result">
+    <p id='name' class='big'></p>
+    </div>
+    <h1>Image List</h1>
+    <div id='holdphotos'></div>
+    <script src="srcs.js"></script>
+    <script>
+    function changephoto()
+    {
+        console.log("Change Photo")
+        srcindex=(srcindex+1)%srcs.length;
+        document.getElementById("result").src=srcs[srcindex];
+        document.getElementById("name").innerHTML=names[srcindex];
+    }
+    function toggletimer()
+    {
+        paused=!paused;
+        if(paused)
+        {
+            clearInterval(photointerval);
+            document.getElementById("displaymode").innerHTML="Paused";
+        }
+        else
+        {
+            photointerval=setInterval(changephoto,2000);
+            document.getElementById("displaymode").innerHTML="Automatic Display";
+        }
+    }
+    function addimages()
+    {
+        for(let i=0;i<srcs.length;i++)
+        {
+            let nextdiv=document.createElement("div");
+            nextdiv.classList.add("imghold");
+
+            let imgelement=document.createElement("img");
+            imgelement.src=srcs[i];
+            nextdiv.appendChild(imgelement);
+
+            let nameelement=document.createElement("p");
+            nameelement.classList.add("big");
+            nameelement.innerHTML=names[i];
+            nextdiv.appendChild(nameelement);
+
+            document.getElementById("holdphotos").appendChild(nextdiv);
+        }
+    }
+    
+    let names=[];
+    for(let i=0;i<srcs.length;i++)
+    {
+        let name=srcs[i].split(".")[0];
+        name=name.replaceAll("-"," ");
+        let words=name.split(" ");
+        for(let j=0;j<words.length;j++)
+        {
+            words[j]=words[j].toLocaleUpperCase();
+        }
+        name=words.join(" ");
+        names.push(name);
+    }
+    for(let i=0;i<srcs.length;i++)
+    {
+        srcs[i]="images/"+srcs[i];
+    }
+    let srcindex=0;
+
+    document.getElementById("result").src=srcs[srcindex];
+    document.getElementById("name").innerHTML=names[srcindex];
+
+    let photointerval=setInterval(changephoto,2000);
+    let paused=false;
+
+    addimages();
+    </script>
+    </body>
+</html>

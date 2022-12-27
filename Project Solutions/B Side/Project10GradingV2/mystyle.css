@@ -1,0 +1,45 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: hsl(60,60%,50%);
+    background-color: hsl(180,20%,25%);
+    line-height: 1.15;
+    margin: 0;
+
+}
+#main
+{
+    display: flex;
+}
+#content
+{
+    min-height: 100vh;
+    padding: 10px;
+    min-width: 60ch;
+    max-width: 80ch;
+}
+.padding
+{
+    flex: 1 1 0px;
+    background-color: hsl(180,10%,25%);
+}
+a
+{
+    background-color: hsl(0,0%,60%)
+}
+table,td,th
+{
+    background-color: hsl(180,30%,30%);
+    border: black solid 2px;
+}
+td,th
+{
+    padding: 5px;
+}
+table
+{
+    margin-bottom: 30px;
+}

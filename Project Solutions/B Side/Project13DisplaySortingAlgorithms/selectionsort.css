@@ -1,0 +1,28 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    
+}
+table,td
+{
+    border: black solid 2px;
+    border-spacing: 20px;
+    background-color: hsl(210,50%,60%)
+}
+td
+{
+    font-size: 32px;
+    padding: 10px;
+    background-color: hsl(210,100%,90%)
+}
+.keyelement
+{
+    background-color: hsl(60,100%,50%);
+}
+.nochange
+{
+    background-color: hsl(210,100%,40%);
+}

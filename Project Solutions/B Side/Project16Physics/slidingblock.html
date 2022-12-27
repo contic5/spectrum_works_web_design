@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>Pendulum Simulation</title>    
+<body>
+<canvas id='mycanvas' width="1200" height="600"></canvas>    
+<script>
+class Block
+{
+    constructor(x,y,y0,v)
+    {
+        this.x=x;
+        this.y=y;
+        this.y0=y0;
+        this.v=v;
+    }
+    calcposition()
+    {
+        this.x=0.5*g*Math.sin(theta)*t*t;
+        this.y=this.y0-0.5*g*Math.cos(90-theta)*t*t;
+        //this.y=this.y0+g*t*t;
+    }
+    draw()
+    {
+        drawcircle(this.x,this.y,circlesize);
+    }
+}
+function drawline(x1,y1,x2,y2)
+{
+    ctx.beginPath();       // Start a new path
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+}
+function drawrectangle(x1,y1,w,h)
+{
+    ctx.fillRect(x1,y1,w,h);
+}
+function drawcircle(x,y,radius)
+{
+    ctx.fillStyle="#000000";
+    ctx.beginPath();
+    ctx.arc(x,y,radius,0,2*Math.PI);
+    ctx.fill();
+}
+function erase()
+{
+    ctx.fillStyle="#9999DD";
+    ctx.fillRect(0,0,c.width,c.height);
+}
+function draw()
+{
+    erase();
+    //moveball();
+    block.calcposition();
+    //console.log(block.x+","+block.y);
+    ctx.fillStyle="#00FF00";
+    
+    ctx.beginPath();
+    ctx.moveTo(points[0].x,points[0].y);
+    for(let i=1;i<points.length;i++)
+    {
+        ctx.lineTo(points[i].x,points[i].y);
+    }
+    ctx.closePath();
+    ctx.fill();
+    
+    ctx.fillStyle="#000000";
+    drawrectangle(0,c.height-50,c.width,50);
+    
+    ctx.fillStyle="#000000";
+    block.draw();
+    
+    t+=tstep;
+}
+        
+let c=document.getElementById("mycanvas");
+let ctx=c.getContext("2d");
+let circlesize=50;
+let recth=50;
+
+let x=0;
+let y=0;
+let g=9.80665;
+let gscale=1;
+let v=0;
+let thetadegree=20;
+let theta=0.0174533*thetadegree;
+let tstep=0.1;
+
+let t=0;
+    
+let points=[];
+points.push({x:1200,y:600});
+points.push({x:0,y:600});
+let yp=600-Math.tan(theta)*1200;
+points.push({x:0,y:yp});
+    
+let block=new Block(x,y,yp-circlesize,v);
+
+console.log(points);
+for(let i=0;i<points.length;i++)
+{
+    console.log(points[i].x+","+points[i].y);
+}
+setInterval(draw,50);  
+</script>
+</body>
+</head>
+</html>

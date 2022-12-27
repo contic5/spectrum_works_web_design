@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>Pendulum Simulation</title>    
+<body>
+<canvas id='mycanvas' width="600" height="600"></canvas>    
+<script>
+function drawline(x1,y1,x2,y2)
+{
+    ctx.beginPath();       // Start a new path
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+}
+function drawrectangle(x1,y1,w,h)
+{
+    ctx.fillRect(x1,y1,w,h);
+}
+function drawcircle(x,y,radius)
+{
+    ctx.fillStyle="#000000";
+    ctx.beginPath();
+    ctx.arc(x,y,radius,0,2*Math.PI);
+    ctx.fill();
+}
+function erase()
+{
+    ctx.fillStyle="#FFFFFF";
+    ctx.fillRect(0,0,c.width,c.height);
+}
+        
+function moveball()
+{
+    x=amplitude*Math.cos(angularfrequency*t);
+}
+function draw()
+{
+    erase();
+    moveball();
+    ctx.fillStyle="#000000";
+    console.log(x+""+xdraw+","+ydraw);
+    
+    
+    xdraw=Math.floor((xscale*x)+centerx);
+    ydraw=Math.floor(centery-(0.5*yscale*Math.pow(x,2)));
+    
+    drawline(centerx,0,xdraw,ydraw);
+    drawrectangle(centerx-50,0,100,50);
+    drawcircle(xdraw,ydraw,50);
+    
+    t+=0.05;
+}
+function drawv2()
+{
+    erase();
+    moveball();
+    ctx.fillStyle="#000000";
+    
+    
+    drawrectangle(centerx-50,0,100,50);
+    
+    
+    let xrel=x+amplitude;
+    let rotang=((xrel*90/amplitude));
+    let rotangradians=rotang*Math.PI/180;
+    
+    let xpos=centerx+200*Math.cos(rotangradians);
+    let ypos=100+150*Math.sin(rotangradians);
+    xpos=Math.floor(xpos);
+    ypos=Math.floor(ypos);
+    
+    /*ctx.translate(300, 100);
+    ctx.rotate(rotangradians);
+    
+    drawcircle(150,150,50);
+    
+    ctx.rotate(-rotangradians);
+    ctx.translate(-300, -100);
+    */
+    
+    drawline(centerx,50,xpos,ypos);
+    console.log(x+" "+xpos+","+ypos);
+
+    drawcircle(xpos,ypos,50);
+    
+    t+=0.05;
+}
+        
+let c=document.getElementById("mycanvas");
+let ctx=c.getContext("2d");
+let ballx=0;
+let amplitude=2;
+let period=2*Math.PI*Math.sqrt(amplitude/9.80665);
+let frequency=1/period;
+let angularfrequency=2*Math.PI*frequency;
+
+let t=0;
+let x=amplitude*Math.cos(angularfrequency*t);
+
+let centerx=c.width/2;
+let centery=3*c.height/4;
+let xscale=125;
+let yscale=75;
+
+let xdraw=0;
+let ydraw=0;
+        
+setInterval(drawv2,50);  
+</script>
+</body>
+</head>
+</html>

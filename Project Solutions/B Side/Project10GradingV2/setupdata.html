@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Set Up Data</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <div id="main">
+    <div class="padding"></div>
+    <div id="content">
+    <h1>Set Up Data</h1>
+    <div id="results">Hello</div>
+    <script src="gradesorig.js"></script>
+    <script>
+    
+    let grades=JSON.parse(JSON.stringify(gradesorig));
+    
+    for(let i=0;i<10;i++)
+    {
+        grades[i].average=Math.round((grades[i].math+grades[i].science+grades[i].english)/3);
+    }
+    for(let j=0;j<3;j++)
+    {
+        for(let i=0;i<gradesorig.length;i++)
+        {
+            let lastgrade=grades[i+j*10];
+            console.log(i+j*10);
+           let curgrade={}; 
+           curgrade.name=lastgrade.name;
+           curgrade.year=lastgrade.year+1;
+           curgrade.math=Math.floor(Math.random()*7)+2+lastgrade.math;
+            curgrade.math=Math.min(curgrade.math,100);
+        curgrade.science=Math.floor(Math.random()*7)+2+lastgrade.science;
+        curgrade.science=Math.min(curgrade.science,100);
+            curgrade.english=Math.floor(Math.random()*7)+2+lastgrade.english;
+            curgrade.english=Math.min(curgrade.english,100);
+            curgrade.average=Math.round((curgrade.math+curgrade.science+curgrade.english)/3);
+            
+            grades.push(curgrade);
+        }
+    }
+    
+    let results="let grades=[<br>";
+    for(let i=0;i<grades.length;i++)
+    {
+        if(i%gradesorig.length==0)
+        {
+            results+="[";
+        }
+        results+=`{`
+        results+=`name:"${grades[i].name}",`;
+        results+=`math:${grades[i].math},`;
+        results+=`science:${grades[i].science},`;
+        results+=`english:${grades[i].english},`;
+        results+=`average:${grades[i].average}`;
+        results+="},<br>";
+        if(i%gradesorig.length==gradesorig.length-1)
+        {
+            results+="],<br>";
+        }
+    }
+    results+="]<br>";
+    console.log(results);
+    document.getElementById("results").innerHTML=results;
+    </script>
+    </div>
+    <div class="padding"></div>
+    </div>
+    </body>
+</html>

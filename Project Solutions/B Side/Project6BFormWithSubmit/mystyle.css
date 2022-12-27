@@ -1,0 +1,63 @@
+:root
+{
+    --red: hsl(5,60%,50%);
+    --blue: hsl(215,55%,25%);
+    --bg: hsl(0,0%,95%);
+    --bg2: hsl(0,0%,85%);
+    --bg3: hsl(0,0%,70%)
+}
+main
+{
+    display: flex;
+}
+.padding
+{
+    flex: 1 1 0px;
+}
+#content
+{
+    background-color: var(--bg);
+    max-width: 700px;
+    padding: 10px;
+}
+body
+{
+    color: var(--blue);
+    background-color: var(--bg3);
+}
+table,td
+{
+
+}
+td
+{
+    padding: 20px 20px 20px 20px;
+    border: black solid 1px;
+}
+input, label,textarea
+{
+    display: block;
+    margin-bottom: 20px;
+}
+td input,td label, .range input
+{
+    display: inline;
+    margin: 0px;
+}
+table,td,th
+{
+    background-color: var(--bg2);
+}
+.range
+{
+    display: block;
+    margin-bottom: 20px;
+}
+#basicinfo, #address
+{
+    color: var(--blue);
+}
+#importantquestions
+{
+    color: var(--red);
+}

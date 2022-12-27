@@ -1,0 +1,45 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: hsl(60,60%,50%);
+    background-color: hsl(180,20%,25%);
+    line-height: 1.15;
+    margin: 0;
+    font-family: 'Ubuntu', sans-serif;
+}
+#main
+{
+    display: flex;
+}
+#content
+{
+    padding: 10px;
+    max-width: 70ch;
+}
+.padding
+{
+    flex: 1 1 0px;
+    background-color: hsl(180,10%,25%);
+}
+a
+{
+    background-color: hsl(0,0%,60%)
+}
+nav
+{
+    background-color: hsl(180,20%,35%);
+    padding: 5px;
+}
+nav a
+{
+    font-size: 20px;
+    margin-right: 10px;
+}
+img
+{
+    max-width: 500px;
+    max-height: 500px;
+}

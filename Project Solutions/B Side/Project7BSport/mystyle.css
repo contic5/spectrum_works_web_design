@@ -1,0 +1,29 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    line-height: 1.15;
+    margin: 0;
+    background-color: hsl(123, 38%, 46%);
+}
+#main
+{
+    display: flex;
+}
+#content
+{
+    padding: 10px;
+    max-width: 80ch;
+    background-color: hsl(349, 78%, 55%);
+}
+.padding
+{
+    flex: 1 1 0px;
+    background-color: hsl(123, 38%, 46%);
+}
+a
+{
+    background-color: hsl(349, 78%, 75%);
+}
