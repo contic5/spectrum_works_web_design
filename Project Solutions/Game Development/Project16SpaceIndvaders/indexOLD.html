@@ -1,0 +1,846 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Space Invaders</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Space Invaders</h1>
+    <h1 id="levelname"></h1>
+    <div id="results"></div>
+    <canvas id="mycanvas" width="500" height="500" style="border: black solid 4px;"></canvas>
+    <script type="text/javascript" src="layouts.js"></script>
+    <script type="text/javascript">
+    function check(e) 
+    {
+        var code = e.keyCode;
+        switch (code) 
+        {
+            case 65: pressing_a=true; break;
+            case 68: pressing_d=true; break;
+            case 87: pressing_w=true; break;
+            case 37: pressing_left=true; break;
+            case 39: pressing_right=true; break;
+            case 32: pressing_space=true; 
+            if(!started)    
+            {
+                started=true;
+                startround();
+                drawinterval=setInterval(draw,50);
+            }
+            break;
+            case 73:
+            if(!started)    
+            {
+                currentround=0;
+                started=true;
+                startround();
+                drawinterval=setInterval(draw,50);
+            }
+            break;
+            case 79: autofire=true; break;
+            case 78: nextstage(); break;
+            case 80: previousstage(); break;
+            case 82: resetgame(); break;
+        }
+    }
+    function checkup(e) 
+    {
+        var code = e.keyCode;
+        switch (code) 
+        {
+            case 65: pressing_a=false; break;
+            case 68: pressing_d=false; break;
+            case 87: pressing_w=false; break;
+            case 37: pressing_left=false; break;
+            case 39: pressing_right=false; break;
+            case 32: pressing_space=false; break;
+        }
+    }
+    
+    window.addEventListener('keydown',this.check,false);
+    window.addEventListener('keyup',this.checkup,false);
+
+    let pressing_a=false;
+    let pressing_d=false;
+    let pressing_w=false;
+
+    let pressing_left=false;
+    let pressing_right=false;
+    let pressing_space=false;
+        
+    </script>
+    
+    <script type="text/javascript">
+    class Ship
+    {
+        constructor(x,y)
+        {
+            this.x=x;
+            this.y=y;
+            this.w=40;
+            this.h=20;
+        }
+        draw()
+        {
+           ctx.fillStyle="#8989FF"; drawrectangle(this.x,this.y,this.w,this.h);
+        }
+    }
+    class Alien
+    {
+        
+        constructor(x,y)
+        {
+            this.x=x;
+            this.y=y;
+            this.w=40;
+            this.h=20;
+            this.hp=1;
+            
+            Alien.absspeed=5;
+            this.movespeed=5;
+            this.movedowncount=0;
+            this.isboss=false;
+            this.name="alien";
+        }
+        move()
+        {
+            if(this.movedowncount==0)
+            {
+                this.x+=this.movespeed;
+                if(this.x<=Alien.absspeed&&this.movespeed<0)
+                {
+                    this.movespeed*=-1;
+                    this.movedowncount=10;
+                }
+                else if(this.x>=c.width-this.w-Alien.absspeed&&this.movespeed>0)
+                {
+                    this.movespeed*=-1;
+                    this.movedowncount=10;
+                }
+            }
+            else
+            {
+                this.y+=5;
+                this.movedowncount-=1;
+            }
+        }
+        act()
+        {
+            
+        }
+        draw()
+        {
+           ctx.fillStyle="#770000"; drawrectangle(this.x,this.y,this.w,this.h);
+        }
+    }
+    class Cannon extends Alien
+    {
+        constructor(x,y,offset)
+        {
+            console.log(offset);
+            super(x,y);
+            this.curtimer=30+offset;
+            this.name="cannon";
+        }
+        move()
+        {
+            super.move();
+        }
+        act()
+        {
+            this.curtimer-=1;
+            if(this.curtimer==0)
+            {
+                this.curtimer=30;
+                enemybullets.push(new EnemyBullet(this.x,this.y+20));
+            }
+        }
+        draw()
+        {
+           ctx.fillStyle="#FF0000"; 
+           drawrectangle(this.x,this.y,this.w,this.h);
+        }
+    }
+    class Faller extends Alien
+    {
+        constructor(x,y,offset)
+        {
+            console.log(offset);
+            super(x,y);
+            this.hp=3;
+            this.curtimer=10;
+            this.name="faller";
+        }
+        move()
+        {
+            this.y+=10;
+            if(this.y>c.height)
+            {
+                this.curtimer-=1;
+            }
+            if(this.curtimer==0)
+            {
+                this.y=0;
+                this.curtimer=10;
+            }
+        }
+        act()
+        {
+            
+        }
+        draw()
+        {
+           ctx.fillStyle="#777777"; 
+           drawrectangle(this.x,this.y,this.w,this.h);
+        }
+    }
+    class Terror extends Alien
+    {
+        constructor(x,y)
+        {
+            super(x,y);
+            this.w=c.width;
+            this.h=80;
+            this.curtimer=4;
+            this.hp=30;
+            this.maxhp=this.hp;
+            this.isboss=true;
+            this.name="terror";
+        }
+        move()
+        {
+            
+        }
+        act()
+        {
+            if(this.hp>2*this.maxhp/3)
+            {
+                
+            }
+            else if(this.hp>this.maxhp/3)
+            {
+                this.y+=0.5;
+            }
+            else
+            {
+                this.y+=1;
+            }
+            this.curtimer-=1;
+            if(this.curtimer==0)
+            {
+                this.curtimer=4;
+                let randx=Math.floor(Math.random()*(c.width-20))+20;
+                enemybullets.push(new EnemyBullet(randx,this.y+20));
+            }
+        }
+        draw()
+        {
+            if(this.hp>2*this.maxhp/3)
+            {
+                ctx.fillStyle="#00FF00"; 
+            }
+            else if(this.hp>this.maxhp/3)
+            {
+                ctx.fillStyle="#FFFF00"; 
+            }
+            else
+            {
+                ctx.fillStyle="#FF0000"; 
+            }
+           drawrectangle(this.x,this.y,this.w,this.h);
+        }
+    }
+    class Rival extends Alien
+    {
+        constructor(x,y)
+        {
+            super(x,y);
+            this.w=60;
+            this.h=30;
+            this.curtimer=10;
+            this.hp=20;
+            this.maxhp=this.hp;
+            Rival.absspeed=15;
+            this.rivalmovespeed=Rival.absspeed;
+            this.isboss=true;
+            this.name="rival";
+            console.log(Rival.absspeed);
+            console.log(this.movespeed);
+        }
+        move()
+        {
+            this.x+=this.rivalmovespeed;
+            if(this.x<=Rival.absspeed&&this.rivalmovespeed<0)
+            {
+                this.rivalmovespeed*=-1;
+            }
+            else if(this.x>=c.width-this.w-Rival.absspeed&&this.rivalmovespeed>0)
+            {
+                this.rivalmovespeed*=-1;
+            }
+        }
+        act()
+        {
+            this.curtimer-=1;
+            
+            if(Math.abs(ship.x-this.x)<=20&&this.curtimer<=4)
+            {
+                if((this.hp>=(this.maxhp/2)+1&&this.hp<=3*this.maxhp/4)||this.hp<this.maxhp/4)
+                {
+                    this.curtimer=10;
+                    enemybullets.push(new EnemyBullet(this.x,this.y+20,25));
+                }
+            }
+            else if(this.curtimer==0)
+            {
+                if(this.hp<=this.maxhp/2)
+                {
+                    this.curtimer=10;
+                    enemybullets.push(new HomingBullet(this.x,this.y+20,15));
+                }
+                else if(this.hp>3*this.maxhp/4)
+                {
+                    this.curtimer=10;
+                    enemybullets.push(new EnemyBullet(this.x,this.y+20,15));
+                }
+            }
+            if(this.curtimer==0)
+            {
+                this.curtimer=10;
+            }
+        }
+        draw()
+        {
+            if(this.hp>15)
+            {
+                ctx.fillStyle="#0000FF"; 
+            }
+            else if(this.hp>10)
+            {
+                ctx.fillStyle="#00FF00"; 
+            }
+            else if(this.hp>5)
+            {
+                ctx.fillStyle="#FFFF00"; 
+            }
+            else
+            {
+                ctx.fillStyle="#FF0000"; 
+            }
+            drawrectangle(this.x,this.y,this.w,this.h);
+            
+            ctx.fillStyle="#000000";
+            drawrectangle(this.x+5,this.y+5,this.w-10,this.h-10);
+        }
+    }
+    class Emperor extends Alien
+    {
+        constructor(x,y)
+        {
+            super(x,y);
+            this.w=200;
+            this.h=100;
+            this.curtimer=50;
+            this.curtimer2=10;
+            this.hp=30;
+            this.maxhp=this.hp;
+            this.isboss=true;
+            this.name="emperor";
+            this.shipsremoved=false;
+        }
+        move()
+        {
+            
+            this.x+=this.movespeed;
+            if(this.x<=Alien.absspeed&&this.movespeed<0)
+            {
+                this.movespeed*=-1;
+            }
+            else if(this.x>=c.width-this.w-Alien.absspeed&&this.movespeed>0)
+            {
+                this.movespeed*=-1;
+            }
+        }
+        act()
+        {
+            this.curtimer-=1;
+            this.curtimer2-=1;
+            if(this.hp>this.maxhp/3)
+            {
+                if(this.curtimer==25)
+                {
+                    let randx=Math.floor(Math.random()*(c.width-20))+20;
+                    let totalfallers=aliens.filter(a=>a.name=="faller");
+                    console.log("Total fallers: "+totalfallers.length);
+                    if(totalfallers.length<=5)
+                    {
+                        aliens.push(new Faller(randx,this.y+this.h+20,0));
+                    }
+                    else
+                    {
+                        aliens.push(new Cannon(20,this.y+this.h+20,0));
+                    }
+                }
+                else if(this.curtimer<=0)
+                {
+                    this.curtimer=50;
+                    aliens.push(new Cannon(20,this.y+this.h+20,0));
+                }
+            }
+            else
+            {
+                if(!this.shipsremoved)
+                {
+                    this.shipsremoved=true;
+                    aliens=[];
+                    aliens.push(this);
+                }                
+                if(this.curtimer<=0)
+                {
+                    this.curtimer=10;
+                    let randx=Math.floor(Math.random()*(c.width-20))+20;
+                    enemybullets.push(new HomingBullet(randx,this.y+20,15));
+                }
+            }
+            
+            if(this.hp<this.maxhp/3)
+            {
+                if(this.curtimer2<=0)
+                {
+                    let randx=Math.floor(Math.random()*(this.w))+this.x;
+                    enemybullets.push(new EnemyBullet(randx,this.y+20,15));
+                    this.curtimer2=5;
+                }
+            }
+            else if(this.hp<2*this.maxhp/3)
+            {
+                if(this.curtimer2<=0)
+                {
+                    let randx=Math.floor(Math.random()*(this.w))+this.x;
+                    enemybullets.push(new EnemyBullet(randx,this.y+20,15));
+                    this.curtimer2=10;
+                }
+            }
+        }
+        draw()
+        {
+            if(this.hp>2*this.maxhp/3)
+            {
+                ctx.fillStyle="#00FF00"; 
+            }
+            else if(this.hp>this.maxhp/3)
+            {
+                ctx.fillStyle="#FFFF00"; 
+            }
+            else
+            {
+                ctx.fillStyle="#FF0000"; 
+            }
+            drawrectangle(this.x,this.y,this.w,this.h);
+            
+            ctx.fillStyle="#440044";
+            drawrectangle(this.x+20,this.y+20,this.w-40,this.h-40);
+        }
+    }
+    class Bullet
+    {
+        constructor(x,y)
+        {
+            this.x=x;
+            this.y=y;
+            this.w=20;
+            this.h=20;
+        }
+        draw()
+        {
+           ctx.fillStyle="#8989FF"; drawrectangle(this.x,this.y,this.w,this.h);
+        }
+        move()
+        {
+            this.y-=30;
+        }
+    }
+    class EnemyBullet
+    {
+        constructor(x,y,movespeed=10)
+        {
+            this.x=x;
+            this.y=y;
+            this.w=20;
+            this.h=20;
+            this.movespeed=movespeed;
+        }
+        draw()
+        {
+           ctx.fillStyle="#FF0000"; drawrectangle(this.x,this.y,this.w,this.h);
+        }
+        move()
+        {
+            this.y+=this.movespeed;
+        }
+    }
+    class HomingBullet extends EnemyBullet
+    {
+        constructor(x,y,movespeed=10)
+        {
+            super(x,y,movespeed);
+            this.countdown=15;
+        }
+        draw()
+        {
+           ctx.fillStyle="#FF00FF"; drawrectangle(this.x,this.y,this.w,this.h);
+        }
+        move()
+        {
+            if(this.countdown>0)
+            {
+            let angle=Math.atan2(ship.y - this.y, ship.x - this.x);
+            
+            this.x+=this.movespeed*Math.cos(angle);
+            this.countdown-=1;
+            }
+            this.y+=this.movespeed;
+        }
+    }
+    function checkcollision(o1,o2)
+    {
+        if(o1.y+o1.h>=o2.y && 
+           o1.y<=o2.y+o2.h && o1.x+o1.w>=o2.x &&
+           o1.x<=o2.x+o2.w 
+          )
+        {
+            return true;
+        }
+        return false;
+    }
+    function drawline(x1,y1,x2,y2)
+    {
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.stroke();
+    }
+    function drawrectangle(x,y,w,h)
+    {
+        ctx.fillRect(x,y,w,h);
+    }
+    function drawcircle(x,y,radius)
+    {
+        ctx.fillStyle="#00ff00";
+        ctx.beginPath();
+        ctx.arc(x,y,radius,0,2*Math.PI);
+        ctx.fill();
+    }
+    function erase()
+    {
+        ctx.fillStyle="#ffffff";
+        ctx.fillRect(0,0,c.width,c.height);
+    }
+    function drawbackground()
+    {
+        if(aliens[0].name=="terror")
+        {
+            ctx.drawImage(imageyellow,0,0);
+        }
+        else if(aliens[0].name=="rival")
+        {
+            ctx.drawImage(imagered,0,0);
+        }
+        else if(aliens[0].name=="emperor")
+        {
+            ctx.drawImage(imagedarkpurple,0,0);
+        }
+        else
+        {
+            ctx.drawImage(image,0,0);
+        }
+    }
+    function moveplayer()
+    {
+        //Logic
+        //Move
+        if(pressing_left||pressing_a)
+        {
+            if(ship.x>=10)
+            {
+                ship.x-=10;
+            }
+        }
+        if(pressing_right||pressing_d)
+        {
+            if(ship.x+ship.w<=c.width-10)
+            {
+                ship.x+=10;
+            }
+        }
+        if(pressing_w||pressing_space||autofire)
+        {
+            if(cooldown==0)
+            {
+                bullets.push(new Bullet(ship.x+ship.w/2,c.height));
+                cooldown=10;
+            }
+        }
+    }
+    function changemovementspeed()
+    {
+        if(aliens.length==1&&checks[0]==0)
+        {
+            checks[0]=1;
+            Alien.absspeed=10;
+            for(let i=0;i<aliens.length;i++)
+            {
+                aliens[i].movespeed*=Math.abs(Alien.absspeed/aliens[i].movespeed);
+            }
+        }
+        else if(aliens.length<=5&&checks[1]==0)
+        {
+            checks[1]=1;
+            Alien.absspeed=8;
+            for(let i=0;i<aliens.length;i++)
+            {
+                aliens[i].movespeed*=Math.abs(Alien.absspeed/aliens[i].movespeed);
+            }
+        }
+        else if(aliens.length<=15&&checks[2]==0)
+        {
+            checks[2]=1;
+            Alien.absspeed=6;
+            for(let i=0;i<aliens.length;i++)
+            {
+                aliens[i].movespeed*=Math.abs(Alien.absspeed/aliens[i].movespeed);
+            }
+        }
+    }
+    function moveobjects()
+    {
+        //Move objects
+        for(let i=0;i<bullets.length;i++)
+        {
+            bullets[i].move();
+        }
+        for(let i=0;i<enemybullets.length;i++)
+        {
+            enemybullets[i].move();
+        }
+        for(let i=0;i<aliens.length;i++)
+        {
+            aliens[i].act();
+            aliens[i].move();
+        }
+    }
+    function checkcollisions()
+    {
+        //Handle Collisions
+        for(let i=0;i<bullets.length;i++)
+        {
+            for(let j=0;j<aliens.length;j++)
+            {
+                if(checkcollision(bullets[i],aliens[j]))
+                {
+                    aliens[j].hp-=1;
+                    if(aliens[j].hp<=0)
+                    {
+                        if(aliens[j].isboss)
+                        {
+                            bossdefeated=true;
+                        }
+                        aliens.splice(j,1);
+                    }
+                    bullets.splice(i,1)
+                    break;
+                }
+            }
+        }
+        
+        if(aliens.length<=0||bossdefeated)
+        {
+            nextstage();
+            return;
+        }
+        for(let i=0;i<aliens.length;i++)
+        {
+            if(checkcollision(aliens[i],ship))
+            {
+                restart();
+                return;
+            }
+        }
+        for(let i=0;i<enemybullets.length;i++)
+        {
+            if(checkcollision(enemybullets[i],ship))
+            {
+                restart();
+                return;
+            }
+        }
+    }
+    function draw()
+    {
+        erase();
+        drawbackground();
+        moveplayer();
+        
+        //Update Variables
+        if(cooldown>0)
+        {
+            cooldown-=1;
+        }
+        
+        changemovementspeed();
+        
+        moveobjects();
+        
+        checkcollisions();
+        
+        //Draw
+        ship.draw();
+        for(let i=0;i<aliens.length;i++)
+        {
+            aliens[i].draw();
+        }
+        for(let i=0;i<bullets.length;i++)
+        {
+            bullets[i].draw();
+        }
+        for(let i=0;i<enemybullets.length;i++)
+        {
+            enemybullets[i].draw();
+        }
+    }
+    function drawstart()
+    {
+        erase();
+        ctx.drawImage(image,0,0);
+        ctx.font = "32px Arial";
+        ctx.fillStyle="#ff0000";
+        ctx.fillText("Space Invaders",0,100);
+        ctx.fillText("Press Space to Start",0,200);
+    }
+    function drawgameover()
+    {
+        erase();
+        document.getElementById("currentlevel").innerHTML="Victory!";
+        ctx.drawImage(imagebright,0,0);
+        ctx.font = "32px Arial";
+        ctx.fillStyle="#ffff00";
+        ctx.fillText("Space Invaders",0,100);
+        ctx.fillText("You saved the galaxy!",0,200);
+        ctx.fillText("Game Cleared",0,300);
+        ctx.fillText("Press I to start over!",0,400);
+    }
+    function startround()
+    {
+        bossdefeated=false;
+        curlayout=layouts[currentround].enemies;
+        document.getElementById("levelname").innerHTML=layouts[currentround].name;
+        checks=[0,0,0];
+        console.log(currentround);
+        console.log(curlayout);
+        console.log(curlayout.length);
+        aliens=[];
+        bullets=[];
+        enemybullets=[];
+        for(let i=0;i<curlayout.length;i++)
+        {
+            if(curlayout[i].atype=="C")
+            {
+                aliens.push(new Cannon(curlayout[i].x,curlayout[i].y,3*i));
+            }
+            else if(curlayout[i].atype=="F")
+            {
+                aliens.push(new Faller(curlayout[i].x,curlayout[i].y));
+            }
+            else if(curlayout[i].atype=="T")
+            {
+                aliens.push(new Terror(curlayout[i].x,curlayout[i].y));
+            }
+            else if(curlayout[i].atype=="R")
+            {
+                aliens.push(new Rival(curlayout[i].x,curlayout[i].y));
+            }
+            else if(curlayout[i].atype=="E")
+            {
+                aliens.push(new Emperor(curlayout[i].x,curlayout[i].y));
+            }
+            else
+            {
+                aliens.push(new Alien(curlayout[i].x,curlayout[i].y));
+            }
+        }
+        ship.x=c.width/2;
+    }
+    function restart()
+    {
+        startround();
+    }
+    function previousstage()
+    {
+        if(currentround>0)
+        {
+            currentround-=1;
+        }
+        startround();
+    }
+    function nextstage()
+    {
+        if(currentround<layouts.length-1)
+        {
+            currentround+=1;
+            startround();
+        }
+        else
+        {
+            clearInterval(drawinterval);
+            drawgameover();
+        }
+    }
+    function resetgame()
+    {
+        clearInterval(drawinterval);
+        drawinterval=setInterval(draw,50);
+    }
+    
+        
+    let c=document.getElementById("mycanvas");
+    let ctx=c.getContext("2d");
+        
+    let ship=new Ship(c.width/2,c.height-20);
+    
+    let aliens=[];
+    let bullets=[];
+    let enemybullets=[];
+    let checks=[0,0,0];
+    let cooldown=0;
+    let bossdefeated=false;
+    
+    let currentround=0;
+    let curlayout=layouts[0];
+    console.log(curlayout);
+    console.log(curlayout.length);
+        
+    const image = new Image(500, 500); // Using optional size for image
+    image.src="space.png";
+        
+    const imagered = new Image(500, 500); // Using optional size for image
+    imagered.src="space_red.png";
+        
+    const imageyellow = new Image(500, 500); // Using optional size for image
+    imageyellow.src="space_yellow.png";
+        
+    const imagedarkpurple = new Image(500, 500); // Using optional size for image
+    imagedarkpurple.src="space_darkpurple.png";
+    
+    const imagebright = new Image(500, 500); // Using optional size for image
+    imagebright.src="space_bright.png";
+    
+    let started=false;
+    let autofire=false;
+    setTimeout(drawstart,500);
+    //startround();
+    
+    let drawinterval=null;
+    </script>
+    </body>
+</html>

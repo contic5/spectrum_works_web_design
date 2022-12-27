@@ -1,0 +1,35 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    background-color: #c0cccc;
+}
+canvas
+{
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    background-color: white;
+    outline: green solid 10px;
+}
+#main
+{
+    display: flex;
+}
+#content
+{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    width:800px;
+    margin: auto;
+    background-color: #e0eeee;
+}
+.padding
+{
+    width:30%;
+}

@@ -1,0 +1,13 @@
+h1
+{
+    font-size: 48px;
+}
+body
+{
+    color: #ffffff;
+    background-color: #000000;
+}
+canvas
+{
+    border: green solid 4px;
+}

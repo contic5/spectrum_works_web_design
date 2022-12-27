@@ -1,0 +1,356 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Checkers</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Checkers</h1>
+    <h2 id="results"></h2>
+    <h2 id="curturn"></h2>
+    <button onclick="setup()">Reset</button>
+    <table id="board">
+    
+    </table>
+    <script>
+    class Piece
+    {
+        constructor(x,y)
+        {
+            this.x=x;
+            this.y=y;
+            this.king=false;
+        }
+    }
+    function displayboard()
+    {
+        document.getElementById("curturn").innerHTML=`Player ${curturn+1}'s turn`;
+        for(let i=0;i<8;i++)
+        {
+            for(let j=0;j<8;j++)
+            {
+                let curtd=document.getElementById(`td${j}${i}`);
+                if((i+j)%2==0)
+                {
+                    curtd.style.backgroundColor="#deb887";
+                }
+                else
+                {   
+                    curtd.style.backgroundColor="#855E42";
+                }
+                curtd.innerHTML="";
+            }
+        }
+        for(let i=0;i<pieces.length;i++)
+        {
+            for(let j=0;j<pieces[i].length;j++)
+            {
+               let curtd= document.getElementById(`td${pieces[i][j].x}${pieces[i][j].y}`);
+                if(pieces[i][j].king)
+                {
+                    curtd.innerHTML="X";
+                }
+                else
+                {
+                    curtd.innerHTML="O";
+                }
+                
+                if(i==0)
+                {
+                    curtd.style.color="blue";
+                }
+                else
+                {
+                    curtd.style.color="red";
+                }
+            }
+        }
+    }
+    function emptyspace(x,y)
+    {
+        if(x<0||x>7||y<0||y>7)
+        {
+            return false;
+        }
+        for(let i=0;i<pieces.length;i++)
+        {
+            for(let j=0;j<pieces[i].length;j++)
+            {
+                if(pieces[i][j].x==x&&pieces[i][j].y==y)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    function enemyspace(x,y)
+    {
+        let enemyturn=(curturn+1)%2;
+        for(let j=0;j<pieces[enemyturn].length;j++)
+        {
+            if(pieces[enemyturn][j].x==x&&pieces[enemyturn][j].y==y)
+            {
+                return j;
+            }
+        }
+        return -1;
+    }
+    function checkwinner()
+    {
+        if(pieces[0].length==0)
+        {
+            document.getElementById("results").innerHTML="Player 2 Wins!";
+        }
+        if(pieces[1].length==0)
+        {
+            document.getElementById("results").innerHTML="Player 1 Wins!";
+        }
+    }
+    function selectspace(x,y)
+    {
+        let enemypieceid=-1;
+        if(pieceselected)
+        {
+            let movemade=false;
+            for(let i=0;i<pieces[curturn].length;i++)
+            {
+                if(pieces[curturn][i].x==x&&pieces[curturn][i].y==y)
+                {
+                    pieceselected=true;
+                    curpiece=pieces[curturn][i];
+                    displayboard();
+
+                    if((x+y)%2==0)
+                    {
+                        document.getElementById(`td${x}${y}`).style.backgroundColor="#eedbc3";
+                    }
+                    else
+                    {
+                        document.getElementById(`td${x}${y}`).style.backgroundColor="#bc9477";
+                    }
+                    console.log(`${x},${y}`);
+                    return;
+                }
+            }
+            
+            //King Moves
+            if(curpiece.king)
+            {
+                for(let i=0;i<moves[2].length;i++)
+                {
+                    let movex=moves[2][i].x;
+                    let movey=moves[2][i].y;
+                    if(curpiece.x+movex==x&&curpiece.y+movey==y&&emptyspace(x,y))
+                    {
+                            movemade=true;
+                    }
+                }
+                
+                
+                for(let i=0;i<jumpmoves[2].length;i++)
+                {
+                    let jumpx=jumpmoves[2][i].x;
+                    let jumpy=jumpmoves[2][i].y;
+                    
+                    let capturex=capturemoves[2][i].x;
+                    let capturey=capturemoves[2][i].y;
+                    enemypieceid=enemyspace(curpiece.x+capturex,curpiece.y+capturey);
+                    if(curpiece.x+jumpx==x&&enemypieceid!=-1&&curpiece.y+jumpy==y&&!movemade)
+                    {
+                        pieces[(curturn+1)%2].splice(enemypieceid,1);
+
+                        movemade=true;
+                        curturn=(curturn+1)%2;
+                        break;
+                    }
+                }
+            }
+            //Player 1 Moves
+            else if(curturn==0)
+            {
+                for(let i=0;i<moves[0].length;i++)
+                {
+                    let movex=moves[0][i].x;
+                    let movey=moves[0][i].y;
+                    if(curpiece.x+movex==x&&curpiece.y+movey==y&&emptyspace(x,y))
+                    {
+                            movemade=true;
+                    }
+                }
+                
+                
+                for(let i=0;i<jumpmoves[0].length;i++)
+                {
+                    let jumpx=jumpmoves[0][i].x;
+                    let jumpy=jumpmoves[0][i].y;
+                    
+                    let capturex=capturemoves[0][i].x;
+                    let capturey=capturemoves[0][i].y;
+                    enemypieceid=enemyspace(curpiece.x+capturex,curpiece.y+capturey);
+                    if(curpiece.x+jumpx==x&&enemypieceid!=-1&&curpiece.y+jumpy==y&&!movemade)
+                    {
+                        pieces[(curturn+1)%2].splice(enemypieceid,1);
+
+                        movemade=true;
+                        curturn=(curturn+1)%2;
+                        break;
+                    }
+                }
+            }
+            //Player 2 Moves
+            else if(curturn==1)
+            {           
+                for(let i=0;i<moves[1].length;i++)
+                {
+                    let movex=moves[1][i].x;
+                    let movey=moves[1][i].y;
+                    if(curpiece.x+movex==x&&curpiece.y+movey==y&&emptyspace(x,y))
+                    {
+                            movemade=true;
+                    }
+                }
+                
+                for(let i=0;i<jumpmoves[1].length;i++)
+                {
+                    let jumpx=jumpmoves[1][i].x;
+                    let jumpy=jumpmoves[1][i].y;
+                    
+                    let capturex=capturemoves[1][i].x;
+                    let capturey=capturemoves[1][i].y;
+                    enemypieceid=enemyspace(curpiece.x+capturex,curpiece.y+capturey);
+                    if(curpiece.x+jumpx==x&&enemypieceid!=-1&&curpiece.y+jumpy==y&&!movemade)
+                    {
+                        pieces[(curturn+1)%2].splice(enemypieceid,1);
+
+                        movemade=true;
+                        curturn=(curturn+1)%2;
+                        break;
+                    }
+                }
+            }
+            
+            console.log(`Checking move ${movemade}`);
+            if(movemade)
+            {
+                console.log("Handling Move");
+                curpiece.x=x;
+                curpiece.y=y;
+                for(let i=0;i<pieces.length;i++)
+                {
+                    for(let j=0;j<pieces[i].length;j++)
+                    {
+                        if(!pieces[i][j].king&&i==0&&pieces[i][j].y==0)
+                        {
+                            pieces[i][j].king=true;
+                        }
+                        if(!pieces[i][j].king&&i==1&&pieces[i][j].y==7)
+                        {
+                            pieces[i][j].king=true;
+                        }
+                    }
+                }
+                
+                pieceselected=false;
+                curturn=(curturn+1)%2;
+                checkwinner();
+                displayboard();
+            }
+        }
+        else
+        {
+            for(let i=0;i<pieces[curturn].length;i++)
+            {
+                if(pieces[curturn][i].x==x&&pieces[curturn][i].y==y)
+                {
+                    pieceselected=true;
+                    curpiece=pieces[curturn][i];
+                    
+                    if((x+y)%2==0)
+                    {
+                        document.getElementById(`td${x}${y}`).style.backgroundColor="#eedbc3";
+                    }
+                    else
+                    {
+                        document.getElementById(`td${x}${y}`).style.backgroundColor="#bc9477";
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    function setup()
+    {
+        document.getElementById("results").innerHTML="";
+        pieces=[[],[]];
+        boardtable.innerHTML=[];
+        boardtds=[];
+        curturn=0;
+        pieceselected=false;
+        
+        for(let i=0;i<8;i++)
+        {
+            let newtr=document.createElement("tr");
+            boardtds.push([]);
+            for(let j=0;j<8;j++)
+            {
+                let newtd=document.createElement("td");
+                newtd.id=`td${j}${i}`;
+                newtd.onclick=function()
+                {
+                    selectspace(j,i);
+                }
+                boardtds[i].push(newtd);
+                newtr.appendChild(newtd);
+            }
+            boardtable.appendChild(newtr);
+        }
+        for(let i=0;i<8;i++)
+        {
+            pieces[0].push(new Piece(i,6));
+            pieces[0].push(new Piece(i,7));
+
+            pieces[1].push(new Piece(i,0));
+            pieces[1].push(new Piece(i,1));
+        }
+        displayboard();
+    }
+     
+    let board=[];
+    let pieces=[
+        [],
+        [],
+    ];
+    
+    /*
+    jumpmoves[0] player 1
+    jumpmoves[1] player 2
+    jumpmoves[2] king
+    */
+    let jumpmoves=
+    [
+        [{x:2,y:-2},{x:-2,y:-2}],
+        [{x:2,y:2},{x:-2,y:2}],
+        [{x:2,y:-2},{x:-2,y:-2},{x:2,y:2},{x:-2,y:2}]
+    ];
+        
+    let capturemoves=
+    [
+        [{x:1,y:-1},{x:-1,y:-1}],
+        [{x:1,y:1},{x:-1,y:1}],
+        [{x:1,y:-1},{x:-1,y:-1},{x:1,y:1},{x:-1,y:1}]
+    ];
+        
+    let moves=capturemoves;
+    
+    let curpiece=null;
+    let pieceselected=false;
+    let curturn=0;
+    
+    let boardtable=document.getElementById("board");
+    let boardtds=[];
+    setup();
+    </script>
+    </body>
+</html>

@@ -1,0 +1,354 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Pong AI</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Pong AI</h1>
+    <h2>Undefeatable</h2>
+    <canvas id="mycanvas" width="500" height="300" style="border: black solid 4px;"></canvas>
+    
+    <script>
+    function check(e) 
+    {
+        var code = e.keyCode;
+        switch (code) 
+        {
+            case 87: pressing_w=true; break; //W key
+            case 83: pressing_s=true; break; //S key
+            case 38: pressing_up=true; break; //Up key
+            case 40: pressing_down=true; break;
+            case 82: resetgame(); break;
+            //Down key
+        }
+    }
+    function checkup(e) 
+    {
+        var code = e.keyCode;
+        switch (code) 
+        {
+            case 87: pressing_w=false; break; //W key
+            case 83: pressing_s=false; break; //S key
+            case 38: pressing_up=false; break; //Up key
+            case 40: pressing_down=false; break; //Down key
+        }
+    }
+    
+    window.addEventListener('keydown',this.check,false);
+    window.addEventListener('keyup',this.checkup,false);
+
+    let pressing_up=false;
+    let pressing_down=false;
+    let pressing_w=false;
+    let pressing_s=false;
+    </script>
+    
+    <script>
+    class Ball
+    {
+        ballspeed=startspeed;
+        vx=0;
+        vy=0;
+        radius=10;
+        constructor(x,y,realball=true)
+        {
+            this.x=x;
+            this.y=y;
+            this.realball=realball;
+            var me=this;
+            setTimeout(function()
+            {
+                    me.startmovement(-startspeed,startspeed);
+            },1000);
+        }
+        startmovement(vx,vy)
+        {
+            this.vx=vx;
+            this.vy=vy;
+        }
+        move()
+        {
+            this.y+=this.vy;
+            this.x+=this.vx;
+            if(this.y>=c.height-bordersize)
+            {
+                this.vy*=-1;
+            }
+            else if(this.y<=bordersize)
+            {
+                this.vy*=-1;
+            }
+            
+            if(this.x>=c.width-bordersize&&this.realball)
+            {
+                this.x=c.width/2;
+                this.ballspeed=startspeed;
+                this.vx=0;
+                this.vy=0;
+                var me = this;
+                setTimeout(function(){
+                    me.startmovement(-startspeed,startspeed);
+                },1000);
+                p1.score+=1;
+            }
+            else if(this.x<=bordersize&&this.realball)
+            {
+                this.x=c.width/2;
+                this.ballspeed=startspeed;
+                this.vx=0;
+                this.vy=0;
+                var me = this;
+                setTimeout(function(){
+                    me.startmovement(startspeed,-startspeed);
+                },1000);
+                setTimeout(function(){
+                    p2.calculateposition();
+                },1100);
+                p2.score+=1;
+                
+                
+            }
+            
+            
+            //Collision with p1
+            if(this.y>=p1.y && this.y<=p1.y+p1.h && this.x<=p1.x+p1.w && this.x+p1.w>=p1.x&&this.vx<0)
+            {
+                var relativeIntersectY = (p1.y+(p1.h/2)) - this.y;
+                var normalizedRelativeIntersectionY = (relativeIntersectY/(p1.h/2));
+                var bounceAngle = normalizedRelativeIntersectionY * 4*Math.PI/12;
+                this.vx = Math.abs(this.ballspeed*Math.cos(bounceAngle));
+                this.vy = this.ballspeed*-Math.sin(bounceAngle);
+                this.ballspeed*=1.1;
+                
+                if(this.realball)
+                {
+                    p2.calculateposition();
+                }
+            }
+            
+            //Collision with p2
+            if(this.y>=p2.y && this.y<=p2.y+p2.h && this.x+p2.w>=p2.x  && this.x<=p2.x+p2.h && this.vx>0)
+            {
+                var relativeIntersectY = (p2.y+(p2.h/2)) - this.y;
+                var normalizedRelativeIntersectionY = (relativeIntersectY/(p2.h/2));
+                var bounceAngle = normalizedRelativeIntersectionY * 4*Math.PI/12;
+                this.vx = -Math.abs(this.ballspeed*Math.cos(bounceAngle));
+                this.vy = this.ballspeed*-Math.sin(bounceAngle);
+                this.ballspeed*=1.1;
+            }
+        }
+        draw()
+        {
+            ctx.fillStyle=colors[colorindex];
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.radius,0,2*Math.PI);
+            ctx.fill();
+        }
+    }
+    class TestBall extends Ball
+    {
+        constructor(x,y,vx,vy)
+        {
+            super(x,y,false);
+            this.vx=vx;
+            this.vy=vy;
+        }
+    }
+    class Paddle
+    {
+        score=0;
+        constructor(x,y,w=20,h=100)
+        {
+            this.x=x;
+            this.y=y;
+            this.w=w;
+            this.h=h;
+        }
+        draw()
+        {
+            ctx.fillStyle="#000000";
+            ctx.fillRect(this.x,this.y,w,h);
+        }
+    }
+    
+    class Player1 extends Paddle
+    {
+        constructor(x,y)
+        {
+            super(x,y);
+        }
+        move()
+        {
+            if(pressing_up)
+            {
+                if(!(this.y<=bordersize))
+                {
+                    this.y-=10;
+                }
+            }
+            else if(pressing_down)
+            {
+                if(!(this.y+100+bordersize>=c.height))
+                {
+                    this.y+=10;
+                }
+            }
+        }
+        draw()
+        {
+            ctx.fillStyle=p1color;
+            ctx.fillRect(this.x,this.y,20,100);
+        }
+    }
+    class Computer extends Paddle
+    {
+        goaly=0;
+        constructor(x,y)
+        {
+            super(x,y);
+        }
+        move()
+        {
+            if(!(this.y<=bordersize)&&this.y>this.goaly)
+            {
+                this.y-=10;
+            }
+            if(!(this.y+100+bordersize>=c.height)&&this.y<this.goaly)
+            {
+                this.y+=10;
+            }
+        }
+        calculateposition()
+        {
+            let testball=new TestBall(ball.x,ball.y,ball.vx,ball.vy);
+            let totalmoves=0;
+            while(testball.x<=this.x-20&&totalmoves<100)
+            {
+                testball.move();
+                totalmoves+=1;
+            }
+            this.goaly=testball.y-50;
+        }
+        draw()
+        {
+            //ctx.fillStyle=p2color;
+            ctx.fillStyle="#7851a9";            
+            ctx.fillRect(this.x,this.y,20,100);
+            
+            ctx.fillStyle=p2color;
+            ctx.fillRect(this.x+5,this.y+10,10,80);
+            
+        }
+        
+    }
+        
+    function drawline(x1,y1,x2,y2)
+    {
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.stroke();
+    }
+    function drawrectangle(x,y,w,h)
+    {
+        ctx.fillRect(x,y,w,h);
+    }
+    function drawcircle(x,y,radius)
+    {
+        ctx.fillStyle="#00ff00";
+        ctx.beginPath();
+        ctx.arc(x,y,radius,0,2*Math.PI);
+        ctx.fill();
+    }
+    function displayscore()
+    {
+        ctx.font = '50px serif';
+        ctx.fillStyle=colors[colorindex];
+        ctx.fillText(p1.score+"-"+p2.score,c.width/2-25,c.height/4);
+    }
+    function handlescore()
+    {
+        if(p1.score>=winscore)
+        {
+            ctx.font = '50px serif';
+            ctx.fillStyle=p1color;
+            ctx.fillText("Player 1 Wins!",150,c.height/2);
+            clearInterval(drawinterval);
+        }
+        else if(p2.score>=winscore)
+        {
+            ctx.font = '50px serif';
+            ctx.fillStyle=p2color;
+            ctx.fillText("Player 2 Wins!",150,c.height/2);
+            clearInterval(drawinterval);
+        }
+    }
+    function erase()
+    {
+        ctx.fillStyle="#0E0E10";
+        ctx.fillRect(0,0,c.width,c.height);
+        
+        ctx.fillStyle=colors[colorindex];
+        ctx.fillRect(0,0,c.width,bordersize);
+        ctx.fillRect(0,c.height-bordersize,c.width,bordersize);
+        ctx.fillRect(0,0,bordersize,c.height);
+        ctx.fillRect(c.width-bordersize,0,bordersize,c.height);
+    }
+    function handlecolors()
+    {
+        colorindex=0;
+        for(let i=0;i<speeds.length;i++)
+        {
+            if(ball.ballspeed>speeds[i])
+            {
+                colorindex=i+1;
+            }
+        }
+    }
+    function draw()
+    {
+        erase();
+        ball.move();
+        ball.draw();
+        
+        p1.move();
+        p1.draw();
+        
+        p2.move();
+        p2.draw();
+        
+        handlecolors();
+        
+        displayscore();
+        handlescore();
+    }
+    function resetgame()
+    {
+        ball=new Ball(c.width/2,c.height/2);
+        p1=new Player1(20,c.height/2);
+        p2=new Player2(c.width-40,c.height/2);
+        clearInterval(drawinterval);
+        drawinterval=setInterval(draw,50);
+    }
+    let startspeed=10;
+    let bordersize=10;
+    let winscore=5;
+    let p1color="#0000ff";
+    let p2color="#561D5E";
+        
+    let colors=["#00ff00","#ffff00","#ff0000","#ffffff"];
+    let speeds=[15,25,35];
+    let colorindex=0;
+        
+    let c=document.getElementById("mycanvas");
+    let ctx=c.getContext("2d");
+    let ball=new Ball(c.width/2,c.height/2);
+    let p1=new Player1(20,c.height/2);
+    let p2=new Computer(c.width-40,c.height/2);
+    
+    let drawinterval=setInterval(draw,50);
+    
+    </script>
+    </body>
+</html>
