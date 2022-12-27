@@ -1,0 +1,87 @@
+body
+{
+    background-color: black;
+    background-image:url('images/1sD9nh.jpeg');
+}
+main
+{
+    display: flex;
+}
+#content
+{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    width:1100px;
+    background-color: rgba(240,255,255,44%);
+}
+.padding
+{
+    flex: 1 1 0px;
+}
+.bigtd
+{
+    background-color: #9999CC90;
+}
+.intense
+{
+    background-color: #77000090;
+}
+.catchy
+{
+    background-color: #FFFF0090;
+}
+.melodic
+{
+    background-color: #9999CC90;
+}
+#artisthistory
+{
+    width: 500px;
+    background-color: #FFFFFF90;
+}
+table
+{
+    
+}
+td
+{
+    padding: 10px 0px 10px 0px;
+    border: black solid 2px;
+    width: 400px;
+}
+td h3
+{
+    padding: 0px;
+}
+.nopadding
+{
+    padding: 0px;
+}
+.center
+{
+    text-align: center;
+}
+iframe
+{
+    width:350px;
+    height:200px;
+}
+img
+{
+    width:500px;
+    height:auto;
+}
+nav
+{
+    border: black solid 2px;
+    width: fit-content;
+}
+nav a
+{
+    font-size: 24px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: black solid 2px;
+    background-color: #9999BB90;
+}

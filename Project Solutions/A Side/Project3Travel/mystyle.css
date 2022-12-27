@@ -1,0 +1,56 @@
+body
+{
+    background-color: aqua;
+    font-family: 'Urbanist', sans-serif;
+}
+.title
+{
+    text-align: center;
+    font-size: 72px;
+    background-color: antiquewhite;
+    color:#a29adb;
+    border: darkblue solid 8px;
+}
+.fill {
+    width: 100%;
+    text-align: center;
+}
+nav a
+{
+    margin: 0;
+    padding: 5px;
+    display: inline-block;
+    font-size: 24px;
+    width: 30%;
+    background-color: antiquewhite;
+    border: darkblue solid 5px;
+}
+a
+{
+    margin: 0;
+    padding: 5px;
+    display: inline-block;
+    font-size: 18px;
+    width: auto;
+    background-color: antiquewhite;
+    border: darkblue solid 2px;
+}
+li
+{
+    padding-bottom: 15px;
+}
+ul
+{
+        padding-top: 15px;
+        margin-left: 15px;
+        padding-right: 15px;
+        font-size: 125%;
+        width: 700px;
+        background-color: dodgerblue;
+}
+img
+{
+    height: 400px;
+    width:auto;
+    display: block;
+}

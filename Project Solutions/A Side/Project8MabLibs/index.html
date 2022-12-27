@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Default Template</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Mad Libs</h1>
+    <div id="options"></div>
+    <div id="original"></div>
+    <div id="results"></div>
+    <script src="words.js"></script>
+    <script>
+    let original="Today, I learned how to (skill) at (place). The teacher was quite (adjective) and covered how to (skill) for (number) minutes. At the end of the day, I felt (adjective2). When I go back to (place) next (time), I want to learn how to (skill2)! ";
+        
+    //let results=`Today, I learned how to <b>${skill}</b> at <b>${place}</b>. The teacher was quite <b>${adjective}</b> and covered how to <b>${skill}</b> for <b>${number}</b> minutes. At the end of the day, I felt <b>${adjective2}</b>. When I go back to <b>${place}</b> next <b>${time}</b>, I want to learn how to <b>${skill2}</b>!`;
+        
+    let results="Today, I learned how to "+skill+" at"+place+".The teacher was quite "+adjective+ "and covered how to "+skill+" for "+number+" minutes. At the end of the day, I felt"+adjective2+". When I go back to "+place+" "+time+", I want to learn how to "+skill2+"!";
+   
+   let optioninfo="";
+   optioninfo+="Skill: <b>"+skill+"</b><br>";
+   optioninfo+="Place: <b>"+place+"</b><br>";
+   optioninfo+="Adjective: <b>"+adjective+"</b><br>";
+   optioninfo+="Number: <b>"+number+"</b><br>";
+   optioninfo+="Adjective 2: <b>"+adjective2+"</b><br>";
+   optioninfo+="Time: <b>"+time+"</b><br>";
+   optioninfo+="Skill 2: <b>"+skill2+"</b><br>";
+    
+
+document.getElementById("options").innerHTML=optioninfo;
+        document.getElementById("original").innerHTML=original;
+document.getElementById("results").innerHTML=results;
+    </script>
+    </body>
+</html>
