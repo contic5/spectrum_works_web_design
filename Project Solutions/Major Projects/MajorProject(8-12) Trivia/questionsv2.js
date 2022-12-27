@@ -1,0 +1,12 @@
+let questions=[
+    {question:"What is a budget?",options:["How you plan on using your money for a mix of saving and spending","A savings account","How much you plan on spending","The cost of one item"],correct:0,answer:""},
+    {question:"What are some benefits of using a budget?",options:["You know how much you are spending.","You know where you are spending your money","You are able to plan out how you are using your money","All of the above"],correct:3,answer:""},
+    {question:"How can you improve your credit score?",options:["By not spending money","By paying bills consistently on time","By investing","By making a larger income without changing money habits"],correct:1,answer:""},
+    {question:"How often should you review your checking account?",options:["daily","weekly","monthly","yearly"],correct:1,answer:""},
+    {question:"How many times can you get a free credit report per year?",options:["0","1","2","3"],correct:3,answer:"3"},
+    {question:"What is the difference between a credit and debit card?",options:["A debit card only can use money in a checking account while a credit card can generate interest.","A credit card is linked to a bank account, while a debit card is not","A credit card has a limited amount of money, while a debit card does not.","A debit card can build credit history, while a credit card cannot."],correct:0,answer:""},
+    {question:"What is first thing you should ALWAYS leave money for?",options:["Longterm Savings","Major Future Purchases","Emergency Fund (Unexpected Injuries)","Necessary Purchases"],correct:2,answer:""},
+    {question:"How does compound interest work?",options:["The interest always increases by the same amount each month","The interest is recalculated on a yearly basis with the same percents.","The interest rate changes, but the interest you get is only based on the initial deposit"],correct:1,answer:""},
+    {question:"What is an IRA?",options:["A special bank account","An insurance policy","A shorterm savings plan","A Retirement Fund"],correct:3,answer:""},
+    {question:"What are the three parts of the 50 20 30 rule of budgeting?",options:["Essentials, Monthly Expenses, Regular Expenses","Essentials, Savings, Purchases","Savings, Purchases, Essentials","Direct Deposit, Purchases, Essentials"],correct:1,answer:""},
+];

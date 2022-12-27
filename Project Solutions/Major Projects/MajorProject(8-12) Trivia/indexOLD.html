@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Finance Trivia</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Finance Trivia</h1>
+    <div id="playtrivia">
+    <h2 id="displayanswer"></h2>
+    <h2 id="questionon">Question 1</h2>
+    <p id='questiontext'></p>
+    <button type="button" onclick="submitanswer('a')" id='a'></button>
+    <button type="button" onclick="submitanswer('b')" id='b'></button>
+    <button type="button" onclick="submitanswer('c')" id='c'></button>
+    <button type="button" onclick="submitanswer('d')" id='d'></button>
+    </div>
+    <div id="quizresults">
+    <h2 id='scoretext'>Final Score: ???</h2> <h2 id="rank"></h2>
+    </div>
+    <script src="questionsv2.js"></script>
+    <script>
+    
+    function displayresults()
+    {
+        document.getElementById("quizresults").style.display="block";
+        document.getElementById("playtrivia").style.display="none";
+        document.getElementById("scoretext").innerHTML="Final Score: "+score+"/10";
+        
+        let rank="";
+        if(score==10)
+        {
+            rank="Finance Expert";
+        }
+        else if(score>=7)
+        {
+            rank="Financially Savy";
+        }
+        else if(score>=4)
+        {
+            rank="Finance Learner";
+        }
+        else if(score>=1)
+        {
+            rank="Finance Beginner";
+        }
+        else
+        {
+            rank="Financially Inexperienced";
+        }
+        document.getElementById("rank").innerHTML="Rank: "+rank;
+    }
+    function submitanswer(answer)
+    {
+        if(question.correct==answer)
+        {
+            document.getElementById("displayanswer").innerHTML="Correct! The answer is "+question.options[questions.correct];
+            score+=1;
+        }
+        else
+        {
+             document.getElementById("displayanswer").innerHTML="Incorrect! The answer is "+question.options[questions.correct];
+        }
+        if(questionon<questions.length-1)
+        {
+            questionon+=1;
+            displayquestion(questionon);
+        }
+        else
+        {
+            displayresults();
+        }
+    }
+    function displayquestion(questionon)
+    {
+        question=questions[questionon]; 
+       document.getElementById("questionon").innerHTML="Question "+(questionon+1);
+        document.getElementById("questiontext").innerHTML=question.question; 
+        document.getElementById("a").innerHTML=question.a;
+        document.getElementById("b").innerHTML=question.b;
+        document.getElementById("c").innerHTML=question.c;
+        document.getElementById("d").innerHTML=question.d;
+    } 
+    let score=0;
+    let questionon=0;
+    let question=questions[questionon];
+    displayquestion(questionon);
+    </script>
+    </body>
+</html>

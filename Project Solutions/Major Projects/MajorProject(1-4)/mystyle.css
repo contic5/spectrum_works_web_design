@@ -1,0 +1,92 @@
+#main
+{
+    display: flex;
+}
+h1
+{
+    text-align: center;
+}
+#content
+{
+    width:800px;
+    background-color: #141A46;
+    float: left;
+    padding: 0px 10px;
+}
+.padding
+{
+    flex: 1 1 0px;
+    background-color: #0D1130;
+    float: left;
+}
+body
+{
+    color: #EC8B5E;
+    background-color: #0D1130;
+}
+ul
+{
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+table,td,th
+{
+    border: #DB571A solid 2px;
+    background-color: #232E80;
+}
+table
+{
+    margin: 0px 20px;
+}
+td,th
+{
+    padding: 10px;
+    font-size: 18px;
+}
+.major
+{
+    max-width: 600px;
+    padding: 10px;
+    border: #DB571A solid 2px;
+    background-color: #232E80;
+    margin: 0px auto 20px 0px;
+}
+nav
+{
+    width: 800px;
+    display: flex;
+    overflow: auto;
+    margin: auto;
+}
+nav,a
+{
+    border: #DB571A solid 2px;
+    background-color: #232E80;
+    color: #EC8B5E;
+}
+nav a
+{
+    font-size: 24px;
+    padding: 10px;
+    color: #EC8B5E;
+    width: 25%;
+    text-align: center;
+    float: left;
+}
+nav a:visited
+{
+    color: #A44113;
+}
+.outsidelink
+{
+    font-size:32px;
+    display: block;
+    width: 500px;
+    margin: 0px auto 20px auto;
+}
+#coverletter
+{
+    background-color: #232E80;
+    padding:10px;
+    border: #DB571A solid 2px;
+}

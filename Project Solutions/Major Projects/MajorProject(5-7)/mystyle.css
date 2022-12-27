@@ -1,0 +1,62 @@
+body
+{
+    background-image: url("dojo.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#main
+{
+    display: flex;
+    min-height: 100%;
+}
+#content
+{
+    width: 800px;
+    padding: 5px;
+    background-color: #ffffffAB;
+    float: left;
+}
+.padding
+{
+    flex: 1 1 0px;
+}
+#title h1
+{
+    text-align: center;
+    font-size: 48px;
+    padding:0px;
+}
+nav a
+{
+    background-color: darkkhaki;
+    border: black solid 2px;
+    font-size: 16px;
+    padding: 3px;
+}
+nav
+{
+    text-align: center;
+}
+.large li
+{
+    font-size: 24px;
+}
+table,td,th
+{
+    border: black solid 2px;
+}
+.yin-yang th
+{
+    background-color: darkorchid;
+    font-size: 24px;
+}
+.yin-yang td:nth-child(odd)
+{
+    background-color: aqua;
+    font-size: 24px;
+}
+.yin-yang td:nth-child(even)
+{
+    background-color: crimson;
+    font-size: 24px;
+}

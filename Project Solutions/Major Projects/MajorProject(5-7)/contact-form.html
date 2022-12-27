@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>Home</title>
+<link href="mystyle.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div id='main'>
+<div class="padding"></div>
+    
+<div id="content">
+
+<div id="title">
+<h1>Taekwondo Website</h1>
+</div>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="benefits.html">Benefits</a>
+<a href="self-defense-benefits.html">Self Defense</a>
+<a href="korean-flag.html">Korean Flag</a>
+<a href="personal-story.html">Personal Story</a>
+<a href="martial-arts-media.html">Martial Arts Media</a>
+<a href="contact-form.html">Contact Form</a>
+<a href="outside-links.html">Outside Links</a>
+</nav>
+<h2>Contact Form</h2>
+<form id='myform'>
+<p>
+First Name:<input name="fname"><br>
+Middle Name:<input name="mname"><br>
+Last Name:<input name="lname"><br>
+</p>
+How interested were you in martial arts before visiting this website?
+<br>
+Not Interested<input name='prev-interest' type='range' step="1" min="0" max="10">Very Interested<br>
+
+How interested are you in martial arts after visiting this website?
+<br>
+Not Interested<input name='cur-interest' type='range' step="1" min="0" max="10">Very Interested<br>
+
+Which page did you find most interesting?<br>
+<select name='mostinteresting'>
+<option value='home'>Intro</option>
+<option value='benefits'>Benefits</option>
+<option value='selfdefense'>Self Defense Benefits</option>
+<option value='personalstory'>Personal Story</option>
+<option value='media'>Martial Arts Media</option>
+<option value='N/A'>N/A</option>
+</select>
+<br>
+
+Enter any addiitonal comments here:<br>
+<textarea rows='8' cols='40' name='comments'></textarea><br>
+<p><button type='submit'>Submit</button></p>
+</form>
+
+<h2>Results</h2>
+<!-- COPY AND PASTE THIS CODE TO VIEW FORM RESULTS -->
+<div id='results' style='visibility: hidden'>
+    
+</div>
+<script src='handleformscript.js'></script>
+<!-- END OF COPY AND PASTE SECTION-->
+</div>
+    
+<div class="padding"></div>
+</div>
+</body>
+</html>

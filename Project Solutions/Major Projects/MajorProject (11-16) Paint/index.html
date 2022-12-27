@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Paint</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Paint</h1>
+    <div id="tools">
+    Mode<select id="mode">
+    <option value="circle">Circle</option>
+    <option value="square">Square</option>
+    <option value="erase">Erase</option>
+    </select>
+    Color:<input id="color" type="color">
+    Size:<b id="showsize">10</b><input id="size" type="range" min=10 max=100 step=2 value=10>
+    <button onclick="clearscreen()">Clear</button>
+    </div>
+    <div id="canvas-wrap">
+    <canvas id="mycanvas" width=600 height=600>
+    </canvas>
+    <div id="cursor"></div>
+    </div>
+    <script>
+    function drawline()
+    {
+        ctx.fillStyle="#DD0000";
+        ctx.strokeStyle="#DD0000";
+        ctx.moveTo(0,0);
+        ctx.lineTo(c.width/2,c.height/2);
+        ctx.stroke();
+    }
+    
+    function erase(x,y)
+    {
+        ctx.fillStyle="#FFFFFF";
+        ctx.beginPath();
+        ctx.arc(x,y,size/2,0,2*Math.PI);
+        ctx.fill();
+    }
+    function fillsquare(x,y)
+    {
+        ctx.fillStyle="#000000";
+        ctx.fillRect(x-size/2,y-size/2,size,size);
+    }
+    function fillcircle(x,y)
+    {
+        ctx.beginPath();
+        ctx.arc(x,y,size/2,0,2*Math.PI);
+        ctx.fill();
+    }
+    function drawcircle(x,y)
+    {
+        ctx.fillStyle="#000000";
+        ctx.beginPath();
+        ctx.arc(x,y,size/2,0,2*Math.PI);
+        ctx.stroke();
+        ctx.closePath();
+    }
+    function handledraw(e)
+    {
+        if (e.which == 1) 
+        {
+           ctx.fillStyle=document.getElementById("color").value;
+            
+           mode=document.getElementById("mode").value;
+        
+            if(mode=="circle")
+            {
+                fillcircle(e.offsetX,e.offsetY);
+            }
+            else if(mode=="square")
+            {
+                fillsquare(e.offsetX,e.offsetY);
+            }
+            else if(mode=="erase")
+            {
+                erase(e.offsetX,e.offsetY);
+            }
+        }
+    }
+    function handlecursor(e)
+    {
+        currenttime = new Date().getTime();
+        if(currenttime-lasttime>=5)
+        {
+            cursorelem.style.left=(e.offsetX-size/2)+"px";
+            cursorelem.style.top=(e.offsetY-size/2)+"px";
+            lasttime=currenttime;
+        }
+    }
+    function clearscreen()
+    {
+        console.log("clear");
+        ctx.fillStyle="#FFFFFF";
+        ctx.fillRect(0,0,c.width,c.height);
+    }
+    let c=document.getElementById("mycanvas");
+    let ctx=c.getContext("2d");
+    let mode="";
+    let size=20;
+    clearscreen();
+        
+    c.addEventListener("mousemove",e=>
+    {
+        handlecursor(e);
+        handledraw(e);
+    });
+    
+    
+    
+    document.getElementById("size").addEventListener('input', function () {
+        size=document.getElementById("size").value
+        document.getElementById("showsize").innerHTML = size;
+        cursorelem.style.maxWidth=size+"px";
+        cursorelem.style.minHeight=size+"px";
+    }, false);
+        
+    document.addEventListener('keyup', (e) => {
+    console.log(e.code);
+    if (e.code === "KeyC")
+    {
+        mode="circle";
+        document.getElementById("mode").value="circle";
+    }
+    else if (e.code === "KeyE")
+    {
+        mode="erase";
+        document.getElementById("mode").value="erase";
+    }
+    else if(e.code=="KeyR")
+    {
+        mode="square";
+        document.getElementById("mode").value="square";
+    }
+    });
+    let cursorelem=document.getElementById("cursor");
+    let lasttime=0;
+    let currenttime=1;
+    </script>
+    </body>
+</html>

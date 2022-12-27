@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Calculator Advanced</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Calculator Advanced</h1>
+    <h2 id='equation'></h2>
+    <table><tbody>
+    <tr>
+    <td onclick="addtoequation(7)">7</td>
+    <td onclick="addtoequation(8)">8</td>
+    <td onclick="addtoequation(9)">9</td>
+    <td onclick="addoperation('/')">/</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(4)">4</td>
+    <td onclick="addtoequation(5)">5</td>
+    <td onclick="addtoequation(6)">6</td>
+    <td onclick="addoperation('x')">x</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(1)">1</td>
+    <td onclick="addtoequation(2)">2</td>
+    <td onclick="addtoequation(3)">3</td>
+    <td onclick="addoperation('-')">-</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(0)">0</td>
+    <td>.</td>
+    <td onclick="addoperation('^')">^</td>
+    <td onclick="addoperation('+')">+</td>
+    </tr>
+    <tr>
+    <td colspan="2" onclick="clearequation()">Clear</td>
+    <td colspan="2" onclick="calculate()">=</td>
+    </tr>
+    </tbody></table>
+    
+    <script>
+    function addtoequation(x)
+    {
+       equation+=x;
+       document.getElementById("equation").innerHTML=equation;
+    }
+    function addoperation(op)
+    {
+       equation+=op;
+        document.getElementById("equation").innerHTML=equation;
+    }
+    function handleoperation(num1,num2)
+    {
+        
+    }
+    function getresult(curequation)
+    {
+        let nums=[];
+        let ops=[];
+        let startindex=0;
+        let endindex=0;
+        let lastwassymbol=false;
+        
+        for(let i=0;i<curequation.length;i++)
+        {
+            if(symbols.includes(curequation[i])&&i!=0&&!lastwassymbol)
+            {
+               endindex=i;
+               curnum= Number.parseFloat(curequation.substring(startindex,endindex));
+               nums.push(curnum);
+               ops.push(curequation[endindex]);
+                startindex=i+1;
+                lastwassymbol=true;
+            }
+            else
+            {
+                lastwassymbol=false;
+            }
+        }
+        if(endindex!=curequation.length)
+        {
+            endindex=curequation.length;
+            curnum= Number.parseFloat(curequation.substring(startindex,endindex));
+            nums.push(curnum);
+        }
+        console.log(nums);
+        console.log(ops);
+        
+        for(let i=0;i<ops.length;i++)
+        {
+            if(ops[i]=="^")
+            {
+                result=Math.pow(nums[i],nums[i+1]);
+                nums[i]=result;
+                nums.splice(i+1,1);
+                ops.splice(i,1);
+                i-=1;
+            }
+        }
+        
+        for(let i=0;i<ops.length;i++)
+        {
+            if(ops[i]=="x")
+            {
+                result=nums[i]*nums[i+1];
+                nums[i]=result;
+                nums.splice(i+1,1);
+                ops.splice(i,1);
+                i-=1;
+            }
+            if(ops[i]=="/")
+            {
+                result=nums[i]/nums[i+1];
+                nums[i]=result;
+                nums.splice(i+1,1);
+                ops.splice(i,1);
+                i-=1;
+            }
+        }
+        
+        for(let i=0;i<ops.length;i++)
+        {
+            if(ops[i]=="+")
+            {
+                result=nums[i]+nums[i+1];
+                nums[i]=result;
+                nums.splice(i+1,1);
+                ops.splice(i,1);
+                i-=1;
+            }
+            if(ops[i]=="-")
+            {
+                result=nums[i]-nums[i+1];
+                nums[i]=result;
+                nums.splice(i+1,1);
+                ops.splice(i,1);
+                i-=1;
+            }
+        }
+        console.log(nums);
+        console.log(nums[0]);
+        return nums[0];
+    }
+    function calculate()
+    {
+        console.log("Calculate");
+        let result=0;
+        
+    
+        result=getresult(equation);
+        equation=result[0];
+
+        
+        document.getElementById("equation").innerHTML=result;
+        nums=[];
+        ops=[];
+    }
+    function clearequation()
+    {
+        equation=""; document.getElementById("equation").innerHTML="";
+    }
+    let operation="";
+    let equation="";
+    let symbols="^x/+-";
+    </script>
+    </body>
+</html>

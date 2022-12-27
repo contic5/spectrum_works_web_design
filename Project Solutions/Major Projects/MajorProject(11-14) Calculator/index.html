@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Calculator</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Calculator</h1>
+    <h2 id='equation'></h2>
+    <table><tbody>
+    <tr>
+    <td onclick="addtoequation(7)">7</td>
+    <td onclick="addtoequation(8)">8</td>
+    <td onclick="addtoequation(9)">9</td>
+    <td onclick="addoperation('/')">/</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(4)">4</td>
+    <td onclick="addtoequation(5)">5</td>
+    <td onclick="addtoequation(6)">6</td>
+    <td onclick="addoperation('x')">x</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(1)">1</td>
+    <td onclick="addtoequation(2)">2</td>
+    <td onclick="addtoequation(3)">3</td>
+    <td onclick="addoperation('-')">-</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(0)">0</td>
+    <td>.</td>
+    <td onclick="addoperation('^')">^</td>
+    <td onclick="addoperation('+')">+</td>
+    </tr>
+    <tr>
+    <td colspan="2" onclick="clearequation()">Clear</td>
+    <td colspan="2" onclick="calculate()">=</td>
+    </tr>
+    </tbody></table>
+    
+    <script>
+    function addtoequation(x)
+    {
+        if(curnum==0)
+        {
+            num1string+=x; document.getElementById("equation").innerHTML=num1string;
+        }
+        else
+        {
+            num2string+=x;
+document.getElementById("equation").innerHTML=num2string;
+        }
+    }
+    function addoperation(op)
+    {
+       operation=op; document.getElementById("equation").innerHTML=operation;
+       curnum=1;
+    }
+    function calculate()
+    {
+        console.log("Calculate");
+        num1=parseInt(num1string);
+        num2=parseInt(num2string);
+        let result=0;
+        
+        if(operation=="+")
+        {
+            result=num1+num2;
+        }
+        else if(operation=="-")
+        {
+            result=num1-num2;
+        }
+        else if(operation=="x")
+        {
+            result=num1*num2;
+        }
+        else if(operation=="/")
+        {
+            result=num1/num2;
+        }
+        else if(operation=="^")
+        {
+            result=Math.floor(Math.pow(num1,num2));
+        }
+    
+        if(typeof(result)=="number")
+        {
+            num1=result;
+            num1string=num1.toString();
+            num2string="";
+            num2=0;
+            curnum=0; document.getElementById("equation").innerHTML=result;
+        }
+        else
+        {
+            clearequation();
+        }
+    }
+    function clearequation()
+    {
+        console.log("Clear");
+        num1string="";
+        num2string="";
+        num1=0;
+        num2=0;
+        operation="";
+        curnum=0;
+        displayequation="";
+        document.getElementById("equation").innerHTML="";
+    }
+    
+    let num1string="";
+    let num2string="";
+    let num1=0;
+    let num2=0;
+    let operation="";
+    let curnum=0;
+    let displayequation="";
+    </script>
+    </body>
+</html>

@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Finance Trivia</title>
+        <link href="mystyle2.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <div id="content">
+    <h1>Finance Trivia</h1>
+    <div id="quizresults">
+    <h2 id='scoretext'>Final Score: ???</h2> <h2 id="rank"></h2>
+    <button onclick="playagain()">Play Again</button>
+    </div>
+    <form id="questions" onsubmit="handlesubmit(event)">
+        
+    </form>
+    </div>
+    <script src="questionsv2.js"></script>
+    <script>
+    function displayquestions()
+    {
+        let options=[];
+        qform.innerHTML="";
+        //Generate questions
+        for(let i=0;i<questions.length;i++)
+        {
+            let curquestiondiv=document.createElement("div");
+            curquestiondiv.classList.add("question")
+            //Generate question text element
+            let curquestiontext=document.createElement("h3");
+            curquestiontext.innerHTML=questions[i].question;
+            curquestiondiv.appendChild(curquestiontext);
+        
+            //Generate question result element that is hidden.
+            let questionresult=document.createElement("p");
+            questionresult.style.display="none";
+            questionresult.innerHTML=questions[i].options[questions[i].correct];
+            questionresult.classList.add("answer");
+            questionresult.classList.add("questionresult");
+            curquestiondiv.appendChild(questionresult);
+            
+            //Generate question answer element that is hidden.
+            let curanswer=document.createElement("p");
+            curanswer.style.display="none";
+            curanswer.innerHTML=questions[i].options[questions[i].correct];
+            curanswer.classList.add("answer");
+            curquestiondiv.appendChild(curanswer);
+            
+            //Generate question radio buttons
+            for(let j=0;j<questions[i].options.length;j++)
+            {
+                
+                let curoption=document.createElement("input");
+                curoption.name="question"+i;
+                curoption.id="question"+i+j;
+                curoption.type="radio";
+                curoption.value=j;
+                
+                
+                let curlabel=document.createElement("label");
+                curlabel.for="question"+i+j;
+                curlabel.innerHTML=questions[i].options[j];
+
+                curquestiondiv.appendChild(curoption);
+                curquestiondiv.appendChild(curlabel);
+                curquestiondiv.appendChild(document.createElement("br"));
+            }
+            qform.appendChild(curquestiondiv);
+        }
+        let submitbutton=document.createElement("button");
+        submitbutton.innerHTML="Submit";
+        qform.appendChild(submitbutton);
+    }
+    function handlesubmit(event)
+    {
+        event.preventDefault();
+    
+        done=true;
+        document.getElementById("quizresults").style.display="block";
+        score=0;
+        let h3s=document.getElementsByTagName("h3");
+        answerelements=document.getElementsByClassName("answer");
+        questionresultelements=document.getElementsByClassName("questionresult");
+        
+        
+        //Display answers
+        for(let i=0;i<answerelements.length;i++)
+        {
+            answerelements[i].style.display="block";
+        }
+        
+        //Handle question results
+        for(let i=0;i<questions.length;i++)
+        {
+            let answers=document.getElementsByName("question"+i);
+            let answergiven=-1;
+            
+            for(let j=0;j<answers.length;j++)
+            {
+                if(answers[j].checked)
+                {
+                    answergiven=j;
+                    console.log(answergiven);
+                }
+            }
+            if(answergiven==questions[i].correct)
+            {
+                questionresultelements[i].innerHTML="Correct";
+                score+=1;
+            }
+            else
+            {
+                questionresultelements[i].innerHTML="Incorrect";
+            }
+        }
+        document.getElementById("scoretext").innerHTML="Final Score: "+score+"/10";
+        
+        let rank="";
+        if(score==10)
+        {
+            rank="Finance Expert";
+        }
+        else if(score>=7)
+        {
+            rank="Financially Savy";
+        }
+        else if(score>=4)
+        {
+            rank="Finance Learner";
+        }
+        else if(score>=1)
+        {
+            rank="Finance Beginner";
+        }
+        else
+        {
+            rank="Financially Inexperienced";
+        }
+        document.getElementById("rank").innerHTML="Rank: "+rank;
+    }
+    function playagain()
+    {
+        done=false;
+        score=0;
+        for(let i=0;i<answerelements.length;i++)
+        {
+            answerelements.style.display="none";
+        }
+        displayquestions();
+    }
+    let qform=document.getElementById("questions");
+    let answerelements=[];
+    let done=false;
+    let score=0;
+    displayquestions();
+    </script>
+    </body>
+</html>

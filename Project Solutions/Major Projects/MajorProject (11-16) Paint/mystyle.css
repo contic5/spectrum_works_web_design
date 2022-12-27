@@ -1,0 +1,38 @@
+h1
+{
+    margin-top: 0px;
+    font-size: 48px;
+}
+body
+{
+    
+}
+
+#canvas-wrap { position:relative; width:800px; height:600px }
+#canvas-wrap canvas 
+{ 
+    position:absolute; top:0; left:0; z-index:0 
+}
+#tools
+{
+    z-index: 1;
+    border: black solid 2px;
+    padding: 20px;
+    margin-bottom: 20px;
+    max-width: 620px;
+    box-sizing: border-box;
+}
+#mycanvas
+{
+    border: black solid 10px;
+}
+#cursor
+{
+    position: relative;
+    top:20px;
+    left: 10px;
+    max-width: 20px;
+    min-height:20px;
+    border: black solid 2px;
+    border-radius: 360px;
+}

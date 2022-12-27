@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Calculator Intermediate</title>
+        <link href="mystyle.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <h1>Calculator Intermediate</h1>
+    <h2 id='equation'></h2>
+    <table><tbody>
+    <tr>
+    <td onclick="addtoequation(7)">7</td>
+    <td onclick="addtoequation(8)">8</td>
+    <td onclick="addtoequation(9)">9</td>
+    <td onclick="addoperation('/')">/</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(4)">4</td>
+    <td onclick="addtoequation(5)">5</td>
+    <td onclick="addtoequation(6)">6</td>
+    <td onclick="addoperation('x')">x</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(1)">1</td>
+    <td onclick="addtoequation(2)">2</td>
+    <td onclick="addtoequation(3)">3</td>
+    <td onclick="addoperation('-')">-</td>
+    </tr>
+    <tr>
+    <td onclick="addtoequation(0)">0</td>
+    <td>.</td>
+    <td onclick="addoperation('^')">^</td>
+    <td onclick="addoperation('+')">+</td>
+    </tr>
+    <tr>
+    <td colspan="2" onclick="clearequation()">Clear</td>
+    <td colspan="2" onclick="calculate()">=</td>
+    </tr>
+    </tbody></table>
+    
+    <script>
+    function addtoequation(x)
+    {
+       equation+=x;
+       document.getElementById("equation").innerHTML=equation;
+    }
+    function addoperation(op)
+    {
+       equation+=op;
+        document.getElementById("equation").innerHTML=equation;
+    }
+    function calculate()
+    {
+        console.log("Calculate");
+        let result=0;
+        let num1=0;
+        let num2=0;
+        let mid=0;
+        
+        for(let i=0;i<equation.length;i++)
+        {
+            if(symbols.includes(equation[i]))
+            {
+                num1=parseFloat(equation.substring(0,i));
+                mid=i;
+                operation=equation[i];
+                break;
+            }
+        }
+        num2=parseFloat(equation.substring(mid+1));
+        console.log("equation:"+equation);
+        console.log("num1:"+num1);
+        console.log("operation:"+operation);
+        console.log("num2:"+num2);
+        if(operation=="+")
+        {
+            result=num1+num2;
+        }
+        else if(operation=="-")
+        {
+            result=num1-num2;
+        }
+        else if(operation=="x")
+        {
+            result=num1*num2;
+        }
+        else if(operation=="/")
+        {
+            result=num1/num2;
+        }
+        else if(operation=="^")
+        {
+            result=Math.floor(Math.pow(num1,num2));
+        }
+        console.log("result:"+result);
+
+        if(typeof(result)=="number")
+        {
+            document.getElementById("equation").innerHTML=result;
+            equation=result;
+        }
+        else
+        {
+            clearequation();
+        }
+    }
+    function clearequation()
+    {
+        equation=""; document.getElementById("equation").innerHTML="";
+    }
+    let operation="";
+    let equation="";
+    let symbols="^x/+-";
+    </script>
+    </body>
+</html>

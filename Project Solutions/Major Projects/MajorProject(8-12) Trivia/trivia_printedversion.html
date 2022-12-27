@@ -1,0 +1,155 @@
+<html><head>
+        <meta charset="UTF-8">
+        <title>Finance Trivia</title>
+        <link href="mystyle2.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div id="content">
+    <h1>Finance Trivia</h1>
+    <div id="quizresults" style="display: block;">
+    <h2 id="scoretext">Final Score: 0/10</h2> <h2 id="rank">Rank: Financially Inexperienced</h2>
+    <button onclick="playagain()">Play Again</button>
+    </div>
+    <form id="questions" onsubmit="handlesubmit(event)"><div class="question"><h3>What is a budget?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">How you plan on using your money for a mix of saving and spending</p><input name="question0" id="question00" type="radio" value="0"><label>How you plan on using your money for a mix of saving and spending</label><br><input name="question0" id="question01" type="radio" value="1"><label>A savings account</label><br><input name="question0" id="question02" type="radio" value="2"><label>How much you plan on spending</label><br><input name="question0" id="question03" type="radio" value="3"><label>The cost of one item</label><br></div><div class="question"><h3>What are some benefits of using a budget?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">All of the above</p><input name="question1" id="question10" type="radio" value="0"><label>You know how much you are spending.</label><br><input name="question1" id="question11" type="radio" value="1"><label>You know where you are spending your money</label><br><input name="question1" id="question12" type="radio" value="2"><label>You are able to plan out how you are using your money</label><br><input name="question1" id="question13" type="radio" value="3"><label>All of the above</label><br></div><div class="question"><h3>How can you improve your credit score?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">By paying bills consistently on time</p><input name="question2" id="question20" type="radio" value="0"><label>By not spending money</label><br><input name="question2" id="question21" type="radio" value="1"><label>By paying bills consistently on time</label><br><input name="question2" id="question22" type="radio" value="2"><label>By investing</label><br><input name="question2" id="question23" type="radio" value="3"><label>By making a larger income without changing money habits</label><br></div><div class="question"><h3>How often should you review your checking account?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">weekly</p><input name="question3" id="question30" type="radio" value="0"><label>daily</label><br><input name="question3" id="question31" type="radio" value="1"><label>weekly</label><br><input name="question3" id="question32" type="radio" value="2"><label>monthly</label><br><input name="question3" id="question33" type="radio" value="3"><label>yearly</label><br></div><div class="question"><h3>How many times can you get a free credit report per year?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">3</p><input name="question4" id="question40" type="radio" value="0"><label>0</label><br><input name="question4" id="question41" type="radio" value="1"><label>1</label><br><input name="question4" id="question42" type="radio" value="2"><label>2</label><br><input name="question4" id="question43" type="radio" value="3"><label>3</label><br></div><div class="question"><h3>What is the difference between a credit and debit card?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">A debit card only can use money in a checking account while a credit card can generate interest.</p><input name="question5" id="question50" type="radio" value="0"><label>A debit card only can use money in a checking account while a credit card can generate interest.</label><br><input name="question5" id="question51" type="radio" value="1"><label>A credit card is linked to a bank account, while a debit card is not</label><br><input name="question5" id="question52" type="radio" value="2"><label>A credit card has a limited amount of money, while a debit card does not.</label><br><input name="question5" id="question53" type="radio" value="3"><label>A debit card can build credit history, while a credit card cannot.</label><br></div><div class="question"><h3>What is first thing you should ALWAYS leave money for?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">Emergency Fund (Unexpected Injuries)</p><input name="question6" id="question60" type="radio" value="0"><label>Longterm Savings</label><br><input name="question6" id="question61" type="radio" value="1"><label>Major Future Purchases</label><br><input name="question6" id="question62" type="radio" value="2"><label>Emergency Fund (Unexpected Injuries)</label><br><input name="question6" id="question63" type="radio" value="3"><label>Necessary Purchases</label><br></div><div class="question"><h3>How does compound interest work?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">The interest is recalculated on a yearly basis with the same percents.</p><input name="question7" id="question70" type="radio" value="0"><label>The interest always increases by the same amount each month</label><br><input name="question7" id="question71" type="radio" value="1"><label>The interest is recalculated on a yearly basis with the same percents.</label><br><input name="question7" id="question72" type="radio" value="2"><label>The interest rate changes, but the interest you get is only based on the initial deposit</label><br></div><div class="question"><h3>What is an IRA?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">A Retirement Fund</p><input name="question8" id="question80" type="radio" value="0"><label>A special bank account</label><br><input name="question8" id="question81" type="radio" value="1"><label>An insurance policy</label><br><input name="question8" id="question82" type="radio" value="2"><label>A shorterm savings plan</label><br><input name="question8" id="question83" type="radio" value="3"><label>A Retirement Fund</label><br></div><div class="question"><h3>What are the three parts of the 50 20 30 rule of budgeting?</h3><p class="answer questionresult" style="display: block;">Incorrect</p><p class="answer" style="display: block;">Essentials, Savings, Purchases</p><input name="question9" id="question90" type="radio" value="0"><label>Essentials, Monthly Expenses, Regular Expenses</label><br><input name="question9" id="question91" type="radio" value="1"><label>Essentials, Savings, Purchases</label><br><input name="question9" id="question92" type="radio" value="2"><label>Savings, Purchases, Essentials</label><br><input name="question9" id="question93" type="radio" value="3"><label>Direct Deposit, Purchases, Essentials</label><br></div><button>Submit</button></form>
+    </div>
+    <script src="questionsv2.js"></script>
+    <script>
+    function displayquestions()
+    {
+        let options=[];
+        qform.innerHTML="";
+        //Generate questions
+        for(let i=0;i<questions.length;i++)
+        {
+            let curquestiondiv=document.createElement("div");
+            curquestiondiv.classList.add("question")
+            //Generate question text element
+            let curquestiontext=document.createElement("h3");
+            curquestiontext.innerHTML=questions[i].question;
+            curquestiondiv.appendChild(curquestiontext);
+        
+            //Generate question result element that is hidden.
+            let questionresult=document.createElement("p");
+            questionresult.style.display="none";
+            questionresult.innerHTML=questions[i].options[questions[i].correct];
+            questionresult.classList.add("answer");
+            questionresult.classList.add("questionresult");
+            curquestiondiv.appendChild(questionresult);
+            
+            //Generate question answer element that is hidden.
+            let curanswer=document.createElement("p");
+            curanswer.style.display="none";
+            curanswer.innerHTML=questions[i].options[questions[i].correct];
+            curanswer.classList.add("answer");
+            curquestiondiv.appendChild(curanswer);
+            
+            //Generate question radio buttons
+            for(let j=0;j<questions[i].options.length;j++)
+            {
+                
+                let curoption=document.createElement("input");
+                curoption.name="question"+i;
+                curoption.id="question"+i+j;
+                curoption.type="radio";
+                curoption.value=j;
+                
+                
+                let curlabel=document.createElement("label");
+                curlabel.for="question"+i+j;
+                curlabel.innerHTML=questions[i].options[j];
+
+                curquestiondiv.appendChild(curoption);
+                curquestiondiv.appendChild(curlabel);
+                curquestiondiv.appendChild(document.createElement("br"));
+            }
+            qform.appendChild(curquestiondiv);
+        }
+        let submitbutton=document.createElement("button");
+        submitbutton.innerHTML="Submit";
+        qform.appendChild(submitbutton);
+    }
+    function handlesubmit(event)
+    {
+        event.preventDefault();
+    
+        done=true;
+        document.getElementById("quizresults").style.display="block";
+        score=0;
+        let h3s=document.getElementsByTagName("h3");
+        answerelements=document.getElementsByClassName("answer");
+        questionresultelements=document.getElementsByClassName("questionresult");
+        
+        
+        //Display answers
+        for(let i=0;i<answerelements.length;i++)
+        {
+            answerelements[i].style.display="block";
+        }
+        
+        //Handle question results
+        for(let i=0;i<questions.length;i++)
+        {
+            let answers=document.getElementsByName("question"+i);
+            let answergiven=-1;
+            
+            for(let j=0;j<answers.length;j++)
+            {
+                if(answers[j].checked)
+                {
+                    answergiven=j;
+                    console.log(answergiven);
+                }
+            }
+            if(answergiven==questions[i].correct)
+            {
+                questionresultelements[i].innerHTML="Correct";
+                score+=1;
+            }
+            else
+            {
+                questionresultelements[i].innerHTML="Incorrect";
+            }
+        }
+        document.getElementById("scoretext").innerHTML="Final Score: "+score+"/10";
+        
+        let rank="";
+        if(score==10)
+        {
+            rank="Finance Expert";
+        }
+        else if(score>=7)
+        {
+            rank="Financially Savy";
+        }
+        else if(score>=4)
+        {
+            rank="Finance Learner";
+        }
+        else if(score>=1)
+        {
+            rank="Finance Beginner";
+        }
+        else
+        {
+            rank="Financially Inexperienced";
+        }
+        document.getElementById("rank").innerHTML="Rank: "+rank;
+    }
+    function playagain()
+    {
+        done=false;
+        score=0;
+        for(let i=0;i<answerelements.length;i++)
+        {
+            answerelements.style.display="none";
+        }
+        displayquestions();
+    }
+    let qform=document.getElementById("questions");
+    let answerelements=[];
+    let done=false;
+    let score=0;
+    displayquestions();
+    </script>
+    
+</body></html>

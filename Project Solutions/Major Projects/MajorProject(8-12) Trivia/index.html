@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Finance Trivia</title>
+        <link href="mystyle2.css" type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+    <div id="content">
+    <h1>Finance Trivia</h1>
+    <div id="playtrivia">
+    <h2 id="displayanswer"></h2>
+    <h2 id="questionon">Question 1</h2>
+    <p id='questiontext'></p>
+    </div>
+    <div id="quizresults">
+    <h2 id='scoretext'>Final Score: ???</h2> <h2 id="rank"></h2>
+    <button onclick="playagain()">Play Again</button>
+    </div>
+    </div>
+    <script src="questionsv2.js"></script>
+    <script>
+    
+    function displayresults()
+    {
+        document.getElementById("quizresults").style.display="block";
+        document.getElementById("playtrivia").style.display="none";
+        document.getElementById("scoretext").innerHTML="Final Score: "+score+"/10";
+        
+        let rank="";
+        if(score==10)
+        {
+            rank="Finance Expert";
+        }
+        else if(score>=7)
+        {
+            rank="Financially Savy";
+        }
+        else if(score>=4)
+        {
+            rank="Finance Learner";
+        }
+        else if(score>=1)
+        {
+            rank="Finance Beginner";
+        }
+        else
+        {
+            rank="Financially Inexperienced";
+        }
+        document.getElementById("rank").innerHTML="Rank: "+rank;
+    }
+    function submitanswer(answer)
+    {
+        if(question.correct==answer)
+        {
+            document.getElementById("displayanswer").innerHTML="Correct! The answer is "+question.options[question.correct];
+            score+=1;
+        }
+        else
+        {
+             document.getElementById("displayanswer").innerHTML="Incorrect! The answer is "+question.options[question.correct];
+        }
+        if(questionon<questions.length-1)
+        {
+            questionon+=1;
+            displayquestion(questionon);
+        }
+        else
+        {
+            displayresults();
+        }
+    }
+    function displayquestion(questionon)
+    {
+        question=questions[questionon]; 
+        console.log(question);
+        document.getElementById("questionon").innerHTML="Question "+(questionon+1);
+        document.getElementById("questiontext").innerHTML=question.question; 
+        
+        let prevoptions=document.getElementsByClassName("option");
+        while(prevoptions.length>0)
+        {
+            prevoptions[0].parentElement.removeChild(prevoptions[0]);
+        }
+        
+        let curoption=null;
+        for(let i=0;i<question.options.length;i++)
+        {
+            curoption=document.createElement("button");
+            curoption.innerHTML=question.options[i];
+            curoption.onclick=function(){
+                submitanswer(i);
+            };
+            curoption.classList.add("option");
+            document.getElementById("playtrivia").appendChild(curoption);
+        }
+    }
+    function playagain()
+    {
+        score=0;
+        questionon=0;
+        question=questions[questionon];
+        document.getElementById("quizresults").style.display="none";
+        document.getElementById("playtrivia").style.display="block";
+        document.getElementById("displayanswer").innerHTML="";
+        displayquestion(questionon);
+    }
+    let score=0;
+    let questionon=0;
+    let question=questions[questionon];
+    let playtriviadiv=document.getElementById("playtrivia");
+    displayquestion(questionon);
+    </script>
+    </body>
+</html>

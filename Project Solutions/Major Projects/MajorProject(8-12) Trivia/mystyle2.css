@@ -1,0 +1,51 @@
+body
+{
+    background-color: slategrey;
+}
+h1
+{
+    margin-top: 0px;
+    font-size: 48px;
+}
+h2
+{
+    font-size: 32px;
+}
+p
+{
+    font-size: 20px;
+}
+button
+{
+    display: block;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+#quizresults
+{
+    display: none;
+}
+#content
+{
+    width: 800px;
+    margin: auto;
+    margin-top: 0px;
+    background-color: steelblue;
+}
+.question
+{
+    background-color: lightsteelblue;
+    padding-bottom: 20px;
+    margin: 20px;
+}
+input
+{
+}
+button
+{
+    margin-top: 20px;
+}
+.questionresult
+{
+    font-weight: bold;
+}

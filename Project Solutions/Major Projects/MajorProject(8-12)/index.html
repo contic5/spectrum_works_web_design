@@ -1,0 +1,115 @@
+<html>
+<head>
+<link href="mystyle.css" type="text/css" rel="stylesheet">
+<title>To Do List</title>
+</head>
+<body>
+<div id='main'>
+<div class='padding'></div>
+
+<div id='content'>
+<h1>To Do List</h1>
+<div id='newitem'>
+<h2>New Item</h2>
+<textarea id='newitemtext'></textarea>
+<button onclick="createitem()">Add Item</button>
+</div>
+
+<h2>Old Items</h2>
+<div id='items'>
+<div class='item' id='item0'>
+<p onclick='edititem(event)' id="item0info" class="itemtext">Handle Laundry</p>
+<button onclick="deleteitem(event)">Delete Item</button>
+</div>
+</div>
+    
+</div>
+
+<div class='padding'></div>
+</div>
+<script>
+function edititem(event)
+{
+    let itemdiv=event.target.parentElement;
+    
+    let totalbuttons=document.querySelectorAll("#"+itemdiv.id+" button");
+    
+    if(totalbuttons.length<2)
+    {
+        
+        let deletebutton=itemdiv.getElementsByTagName("button")[0];
+
+        let newinput=document.createElement("textarea");
+        newinput.value="";
+
+        let updatebutton=document.createElement("button");
+        updatebutton.innerHTML="Update";
+        //updatebutton.onclick="updateitem(event)";
+        updatebutton.addEventListener('click', function(newevent){
+            updateitem(newevent);
+        });
+
+        if(itemdiv.childElementCount)
+        itemdiv.insertBefore(newinput,deletebutton);
+        itemdiv.insertBefore(updatebutton,deletebutton);
+    }
+}
+function boom()
+{
+    console.log("THIS SHOULD NOT BE CALLED");
+}
+function updateitem(event)
+{
+    console.log("Updating item");
+    let itemdiv=event.target.parentElement;
+    console.log(itemdiv);
+    
+    let newinput=itemdiv.getElementsByTagName("textarea")[0];
+    let newinputvalue=newinput.value;
+    console.log(newinputvalue);
+    itemdiv.removeChild(newinput);
+    
+    let updatebutton=itemdiv.getElementsByTagName("button")[0];
+    itemdiv.removeChild(updatebutton);
+    
+    let textelem=itemdiv.getElementsByTagName("p")[0];
+    textelem.innerHTML=newinputvalue;
+    console.log("Textelem.innerHTML="+textelem.innerHTML);
+}
+function deleteitem(event)
+{
+    let itemdiv=event.target.parentElement;
+    itemdiv.parentNode.removeChild(itemdiv);
+    totalitems-=1;
+}
+function createitem()
+{
+    let itemdiv=document.createElement("div");
+    itemdiv.classList.add("item");
+    itemdiv.id="item"+(totalitems+1);
+    
+    let newtext=document.createElement("p");
+    newtext.classList.add("itemtext");
+    newtext.id="item"+(totalitems+1)+"info";
+    newtext.innerHTML=document.getElementById("newitemtext").value;
+    
+    newtext.addEventListener( 'click', function(newevent){
+        edititem(newevent);
+    } );
+    
+    let deletebutton=document.createElement("button");
+    deletebutton.innerHTML="Delete";
+    deletebutton.addEventListener( 'click', function(newevent){
+        deleteitem(newevent);
+    } );
+    
+    itemdiv.appendChild(newtext);
+    itemdiv.appendChild(deletebutton);
+    document.getElementById("items").appendChild(itemdiv);
+    
+    totalitems+=1;
+}
+let totalitems=0;
+</script>
+</body>
+</html>
